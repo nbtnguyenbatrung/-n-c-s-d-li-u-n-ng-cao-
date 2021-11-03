@@ -1,0 +1,324 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Visitors an Admin Panel Category Bootstrap Responsive Website Template | Responsive_table :: w3layouts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- bootstrap-css -->
+<link rel="stylesheet" th:href="@{admin/css/bootstrap-3.3.7-dist/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{admin/css/bootstrap.min.css}" >
+<!-- //bootstrap-css -->
+<!-- Custom CSS -->
+<link th:href="@{admin/css/style.css}" rel='stylesheet' type='text/css' />
+<link th:href="@{admin/css/style-responsive.css}" rel="stylesheet"/>
+
+
+<!-- font CSS -->
+<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<!-- font-awesome icons -->
+<link rel="stylesheet" th:href="@{admin/css/font.css}" type="text/css"/>
+<link th:href="@{admin/css/font-awesome.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{admin/css/style-form.css}">
+
+<!-- //font-awesome icons -->
+<script th:src="@{admin/js/jquery2.0.3.min.js}"></script>
+<script th:src="@{admin/js/jqueryv3.6.0.js}"></script>
+</head>
+<body>
+<section id="container">
+<!--header start-->
+<header class="header fixed-top clearfix">
+<!--logo start-->
+<div class="brand">
+
+    <a href="http://localhost:9999/admin" class="logo">
+        VISITORS
+    </a>
+    <div class="sidebar-toggle-box">
+        <div class="fa fa-bars"></div>
+    </div>
+</div>
+<!--logo end-->
+
+<div class="top-nav clearfix">
+    <!--search & user info start-->
+    <ul class="nav pull-right top-menu">
+        <li>
+            <input type="text" class="form-control search" placeholder=" Search">
+        </li>
+        <!-- user login dropdown start-->
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <img alt="" th:src="@{admin/images/3.png}">
+                <span class="username">John Doe</span>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu extended logout">
+                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                <li><a href="login.html"><i class="fa fa-key"></i> Log Out</a></li>
+            </ul>
+        </li>
+        <!-- user login dropdown end -->
+       
+    </ul>
+    <!--search & user info end-->
+</div>
+</header>
+<!--header end-->
+<!--sidebar start-->
+<aside>
+    <div id="sidebar" class="nav-collapse">
+        <!-- sidebar menu start-->
+        <div class="leftside-navigation">
+            <ul class="sidebar-menu" id="nav-accordion">
+                <li>
+                    <a href="http://localhost:9999/admin">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Tổng quan</span>
+                    </a>
+                </li>
+                
+                
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <i class="fa fa-th"></i>
+                        <span>Sản phẩm</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="http://localhost:9999/sanpham">Sản phẩm </a></li>
+                        <li><a href="http://localhost:9999/sanphamsize">Sản phẩm size </a></li>
+                        <li><a class="active" href="http://localhost:9999/sanphamkhuyenmai">Sản phẩm khuyến mại </a></li>
+                        <li><a href="http://localhost:9999/sanphamdanhgia">Sản phẩm được đánh giá </a></li>
+                    </ul>
+                </li>
+
+                <li>
+                  <a href="http://localhost:9999/thuonghieu">
+                      <i class="fa fa-book"></i>
+                      <span> thương hiệu sản phẩm </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="http://localhost:9999/khuyenmai">
+                      <i class="fa fa-money"></i>
+                      <span> Khuyến mãi </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="http://localhost:9999/loaisanpham">
+                      <i class="fa fa-book"></i>
+                      <span> Loại sản phẩm </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="http://localhost:9999/size">
+                      <i class="fa fa-book"></i>
+                      <span> Size </span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="http://localhost:9999/nguoidung">
+                      <i class="fa fa-group"></i>
+                      <span> Người dùng </span>
+                  </a>
+                </li>
+
+
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-tasks"></i>
+                        <span>Hóa đơn</span>
+                    </a>
+                    <ul class="sub">
+                      <li><a href="http://localhost:9999/donhang"> Đơn hàng </a></li>
+                      <li><a href="http://localhost:9999/hoadon">Hóa đơn </a></li>
+                    </ul>
+                </li>
+                
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class=" fa fa-bar-chart-o"></i>
+                        <span>Báo cáo</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="chartjs.html">Chart js</a></li>
+                        <li><a href="flot_chart.html">Flot Charts</a></li>
+                    </ul>
+                </li>
+                
+            </ul>            </div>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->
+<!--main content start-->
+<section id="main-content">
+	<section class="wrapper">
+		<div class="table-agile-info">
+      <button title=" Thêm " style="background: transparent; border: none;" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" >
+        <i class="fa fa-plus" style="color : black "></i>
+        <span style="color: black;"> Add </span>
+      </button>
+      <div class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" align = center>
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="row" align = center >
+                  <h3> Thêm sản phẩm cho web </h3>
+                  <form action="#">
+                    <table  cellspacing=20 height="500" width="550" class="table" ui-jq="footable" ui-options='{
+                      "paging": {
+                        "enabled": true
+                      },
+                      "filtering": {
+                        "enabled": true
+                      },
+                      "sorting": {
+                        "enabled": true
+                      }}'>
+                      
+                        <td>Tên sản phẩm * </td>
+                        <td>
+                          <select name="masp" id="masp" required >
+                            <option value="" > chọn sản phẩm  </option>
+                            <option value="HA0001"> NIKE </option>
+                            <option value="HA0002"> CAMPER </option>
+                            <option value="HA0003"> NEW BLANCE </option>
+                            <option value="HA0005"> CONVERSE </option>
+                            <option value="HA0006"> PUMA </option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td> Tên khuyến mãi </td>
+                        <td>
+                          <select name="masize" id="masize" required >
+                            <option value="" > chọn khuyến mại </option>
+                            <option value="KM0001"> sale 50% </option>
+                            <option value="KM0002"> sale hết date </option>
+                            <option value="KM0003"> black free </option>
+                          </select>
+                        </td>
+                      </tr>
+                      
+                    </table>
+                    <input type="submit" name="add" id="add" style="margin-top : 20px" value="Thêm">
+                  </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+ <div class="panel panel-default">
+    <div class="panel-heading">
+     Bảng Sản Phẩm khuyến mại
+    </div>
+    <div>
+      <table class="table" ui-jq="footable" ui-options='{
+        "paging": {
+          "enabled": true
+        },
+        "filtering": {
+          "enabled": true
+        },
+        "sorting": {
+          "enabled": true
+        }}'>
+        <thead >
+          <tr>
+            <th style="text-align:center"> Tên Sản Phẩm</th>
+            <th style="text-align:center"> Giá Sản Phẩm </th>
+            <th style="text-align:center"> Giá Khuyến Mại </th>
+            <th style="text-align:center"> Ngày Bắt Đầu </th>
+            <th style="text-align:center"> Ngày Kết Thúc </th>
+            <th style="text-align:center"> Ngày Còn Lại</th>
+            <th style="text-align:center">Tác Vụ </th>
+          </tr>
+        </thead>
+        <tbody th:each="sanphamkm:${sanphamkm}">
+          <tr data-expanded="true" align="center" >
+            <td th:text="${sanphamkm.tenSP}"></td>
+            <td th:text="${sanphamkm.giaSP}"></td>
+            <td th:text="${sanphamkm.giakm}"></td>
+            <td th:text="${sanphamkm.ngaybd}"> </td>
+            <td th:text="${sanphamkm.ngaykt}"></td>
+            <td th:if="${sanphamkm.songay} < 0" style="color : red" >hết khuyến mại</td>
+            <td th:if="${sanphamkm.songay}  > 0 " th:text="${sanphamkm.songay}" > </td>
+            <td>
+             
+              <button title=" Sửa "> <i class="fa fa-wrench" style="color : black; "></i> </button>
+              <button title=" xóa "> <i class="fa fa-times" style="color : black "></i> </button>
+              
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="col-sm-7 text-right text-center-xs">
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
+              <li ><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+          </ul>
+
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
+              <li ><a th:href="@{|${baseUrl}${Previous}|}"><i class="fa fa-angle-left"></i></a></li>
+          </ul>
+
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} > ${PreviousLeft} and ${i} < ${CurrentPage}">
+              <li ><a th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+          </ul>
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} == ${CurrentPage} ">
+              <li ><a style="background: aquamarine;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+          </ul>
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} < ${PreviousRight} and ${i} > ${CurrentPage}">
+              <li ><a th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+          </ul>
+
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} <  ${Page.totalPage}">
+              <li><a th:href="@{|${baseUrl}${Next}|}"><i class="fa fa-angle-right"></i></a></li>
+          </ul>
+
+          <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} < ${Page.totalPage} ">
+              <li><a th:href="@{|${baseUrl}${totalpage}|}"><i class="fa fa-angle-double-right"></i></a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+ <!-- footer -->
+		  <div class="footer">
+			<div class="wthree-copyright">
+			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+			</div>
+		  </div>
+  <!-- / footer -->
+</section>
+
+<!--main content end-->
+</section>
+<script th:src="@{admin/js/bootstrap.js}"></script>
+<script th:src="@{admin/js/jquery.dcjqaccordion.2.7.js}"></script>
+<script th:src="@{admin/js/scripts.js}"></script>
+<script th:src="@{admin/js/jquery.slimscroll.js}"></script>
+<script th:src="@{admin/js/jquery.nicescroll.js}"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" th:src="@{admin/js/flot-chart/excanvas.min.js}"></script><![endif]-->
+<script th:src="@{admin/js/jquery.scrollTo.js}"></script>
+</body>
+</html>
