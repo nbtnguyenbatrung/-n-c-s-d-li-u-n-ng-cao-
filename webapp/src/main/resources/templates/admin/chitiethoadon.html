@@ -223,7 +223,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="modal-body">
                         <div class="row" align = center >
                             <h3> chi tiết hóa đơn  </h3>
-                            <form method="post">
                                 <table  cellspacing=20 width="400" class="table" ui-jq="footable" ui-options='{
                                   "paging": {
                                     "enabled": true
@@ -249,11 +248,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </tr>
                                     <tr>
                                     <td> Đơn Giá </td>
-                                    <td><input type="text" id="giatri" readonly></td>
+                                    <td><input type="text" id="dongia" readonly></td>
                                     </tr>
                                     <tr>
                                         <td> Giá Trị </td>
-                                        <td><input type="text" id="dongia" readonly></td>
+                                        <td><input type="text" id="giatri" maxlength="10000" readonly></td>
                                     </tr>
                                     <tr>
                                     <td> Trạng Thái </td>
@@ -280,8 +279,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     <td><input type="text" id="sdt" readonly></td>
                                     </tr>
                                 </table>
-                            </form>
-                            <button id="editcthoadon" > Save Edit </button>
                         </div>
                     </div>
 

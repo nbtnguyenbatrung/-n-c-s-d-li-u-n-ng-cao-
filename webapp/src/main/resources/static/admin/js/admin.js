@@ -321,6 +321,7 @@ $(document).ready(function(){
              $('.myform #tensp').val(chitiethoadon.tenSP);
              $('.myform #tensize').val(chitiethoadon.tenSize);
              $('.myform #soluong').val(chitiethoadon.soluong);
+             $('.myform #giatri').val(chitiethoadon.giatri);
              $('.myform #dongia').val(chitiethoadon.donGia);
              $('.myform #diachi').val(chitiethoadon.diachi);
              $('.myform #mota').val(chitiethoadon.moTa);
@@ -442,7 +443,6 @@ $(document).ready(function(){
                 arr.push(val);
              }
         }
-
         if($('input[name="post[]"]:checked').length > 0 ){
             $.ajax({
                 url: "http://localhost:9999/savedh",
@@ -462,7 +462,11 @@ $(document).ready(function(){
         }else{
             alert("Chưa chọn đơn hàng nào !");
         }
-
     });
+
+    $("#duyet").click(function(event){
+        var arr = [];
+
+    })
 });
 

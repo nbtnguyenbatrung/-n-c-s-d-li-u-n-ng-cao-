@@ -53,15 +53,18 @@ public class AdminDonHangDao extends JdbcDaoSupport {
         String dk,mahd,masp,masize,sql = "";
         for(int i = 0 ; i < list.size() ; i++ ){
             dk = list.get(i);
-            mahd =  dk.substring(2,dk.indexOf("SP") );
+            if (i==0){
+                mahd =  dk.substring(2,dk.indexOf("SP") );
+            }else {
+                mahd =  dk.substring(1,dk.indexOf("SP") );
+            }
             masp = dk.substring(dk.indexOf("SP"),dk.indexOf("SI"));
             if(i != list.size()-1) {
                 masize = dk.substring(dk.indexOf("SI"),dk.length()-1);
             }else{
                 masize = dk.substring(dk.indexOf("SI"),dk.length()-2);
             }
-                sql = sql + " UPDATE CHITIETHOADON SET TRANGTHAI = " + trangthai + " WHERE MAHD = '" + mahd + "' AND  MASP = '" + masp + "' AND MASIZE='" + masize + "' \n ";
-
+            sql = sql + " UPDATE CHITIETHOADON SET TRANGTHAI = " + trangthai + " WHERE MAHD = '" + mahd + "' AND  MASP = '" + masp + "' AND MASIZE='" + masize + "' \n ";
         }
         this.getJdbcTemplate().execute(sql);
     }
