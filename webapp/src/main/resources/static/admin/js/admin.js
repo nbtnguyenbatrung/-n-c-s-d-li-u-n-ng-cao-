@@ -341,82 +341,79 @@ $(document).ready(function(){
     });
 
     $('.editsanpham').on('click',function(event){
-                     event.preventDefault();
-                     var href = $(this).attr('href');
-                     $.get(href,function(sanpham,status){
-                        $('.myform #masp').val(sanpham.maSP);
-                        $('.myform #mahang').val(sanpham.maHang);
-                        $('.myform #makm').val(sanpham.maKM);
-                        $('.myform #maloaisp').val(sanpham.maLoaiSP);
-                        $('.myform #tensp').val(sanpham.tenSP);
-                        $('.myform #mota').val(sanpham.moTa);
-                        $('.myform #dongia').val(sanpham.donGia);
-                        $('.myform #hinhanh').val(sanpham.image);
+          event.preventDefault();
+          var href = $(this).attr('href');
+          $.get(href,function(sanpham,status){
+             $('.myform #masp').val(sanpham.maSP);
+             $('.myform #mahang').val(sanpham.maHang);
+             $('.myform #makm').val(sanpham.maKM);
+             $('.myform #maloaisp').val(sanpham.maLoaiSP);
+             $('.myform #tensp').val(sanpham.tenSP);
+             $('.myform #mota').val(sanpham.moTa);
+             $('.myform #dongia').val(sanpham.donGia);
+             $('.myform #hinhanh').val(sanpham.image);
+           });
+    });
 
-                     });
-                });
+    $('#addsanpham').click(function(event){
+       if ( $('#maspadd').val() == false || $('#mahangadd').val() == false || $('#maloaispadd').val() == false
+            || $('#tenspadd').val() == false || $('#dongiaadd').val() == false || $('#hinhanhadd').val() == false ){
+            alert(" Không được để chống các trường có ký hiệu * ! ");
+       }
+       else {
+          $.ajax({
+             url: "http://localhost:9999/savesp",
+             type: "GET",
+             data: {
+             maSP : $('#maspadd').val(),
+             maHang : $('#mahangadd').val(),
+             maKM: $('#makmadd').val(),
+             maLoaiSp : $('#maloaispadd').val(),
+             tenSP : $('#tenspadd').val(),
+             donGia : $('#dongiaadd').val(),
+             manHinh : $('#hinhanhadd').val(),
+             moTa : $('#motaadd').val(),
+             },
+             success: function(value ) {
+                 alert(value);
+                 window.location =" http://localhost:9999/sanpham";
+                 },
+                 error: function(e){
+                     alert(" ERROR! ");
+                 }
+          });
+      }
+    });
 
-                $('#addsanpham').click(function(event){
-                   if ( $('#maspadd').val() == false || $('#mahangadd').val() == false || $('#maloaispadd').val() == false
-                        || $('#tenspadd').val() == false || $('#dongiaadd').val() == false || $('#hinhanhadd').val() == false ){
-                        alert(" Không được để chống các trường có ký hiệu * ! ");
-                   }
-                   else {
-
-                      $.ajax({
-                         url: "http://localhost:9999/savesp",
-                         type: "GET",
-                         data: {
-                         maSP : $('#maspadd').val(),
-                         maHang : $('#mahangadd').val(),
-                         maKM: $('#makmadd').val(),
-                         maLoaiSp : $('#maloaispadd').val(),
-                         tenSP : $('#tenspadd').val(),
-                         donGia : $('#dongiaadd').val(),
-                         manHinh : $('#hinhanhadd').val(),
-                         moTa : $('#motaadd').val(),
-                         },
-                         success: function(value ) {
-                             alert(value);
-                             window.location =" http://localhost:9999/sanpham";
-                         },
-                         error: function(e){
-                             alert(" ERROR! ");
-                         }
-                      });
-                   }
-                });
-
-                $('#editsanpham').click(function(event){
-                    if ( $('#masp').val() == false || $('#mahang').val() == false || $('#maloaisp').val() == false
-                        || $('#tensp').val() == false || $('#dongia').val() == false || $('#hinhanh').val() == false ){
-                        alert(" Không được để chống các trường có ký hiệu * ! ");
-                    }
-                    else{
-                       $.ajax({
-                         url: "http://localhost:9999/updatesp",
-                         type: "GET",
-                         data: {
-                             maSP : $('#masp').val(),
-                             maHang : $('#mahang').val(),
-                             maKM: $('#makm').val(),
-                             maLoaiSp : $('#maloaisp').val(),
-                             tenSP : $('#tensp').val(),
-                             donGia : $('#dongia').val(),
-                             manHinh : $('#hinhanh').val(),
-                             moTa : $('#mota').val(),
-                         },
-                         success: function(value ) {
-                              alert(value);
-                              window.location =" http://localhost:9999/sanpham";
-                         },
-                         error: function(e){
-                              alert(" ERROR! ");
-
-                         }
-                      });
-                   }
-                });
+    $('#editsanpham').click(function(event){
+        if ( $('#masp').val() == false || $('#mahang').val() == false || $('#maloaisp').val() == false
+            || $('#tensp').val() == false || $('#dongia').val() == false || $('#hinhanh').val() == false ){
+            alert(" Không được để chống các trường có ký hiệu * ! ");
+        }
+        else{
+           $.ajax({
+             url: "http://localhost:9999/updatesp",
+             type: "GET",
+             data: {
+                 maSP : $('#masp').val(),
+                 maHang : $('#mahang').val(),
+                 maKM: $('#makm').val(),
+                 maLoaiSp : $('#maloaisp').val(),
+                 tenSP : $('#tensp').val(),
+                 donGia : $('#dongia').val(),
+                 manHinh : $('#hinhanh').val(),
+                 moTa : $('#mota').val(),
+             },
+             success: function(value ) {
+                  alert(value);
+                  window.location =" http://localhost:9999/sanpham";
+             },
+             error: function(e){
+                  alert(" ERROR! ");
+             }
+           });
+        }
+    });
 
     $(".checkboxall").on('click',function(event){
         var inputElements = document.getElementsByName('post[]');
@@ -466,7 +463,46 @@ $(document).ready(function(){
 
     $("#duyet").click(function(event){
         var arr = [];
+        var a = $("#checkone").val();
+        arr.push(a);
+        $.ajax({
+            url : "http://localhost:9999/savedh",
+            type : "GET",
+            data : {
+                key : 1,
+                list : JSON.stringify(arr),
+            },
+            success: function(value ) {
+                 alert(value);
+                 window.location =" http://localhost:9999/donhang";
+            },
+            error: function(e){
+                 alert(" ERROR! ");
+            }
+        });
+    });
 
-    })
+    $("#noduyet").click(function(event){
+        var arr = [];
+        var a = $("#checkone").val();
+        arr.push(a);
+        $.ajax({
+            url : "http://localhost:9999/savedh",
+            type : "GET",
+            data  : {
+                key : 2,
+                list : JSON.stringify(arr),
+            },
+            success:function(value){
+                alert(value);
+                window.location =" http://localhost:9999/donhang";
+            },
+            error:function(e){
+                alert("ERROR !");
+            }
+        });
+    });
+
+
 });
 

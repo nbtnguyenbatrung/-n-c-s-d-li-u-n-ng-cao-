@@ -380,18 +380,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
 
 
+        <!-- phần phân trang  -->
         <div class="col-sm-7 text-right text-center-xs">
-        <ul class="pagination pagination-sm m-t-none m-b-none">
-          <li><a href=""><i class="fa fa-angle-double-left"></i></a></li>
-          <li><a href=""><i class="fa fa-angle-left"></i></a></li>
-          <li><a href="">1</a></li>
-          <li><a href="">2</a></li>
-          <li><a href="">3</a></li>
-          <li><a href="">4</a></li>
-          <li><a href=""><i class="fa fa-angle-right"></i></a></li>
-          <li><a href=""><i class="fa fa-angle-double-right"></i></a></li>
-        </ul>
-      </div>
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
+                <li ><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+            </ul>
+
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
+                <li ><a th:href="@{|${baseUrl}${Previous}|}"><i class="fa fa-angle-left"></i></a></li>
+            </ul>
+
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} > ${PreviousLeft} and ${i} < ${CurrentPage}">
+                <li ><a th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+            </ul>
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} == ${CurrentPage} ">
+                <li ><a style="background: aquamarine;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+            </ul>
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} < ${PreviousRight} and ${i} > ${CurrentPage}">
+                <li ><a th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+            </ul>
+
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} <  ${Page.totalPage}">
+                <li><a th:href="@{|${baseUrl}${Next}|}"><i class="fa fa-angle-right"></i></a></li>
+            </ul>
+
+            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} < ${Page.totalPage} ">
+                <li><a th:href="@{|${baseUrl}${totalpage}|}"><i class="fa fa-angle-double-right"></i></a></li>
+            </ul>
+
+        </div>
     </div>
   </div>
 </div>

@@ -53,6 +53,7 @@ public class AdminDonHangDao extends JdbcDaoSupport {
         String dk,mahd,masp,masize,sql = "";
         for(int i = 0 ; i < list.size() ; i++ ){
             dk = list.get(i);
+            System.out.println(dk);
             if (i==0){
                 mahd =  dk.substring(2,dk.indexOf("SP") );
             }else {
@@ -66,6 +67,7 @@ public class AdminDonHangDao extends JdbcDaoSupport {
             }
             sql = sql + " UPDATE CHITIETHOADON SET TRANGTHAI = " + trangthai + " WHERE MAHD = '" + mahd + "' AND  MASP = '" + masp + "' AND MASIZE='" + masize + "' \n ";
         }
+
         this.getJdbcTemplate().execute(sql);
     }
 
