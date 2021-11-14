@@ -174,22 +174,66 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
      Bảng Thêm Hình Ảnh Phụ Cho Sản Phẩm
     </div>
     <div>
-        <input type="hidden" th:value="${masp}">
-        <div class="gallery__load">
-            <table class="table">
-                <thead>
+        <input type="hidden" th:value="${masp}" id="id__sp">
+        <div class="row">
+            <div class="col-md-3" align="right">
+
+            </div>
+            <div class="col-md-6" >
+                <input type="file" class="form-control" id="file" name="file[]" accept="image/*" multiple>
+            </div>
+            <div class="col-md-3">
+                <input type="submit" name="upload" id="load" value="Tải Ảnh" class="btn btn-success" onclick="upload()">
+            </div>
+        </div>
+        <div class="gallery__load" style="width: 50%;margin: 0 auto;">
+            <table class="table" >
                 <tr>
                     <th scope="col">Hình Ảnh</th>
                     <th scope="col">Tác Vụ</th>
                 </tr>
-                </thead>
-                <tbody>
+                <tbody th:each="hinhanh:${hinhanh}">
                 <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
+                    <td><img th:src="@{'img/products/'+${hinhanh.ha}}" height="130" width="120"
+                        class="img-thumbnail">
+                        <input type="file" class="file__image" name="file" accept="image/*"
+                               style="40%" th:data-gal_id="${hinhanh.maHA}" id="gal_id" th:id="filesua-+${hinhanh.maHA}"
+                                onchange="uploadedit()">
+                    </td>
+                    <td style="text-align: center;">
+                    <a th:data-id = "${hinhanh.maHA}"
+                       th:data-masp = "${hinhanh.maSP}"
+                       onclick="Showconfim(this.getAttribute('data-id'),this.getAttribute('data-masp'))">
+                    <button title="xóa">
+                        <i class="fa fa-times text-danger text"></i>
+                    </button> </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="ConfimationId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Thông Báo </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa hình ảnh này ? "
+                        </div>
+                        <div class="modal-footer">
+                            <a id="yesOption" onclick="showinfomation()" type="button" class="btn btn-danger">Yes</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
   </div>
@@ -214,5 +258,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" th:src="@{admmin/js/flot-chart/excanvas.min.js}"></script><![endif]-->
 <script th:src="@{admin/js/jquery.scrollTo.js}"></script>
 <script th:src="@{admin/js/admin.js}"></script>
+<script>
+    async function upload(){
+        var fi = document.getElementById('file');
+        console.log(fi.files.length);
+        for(var i = 0 ; i<fi.files.length  ;i++){
+            var a = fi.files.item(i);
+            let formData = new FormData();
+            formData.append("file" , a);
+            let response = await fetch('/uploadsp' ,{
+                method : "POST",
+                body: formData
+            });
+        }
+	}
+
+	async function uploadedit(){
+
+	    var id = $(".file__image").data('gal_id');
+        var image = document.getElementById('filesua-'+id).files[0];
+        let formData = new FormData();
+        formData.append("file" , image);
+        let response = await fetch('/uploadsp' ,{
+            method : "POST",
+            body: formData
+        });
+
+	}
+
+	function Showconfim(id,masp){
+			$('#yesOption').attr('href','/deleteha?id='+id+ '&id2='+masp);
+			$('#ConfimationId').modal('show');
+	}
+
+	function showinfomation(){
+        alert(" xóa dữ liệu thành công  ");
+    }
+</script>
 </body>
 </html>

@@ -36,7 +36,7 @@ public class ControllerUpload {
     public ResponseEntity<?> handlefileuploadsp (@RequestParam("file") MultipartFile file){
         String filename = file.getOriginalFilename();
         try {
-            file.transferTo(new File("D:\\1\\webshop-master\\webapp\\src\\main\\resources\\static\\img\\products"  + filename));
+            file.transferTo(new File("D:\\1\\webshop-master\\webapp\\src\\main\\resources\\static\\img\\products\\"  + filename));
         }catch (Exception e){
             e.printStackTrace();
         }

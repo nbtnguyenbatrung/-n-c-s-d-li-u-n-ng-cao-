@@ -201,7 +201,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                       </tr>
                       <tr>
                           <td></td>
-                          <td><img id="image" src="" width="200" height="50"></td>
+                          <td><img id="image" src="" width="120" height="130"
+                                   class="img-thumbnail" ></td>
                       </tr>  
                       <tr>
                         <td>Logo *</td>
@@ -246,7 +247,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
           <tr data-expanded="true" align="center">
             <td th:text="${thuonghieu.maHang}"></td>
             <td th:text="${thuonghieu.tenHang}"></td>
-            <td><img th:src="@{'img/logo/'+${thuonghieu.logo}}" height="33" width="100"> </td>
+            <td><img th:src="@{'img/logo/'+${thuonghieu.logo}}" height="130" width="120"
+                     class="img-thumbnail" > </td>
             <td>
               <a th:href="@{/findOneth/(id=${thuonghieu.maHang})}" class="editthuonghieu"><button title=" Sửa " data-toggle="modal" data-target=".bs-example-modal-lg1"> <i class="fa fa-wrench" style="color : black; "></i> </button> </a>
               <a th:data-id = "${thuonghieu.maHang}"
@@ -313,7 +315,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><img id="imageedit" src="" width="200" height="50"></td>
+                                        <td><img id="imageedit" src="" width="120" height="130"
+                                                 class="img-thumbnail"></td>
                                     </tr>
                                     <tr>
                                         <td>Logo *</td>
@@ -407,11 +410,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			        var reader = new FileReader();
 			        reader.onload = function(e){
 			            $('#imageedit').attr('src',e.target.result );
-
 			        }
 			        reader.readAsDataURL(fileInput.files[0]);
 			    }
 			}
+
 			async function upload(){
 			    var text = $(this).text();
 			    if(text == 'Save'){
@@ -421,7 +424,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         method : "POST",
                         body: formData
                     });
-
 			    }
 			    else{
 			        let formData = new FormData();
@@ -430,9 +432,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         method : "POST",
                         body: formData
                     });
-
 			    }
-
 			}
 
 			function showinfomation(){

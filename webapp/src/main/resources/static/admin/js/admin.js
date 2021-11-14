@@ -92,11 +92,11 @@ $(document).ready(function(){
                  });
         }
     });
-        $('#editsize').click(function(event){
-             if ( $('#tensize').val() == false){
-                  alert(" Không được để chống các trường có ký hiệu * ! ");
-             }
-             else{
+    $('#editsize').click(function(event){
+         if ( $('#tensize').val() == false){
+              alert(" Không được để chống các trường có ký hiệu * ! ");
+         }
+         else{
             $.ajax({
                   url: "http://localhost:9999/updatesize",
                   type: "GET",
@@ -110,11 +110,10 @@ $(document).ready(function(){
                   },
                   error: function(e){
                        alert(" EDIT KHÔNG ĐƯỢC : TÊN SIZE GIỐNG NHAU! ");
-
-                  }
+               }
             });
-        }
-        });
+         }
+    });
 
     $('.editsanphamsize').on('click',function(event){
          event.preventDefault();
@@ -176,143 +175,138 @@ $(document).ready(function(){
     });
 
     $('.editloaisp').on('click',function(event){
-             event.preventDefault();
-             var href = $(this).attr('href');
-             $.get(href,function(loaisanpham,status){
-                $('.myform #maLoaiSP').val(loaisanpham.maLoaiSP);
-                $('.myform #tenLoaiSP').val(loaisanpham.tenLoaiSP);
-             });
-        });
+         event.preventDefault();
+         var href = $(this).attr('href');
+         $.get(href,function(loaisanpham,status){
+            $('.myform #maLoaiSP').val(loaisanpham.maLoaiSP);
+            $('.myform #tenLoaiSP').val(loaisanpham.tenLoaiSP);
+         });
+    });
 
-        $('#addloaisp').click(function(event){
-           if ( $('#maloaispadd').val() == false || $('#tenloaispadd').val() == false ){
-                alert(" Không được để chống các trường có ký hiệu * ! ");
-           }
-           else {
-              $.ajax({
-                 url: "http://localhost:9999/saveloaisp",
-                 type: "GET",
-                 data: {
-                 maLoaiSP : $('#maloaispadd').val(),
-                 tenLoaiSP : $('#tenloaispadd').val(),
-                 },
-                 success: function(value ) {
-                     alert(value);
-                     window.location =" http://localhost:9999/loaisanpham";
-                 },
-                 error: function(e){
-                     alert(" ERROR!  ");
-                 }
-              });
-           }
-        });
+    $('#addloaisp').click(function(event){
+       if ( $('#maloaispadd').val() == false || $('#tenloaispadd').val() == false ){
+            alert(" Không được để chống các trường có ký hiệu * ! ");
+       }
+       else {
+          $.ajax({
+             url: "http://localhost:9999/saveloaisp",
+             type: "GET",
+             data: {
+             maLoaiSP : $('#maloaispadd').val(),
+             tenLoaiSP : $('#tenloaispadd').val(),
+             },
+             success: function(value ) {
+                 alert(value);
+                 window.location =" http://localhost:9999/loaisanpham";
+             },
+             error: function(e){
+                 alert(" ERROR!  ");
+             }
+          });
+       }
+    });
 
-        $('#editloaisp').click(function(event){
-            if ( $('#maLoaiSP').val() == false || $('#tenLoaiSP').val() == false ){
-                alert(" Không được để chống các trường có ký hiệu * ! ");
-            }
-            else{
-               $.ajax({
-                 url: "http://localhost:9999/updateloaisp",
-                 type: "GET",
-                 data: {
-                     maLoaiSP : $('#maLoaiSP').val(),
-                     tenLoaiSP : $('#tenLoaiSP').val(),
-                 },
-                 success: function(value ) {
-                      alert(value);
-                      window.location =" http://localhost:9999/loaisanpham";
-                 },
-                 error: function(e){
-                      alert(" ĐÃ CÓ SIZE NÀY THUỘC SẢN PHẨM ");
-
-                 }
-              });
-           }
-        });
+    $('#editloaisp').click(function(event){
+        if ( $('#maLoaiSP').val() == false || $('#tenLoaiSP').val() == false ){
+            alert(" Không được để chống các trường có ký hiệu * ! ");
+        }
+        else{
+           $.ajax({
+             url: "http://localhost:9999/updateloaisp",
+             type: "GET",
+             data: {
+                 maLoaiSP : $('#maLoaiSP').val(),
+                 tenLoaiSP : $('#tenLoaiSP').val(),
+             },
+             success: function(value ) {
+                  alert(value);
+                  window.location =" http://localhost:9999/loaisanpham";
+             },
+             error: function(e){
+                  alert(" ĐÃ CÓ SIZE NÀY THUỘC SẢN PHẨM ");
+             }
+          });
+       }
+    });
     $('.editkm').on('click',function(event){
-                 event.preventDefault();
-                 var href = $(this).attr('href');
-                 $.get(href,function(khuyenmai,status){
-                    $('.myform #makm').val(khuyenmai.maKM);
-                    $('.myform #tenkm').val(khuyenmai.tenKM);
-                    $('.myform #giakm').val(khuyenmai.giaKM);
-                    $('.myform #ngaybd').val(khuyenmai.ngayBD);
-                    $('.myform #ngaykt').val(khuyenmai.ngayKT);
-                    if(khuyenmai.type == true){
-                        $('.myform #type').val(1);
-                    }else{
-                        $('.myform #type').val(2);
-                    }
-                    $('.myform #mota').val(khuyenmai.moTa);
-                    $('.myform #anh').val(khuyenmai.image);
+         event.preventDefault();
+         var href = $(this).attr('href');
+         $.get(href,function(khuyenmai,status){
+            $('.myform #makm').val(khuyenmai.maKM);
+            $('.myform #tenkm').val(khuyenmai.tenKM);
+            $('.myform #giakm').val(khuyenmai.giaKM);
+            $('.myform #ngaybd').val(khuyenmai.ngayBD);
+            $('.myform #ngaykt').val(khuyenmai.ngayKT);
+            if(khuyenmai.type == true){
+                $('.myform #type').val(1);
+            }else{
+                $('.myform #type').val(2);
+            }
+            $('.myform #mota').val(khuyenmai.moTa);
+            $('.myform #anh').val(khuyenmai.image);
+         });
+    });
+    $('#addkm').click(function(event){
+       if ( $('#makmadd').val() == false || $('#tenkmadd').val() == false || $('#giakmadd').val() == false
+            || $('#ngaybdadd').val() == false || $('#ngayktadd').val() == false || $('#motaadd').val() == false
+            || $('#anhadd').val() == false ||  $('#typeadd').val() == false  ){
+            alert(" Không được để chống các trường có ký hiệu * ! ");
+       }
+       else {
+         $.ajax({
+            url: "http://localhost:9999/savekm",
+            type: "GET",
+            data: {
+            maKM : $('#makmadd').val(),
+            tenKM : $('#tenkmadd').val(),
+            giaKM : $('#giakmadd').val(),
+            ngayBD : $('#ngaybdadd').val(),
+            ngaykt : $('#ngayktadd').val(),
+            moTa : $('#motaadd').val(),
+             image : $('#anhadd').val(),
+             type : $('#typeadd').val(),
+             },
+             success: function(value ) {
+                 alert(value);
+                 window.location =" http://localhost:9999/khuyenmai";
+             },
+             error: function(e){
+                 alert(" kiểm tra ngày bắt đầu phải trước ngày hiện tại ! kiểm tra ngày kết thúc trước ngày bắt đầu! ");
+             }
+          });
+       }
+    });
 
-                 });
-            });
-
-            $('#addkm').click(function(event){
-               if ( $('#makmadd').val() == false || $('#tenkmadd').val() == false || $('#giakmadd').val() == false
-                    || $('#ngaybdadd').val() == false || $('#ngayktadd').val() == false || $('#motaadd').val() == false
-                    || $('#anhadd').val() == false ||  $('#typeadd').val() == false  ){
-                    alert(" Không được để chống các trường có ký hiệu * ! ");
-               }
-               else {
-
-                  $.ajax({
-                     url: "http://localhost:9999/savekm",
-                     type: "GET",
-                     data: {
-                     maKM : $('#makmadd').val(),
-                     tenKM : $('#tenkmadd').val(),
-                     giaKM : $('#giakmadd').val(),
-                     ngayBD : $('#ngaybdadd').val(),
-                     ngaykt : $('#ngayktadd').val(),
-                     moTa : $('#motaadd').val(),
-                     image : $('#anhadd').val(),
-                     type : $('#typeadd').val(),
-                     },
-                     success: function(value ) {
-                         alert(value);
-                         window.location =" http://localhost:9999/khuyenmai";
-                     },
-                     error: function(e){
-                         alert(" kiểm tra ngày bắt đầu phải trước ngày hiện tại ! kiểm tra ngày kết thúc trước ngày bắt đầu! ");
-                     }
-                  });
-               }
-            });
-
-            $('#editkhuyenmai').click(function(event){
-                if ( $('#makm').val() == false || $('#tenkm').val() == false || $('#giakm').val() == false
-                    || $('#ngaybd').val() == false || $('#ngaykt').val() == false || $('#mota').val() == false
-                    || $('#anh').val() == false ||  $('#type').val() == false  ){
-                    alert(" Không được để chống các trường có ký hiệu * ! ");
-                }
-                else{
-                   $.ajax({
-                     url: "http://localhost:9999/updatekm",
-                     type: "GET",
-                     data: {
-                         maKM : $('#makm').val(),
-                         tenKM : $('#tenkm').val(),
-                         giaKM : $('#giakm').val(),
-                         ngayBD : $('#ngaybd').val(),
-                         ngaykt : $('#ngaykt').val(),
-                         moTa : $('#mota').val(),
-                         image : $('#anh').val(),
-                         type : $('#type').val(),
-                     },
-                     success: function(value ) {
-                          alert(value);
-                          window.location =" http://localhost:9999/khuyenmai";
-                     },
-                     error: function(e){
-                          alert(" kiểm tra ngày bắt đầu phải trước ngày hiện tại ! kiểm tra ngày kết thúc trước ngày bắt đầu ! ");
-
-                     }
-                  });
-               }
-            });
+    $('#editkhuyenmai').click(function(event){
+        if ( $('#makm').val() == false || $('#tenkm').val() == false || $('#giakm').val() == false
+            || $('#ngaybd').val() == false || $('#ngaykt').val() == false || $('#mota').val() == false
+            || $('#anh').val() == false ||  $('#type').val() == false  ){
+            alert(" Không được để chống các trường có ký hiệu * ! ");
+        }
+        else{
+           $.ajax({
+             url: "http://localhost:9999/updatekm",
+             type: "GET",
+             data: {
+                 maKM : $('#makm').val(),
+                 tenKM : $('#tenkm').val(),
+                 giaKM : $('#giakm').val(),
+                 ngayBD : $('#ngaybd').val(),
+                 ngaykt : $('#ngaykt').val(),
+                 moTa : $('#mota').val(),
+                 image : $('#anh').val(),
+                 type : $('#type').val(),
+             },
+             success: function(value ) {
+                  alert(value);
+                  window.location =" http://localhost:9999/khuyenmai";
+             },
+             error: function(e){
+                  alert(" kiểm tra ngày bắt đầu phải trước ngày hiện tại ! kiểm tra ngày kết thúc trước ngày bắt đầu ! ");
+         }
+          });
+       }
+    });
 
     $('.editcthoadon').on('click',function(event){
              event.preventDefault();
@@ -503,6 +497,69 @@ $(document).ready(function(){
         });
     });
 
+    $("#file").change(function(){
+        var files = $("#file")[0].files;
 
+        if(files.length > 5){
+            alert("Bạn chọn tối đa chỉ được 5 ảnh ");
+            $("#file").val("");
+            return false;
+        }else if (files.length === 0 ){
+            alert("Bạn không được để chống ") ;
+            $("#file").val("");
+            return false;
+        }else if (files.size > 2000000){
+            alert("file ảnh không được lớn hơn 2MB ");
+            $("#file").val("");
+            return false;
+        }
+    });
+
+
+    $("#load").click(function(event){
+        var arr = [];
+        var fi = document.getElementById('file');
+        for(var i = 0 ; i<fi.files.length  ;i++){
+            var a = fi.files.item(i).name;
+            arr.push(a);
+        }
+        var masp = $('#id__sp').val();
+        $.ajax({
+            url : "http://localhost:9999/saveha",
+            type : "GET",
+            data : {
+                id : $('#id__sp').val(),
+                list : JSON.stringify(arr),
+            },
+            success: function(value) {
+                 alert(value);
+                 window.location =" http://localhost:9999/hinhanh?id="+masp;
+            },
+            error: function(e){
+                 alert(" ERROR! ");
+            }
+        });
+    });
+
+    $(document).on('change','.file__image',async function(){
+        var masp = $('#id__sp').val();
+        var id = $(this).data('gal_id');
+        var image = document.getElementById('filesua-'+id).files[0];
+        $.ajax({
+            url : "http://localhost:9999/updateha",
+            type: "GET",
+            data : {
+                id : id,
+                image : image.name,
+            },
+            success: function(value){
+                alert(value);
+                window.location =" http://localhost:9999/hinhanh?id="+masp;
+            },
+            error: function(e){
+                alert(" ERROR ! ");
+            }
+        });
+    });
 });
 
