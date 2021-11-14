@@ -286,7 +286,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <td th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+' VND'"></td>
             <td th:text="${sanpham.soluong}"></td>
             <td>
-                <a > <button><i class="far fa-images"></i></button>  </a>
+                <a th:href="@{/hinhanh(id=${sanpham.maSP})}" target="_blank"> <button><i class="far fa-images"></i></button>  </a>
                 <a th:href="@{/findOnesp/(id=${sanpham.maSP})}" class="editsanpham"><button title=" Sửa " data-toggle="modal" data-target=".bs-example-modal-lg1"> <i class="fa fa-wrench" style="color : black; "></i> </button> </a>
                 <a th:data-id = "${sanpham.maSP}"
                    th:data-name = "${sanpham.tenSP}"
