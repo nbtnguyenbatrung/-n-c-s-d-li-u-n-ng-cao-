@@ -1,6 +1,7 @@
 package it1.doan.webapp.admin.service;
 
 import it1.doan.webapp.admin.dao.AdminHoaDonDao;
+import it1.doan.webapp.admin.service.impl.HoaDonService;
 import it1.doan.webapp.model.DonHang;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class HoaDonServicepml implements HoaDonService{
+public class HoaDonServicepml implements HoaDonService {
 
     @Autowired
     AdminHoaDonDao adminHoaDonDao;

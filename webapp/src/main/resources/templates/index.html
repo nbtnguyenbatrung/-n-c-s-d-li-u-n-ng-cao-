@@ -24,6 +24,7 @@
     <link rel="stylesheet" th:href="@{css/jquery-ui.min.css}" type="text/css" />
     <link rel="stylesheet" th:href="@{css/slicknav.min.css}" type="text/css" />
     <link rel="stylesheet" th:href="@{css/style.css}" type="text/css" />
+
   </head>
 
   <body>
@@ -47,20 +48,20 @@
             </div>
           </div>
           <div class="ht-right">
-            <a href="http://localhost:9999/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
-            <!-- <div class="lan-selector">
-                        <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
-                                data-title="English">English</option>
-                            <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German </option>
-                        </select>
-                    </div> -->
+            <div class="dropdown" style="float:left;padding : 0;" th:if="${username}">
+              <button class="dropbtn">Welcome,<p th:utext="${username}">
+              </p></button>
+              <div class="dropdown-content" style="left:0;">
+                <a href="#"><i class=" fa fa-suitcase"></i>Profile</a>
+                <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
+              </div>
+            </div>
+            <a th:unless="${username}" href="#" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
             <div class="top-social">
-              <a href="https://www.facebook.com/huceconfessions"><i class="ti-facebook"></i></a>
-              <a href="https://twitter.com/"><i class="ti-twitter-alt"></i></a>
-              <a href="https://www.google.com.vn/"><i class="ti-google"></i></a>
-              <a href="https://www.instagram.com/"><i class="ti-instagram"></i></a>
+              <a ><i class="ti-facebook"></i></a>
+              <a ><i class="ti-twitter-alt"></i></a>
+              <a ><i class="ti-google"></i></a>
+              <a ><i class="ti-instagram"></i></a>
             </div>
           </div>
         </div>
@@ -70,7 +71,7 @@
           <div class="row">
             <div class="col-lg-2 col-md-2">
               <div class="logo">
-                <a href="./index.html">
+                <a th:href="@{/}">
                   <img src="img/logo.png" alt="" />
                 </a>
               </div>
@@ -78,7 +79,7 @@
             <div class="col-lg-7 col-md-7">
               <div class="advanced-search">
                 <button type="button" class="category-btn">
-                  All Categories
+                  All Product
                 </button>
                 <div class="input-group">
                   <input type="text" placeholder="What do you need?" />
@@ -88,12 +89,6 @@
             </div>
             <div class="col-lg-3 text-right col-md-3">
               <ul class="nav-right">
-                <!-- <li class="heart-icon">
-                  <a href="#">
-                    <i class="icon_heart_alt"></i>
-                    <span>1</span>
-                  </a>
-                </li> -->
                 <li class="cart-icon">
                   <a href="#">
                     <i class="icon_bag_alt"></i>
@@ -155,40 +150,31 @@
           <div class="nav-depart">
             <div class="depart-btn">
               <i class="ti-menu"></i>
-              <span>All departments</span>
-              <ul class="depart-hover">
-                <li class="active"><a href="#">Women’s Clothing</a></li>
-                <li><a href="#">Men’s Clothing</a></li>
-                <li><a href="#">Underwear</a></li>
-                <li><a href="#">Kid's Clothing</a></li>
-                <li><a href="#">Brand Fashion</a></li>
-                <li><a href="#">Accessories/Shoes</a></li>
-                <li><a href="#">Luxury Brands</a></li>
-                <li><a href="#">Brand Outdoor Apparel</a></li>
+              <span>All brands</span>
+              <ul class="depart-hover" >
+                <li th:each="thuongHieus:${thuongHieus}"><a href="#" th:text="${thuongHieus.tenHang}"></a></li>
               </ul>
             </div>
           </div>
           <nav class="nav-menu mobile-menu">
             <ul>
-              <li class="active"><a href="./index.html">Home</a></li>
-              <li><a href="http://localhost:9999/shop">Shop</a></li>
+              <li class="active"><a th:href="@{/}">Home</a></li>
+              <li><a th:href="@{/shop}">Shop</a></li>
               <li>
-                <a href="#">Collection</a>
-                <ul class="dropdown">
-                  <li><a href="#">Men's</a></li>
-                  <li><a href="#">Women's</a></li>
-                  <li><a href="#">Kid's</a></li>
+                <a>Collection</a>
+                <ul class="dropdown" >
+                  <li th:each="loaisp:${loaisp}" ><a href="#" th:text="${loaisp.tenLoaiSP}+'`s'"></a></li>
                 </ul>
               </li>
-              <!-- <li><a href="./blog.html">Blog</a></li> -->
-              <li><a href="http://localhost:9999/contact">Contact</a></li>
+              <li><a th:href="@{/contact}">Contact</a></li>
               <li>
-                <a href="#">Pages</a>
+                <a>Pages</a>
                 <ul class="dropdown">
-                  <li><a href="http://localhost:9999/shopping-cart">Shopping Cart</a></li>
-                  <li><a href="http://localhost:9999/check-out">Checkout</a></li>
-                  <li><a href="http://localhost:9999/register">Register</a></li>
-                  <li><a href="http://localhost:9999/login">Login</a></li>
+                  <li><a th:if="${username}" href="http://localhost:9999/shopping-cart">Shopping Cart</a></li>
+                  <li><a th:unless="${username}" th:href="@{/login}">Shopping Cart</a></li>
+                  <li><a th:unless="${username}" th:href="@{/register}">Register</a></li>
+                  <li><a th:unless="${username}" th:href="@{/login}">Login</a></li>
+                  <li><a th:if="${username}" th:href="@{/logout}">Logout</a></li>
                 </ul>
               </li>
             </ul>
@@ -210,7 +196,7 @@
                 <h1 th:utext="${khuyenmai.tenKM}"></h1>
                 <p th:utext="${khuyenmai.moTa}">
                 </p>
-                <a href="#" class="primary-btn">Shop Now</a>
+<!--                <a href="#" class="primary-btn">Shop Now</a>-->
               </div>
             </div>
             <div class="off-card">
@@ -265,7 +251,7 @@
               data-setbg="img/products/women-large.jpg"
             >
               <h2>Women’s</h2>
-              <a href="#">Discover More</a>
+              <a >Discover More</a>
             </div>
           </div>
           <div class="col-lg-8 offset-lg-1">
@@ -275,13 +261,10 @@
               </ul>
             </div>
             <div class="product-slider owl-carousel">
-<!--              sửa-->
-<!--              th:data-setbg="@{'img/'+${khuyenmai.image}}"-->
-
-              <div class="product-item" th:each="sanpham:${sanphamwomens}">
-                <div class="pi-pic">
+              <div class="product-item" th:each="sanpham:${sanPhamnu}">
+                <div class="pi-pic" >
                   <img th:src="@{'img/products/'+${sanpham.manHinh}}" alt="" />
-                  <div class="sale" >Sale </div>
+                  <div th:if="${sanpham.giasau} > 0 " class="sale" >Sale </div>
                   <div class="icon">
                     <i class="icon_heart_alt"></i>
                   </div>
@@ -296,13 +279,15 @@
                   </ul>
                 </div>
                 <div class="pi-text">
-                  <div class="catagory-name">Coat</div>
+                  <div class="catagory-name" th:text="'giày '+${sanpham.tenloai}"></div>
                   <a href="#" >
                     <h5 style="overflow: hidden;white-space: nowrap;text-overflow: Ellipsis;width: 200px;margin: auto;" th:utext="${sanpham.tenSP}" ></h5>
                   </a>
-                  <div class="product-price">
-                    3000000000VND
+                  <div class="product-price" th:if="${sanpham.giasau} > 0 " >
+                    <label th:text="${#numbers.formatDecimal(sanpham.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"></label>
                     <span th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"></span>
+                  </div>
+                  <div class="product-price" th:if="${sanpham.giasau} == 0 " th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'">
                   </div>
                 </div>
               </div>
@@ -315,7 +300,7 @@
     <!-- Women Banner Section End -->
 
     <!-- Deal Of The Week Section Begin-->
-    <section class="deal-of-week set-bg spad" data-setbg="img/time-bg.jpg">
+    <section class="deal-of-week set-bg spad"  th:data-setbg="@{'img/products/'+${sanPham1.manHinh}}">
       <div class="container">
         <div class="col-lg-6 text-center">
           <div class="section-title">
@@ -324,26 +309,27 @@
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed<br />
               do ipsum dolor sit amet, consectetur adipisicing elit
             </p>
-            <div class="product-price">
-              $35.00
-              <span>/ HanBag</span>
+            <div class="product-price" >
+              <label th:if="${sanPham1.giasau} > 0" th:text="${#numbers.formatDecimal(sanPham1.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"> </label>
+              <label th:if="${sanPham1.giasau} == 0" th:text="${#numbers.formatDecimal(sanPham1.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"> </label>
+              <span th:text = "'/' + ${sanPham1.tenSP}"></span>
             </div>
           </div>
           <div class="countdown-timer" id="countdown">
             <div class="cd-item">
-              <span>56</span>
+              <span th:text="${khuyenMai1}"></span>
               <p>Days</p>
             </div>
             <div class="cd-item">
-              <span>12</span>
+              <span>0</span>
               <p>Hrs</p>
             </div>
             <div class="cd-item">
-              <span>40</span>
+              <span>0</span>
               <p>Mins</p>
             </div>
             <div class="cd-item">
-              <span>52</span>
+              <span>0</span>
               <p>Secs</p>
             </div>
           </div>
@@ -364,10 +350,10 @@
               </ul>
             </div>
             <div class="product-slider owl-carousel">
-              <div class="product-item" th:each="sanpham:${sanphammens}">
+              <div class="product-item" th:each="sanpham:${sanPhamnam}">
                 <div class="pi-pic">
                   <img th:src="@{'img/products/'+${sanpham.manHinh}}" alt="" />
-                  <div class="sale">Sale</div>
+                  <div th:if="${sanpham.giasau} > 0 " class="sale" >Sale </div>
                   <div class="icon">
                     <i class="icon_heart_alt"></i>
                   </div>
@@ -382,13 +368,15 @@
                   </ul>
                 </div>
                 <div class="pi-text">
-                  <div class="catagory-name">Coat</div>
+                  <div class="catagory-name" th:text="'giày '+${sanpham.tenloai}"></div>
                   <a href="#" >
                     <h5 style="overflow: hidden;white-space: nowrap;text-overflow: Ellipsis;width: 200px;margin: auto;" th:utext="${sanpham.tenSP}" ></h5>
                   </a>
-                  <div class="product-price">
-                    3000000000VND
+                  <div class="product-price" th:if="${sanpham.giasau} > 0 " >
+                    <label th:text="${#numbers.formatDecimal(sanpham.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"></label>
                     <span th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"></span>
+                  </div>
+                  <div class="product-price" th:if="${sanpham.giasau} == 0 " th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'">
                   </div>
                 </div>
               </div>
@@ -408,7 +396,7 @@
     </section>
     <!-- Man Banner Section End -->
     <!-- Deal Of The Week Section Begin-->
-    <section class="deal-of-week set-bg spad" data-setbg="img/time-bg.jpg">
+    <section class="deal-of-week set-bg spad" th:data-setbg="@{'img/products/'+${sanPham2.manHinh}}">
       <div class="container">
         <div class="col-lg-6 text-center">
           <div class="section-title">
@@ -418,25 +406,26 @@
               do ipsum dolor sit amet, consectetur adipisicing elit
             </p>
             <div class="product-price">
-              $35.00
-              <span>/ HanBag</span>
+              <label th:if="${sanPham2.giasau} > 0" th:text="${#numbers.formatDecimal(sanPham2.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"> </label>
+              <label th:if="${sanPham2.giasau} == 0" th:text="${#numbers.formatDecimal(sanPham2.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"> </label>
+              <span th:text = "'/' + ${sanPham2.tenSP}"></span>
             </div>
           </div>
           <div class="countdown-timer" id="countdown1">
             <div class="cd-item">
-              <span>56</span>
+              <span th:text="${khuyenMai2}"></span>
               <p>Days</p>
             </div>
             <div class="cd-item">
-              <span>12</span>
+              <span>0</span>
               <p>Hrs</p>
             </div>
             <div class="cd-item">
-              <span>40</span>
+              <span>0</span>
               <p>Mins</p>
             </div>
             <div class="cd-item">
-              <span>52</span>
+              <span>0</span>
               <p>Secs</p>
             </div>
           </div>
@@ -467,13 +456,10 @@
               </ul>
             </div>
             <div class="product-slider owl-carousel">
-              <!--              sửa-->
-              <!--              th:data-setbg="@{'img/'+${khuyenmai.image}}"-->
-
-              <div class="product-item" th:each="sanpham:${sanphamchilds}">
+              <div class="product-item" th:each="sanpham:${sanPhamtreem}">
                 <div class="pi-pic">
                   <img th:src="@{'img/products/'+${sanpham.manHinh}}" alt="" />
-                  <div class="sale" >Sale </div>
+                  <div th:if="${sanpham.giasau} > 0 " class="sale" >Sale </div>
                   <div class="icon">
                     <i class="icon_heart_alt"></i>
                   </div>
@@ -488,13 +474,15 @@
                   </ul>
                 </div>
                 <div class="pi-text">
-                  <div class="catagory-name">Coat</div>
+                  <div class="catagory-name" th:text="'giày '+${sanpham.tenloai}"></div>
                   <a href="#" >
                     <h5 style="overflow: hidden;white-space: nowrap;text-overflow: Ellipsis;width: 200px;margin: auto;" th:utext="${sanpham.tenSP}" ></h5>
                   </a>
-                  <div class="product-price">
-                    3000000000VND
+                  <div class="product-price" th:if="${sanpham.giasau} > 0 " >
+                    <label th:text="${#numbers.formatDecimal(sanpham.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"></label>
                     <span th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"></span>
+                  </div>
+                  <div class="product-price" th:if="${sanpham.giasau} == 0 " th:text="${#numbers.formatDecimal(sanpham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'">
                   </div>
                 </div>
               </div>

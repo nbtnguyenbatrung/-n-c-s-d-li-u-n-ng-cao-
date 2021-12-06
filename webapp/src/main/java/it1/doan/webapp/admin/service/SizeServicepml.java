@@ -1,12 +1,13 @@
 package it1.doan.webapp.admin.service;
 
 import it1.doan.webapp.admin.dao.AdminSizeDao;
+import it1.doan.webapp.admin.service.impl.SizeService;
 import it1.doan.webapp.model.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SizeServicepml implements SizeService{
+public class SizeServicepml implements SizeService {
 
     @Autowired
     AdminSizeDao adminSizeDao;

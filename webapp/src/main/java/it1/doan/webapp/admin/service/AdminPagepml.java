@@ -1,12 +1,11 @@
 package it1.doan.webapp.admin.service;
 
+import it1.doan.webapp.admin.service.impl.AdminPage;
 import it1.doan.webapp.model.Pagination;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 @Component
-public class AdminPagepml implements AdminPage{
+public class AdminPagepml implements AdminPage {
     public AdminPagepml() {
     }
 

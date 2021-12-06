@@ -2,8 +2,8 @@ package it1.doan.webapp.admin.controller;
 
 import it1.doan.webapp.admin.excaption.NotFoundException;
 import it1.doan.webapp.admin.service.AdminPagepml;
-import it1.doan.webapp.admin.service.AdminService;
-import it1.doan.webapp.admin.service.SanPhamService;
+import it1.doan.webapp.admin.service.impl.AdminService;
+import it1.doan.webapp.admin.service.impl.SanPhamService;
 import it1.doan.webapp.admin.service.function;
 import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;

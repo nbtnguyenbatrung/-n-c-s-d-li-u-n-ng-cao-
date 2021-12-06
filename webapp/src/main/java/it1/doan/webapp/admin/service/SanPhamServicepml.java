@@ -1,12 +1,13 @@
 package it1.doan.webapp.admin.service;
 
 import it1.doan.webapp.admin.dao.AdminSanPhamDao;
+import it1.doan.webapp.admin.service.impl.SanPhamService;
 import it1.doan.webapp.model.SanPham;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SanPhamServicepml implements SanPhamService{
+public class SanPhamServicepml implements SanPhamService {
 
     @Autowired
     AdminSanPhamDao adminSanPhamDao;

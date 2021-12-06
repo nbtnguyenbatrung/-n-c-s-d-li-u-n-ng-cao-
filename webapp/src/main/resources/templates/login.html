@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Fashi Template" />
@@ -48,19 +48,11 @@
           </div>
           <div class="ht-right">
             <a href="http://localhost:9999/login" class="login-panel"><i class="fa fa-user"></i>Login</a>
-            <!-- <div class="lan-selector">
-                        <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
-                                data-title="English">English</option>
-                            <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German </option>
-                        </select>
-                    </div> -->
             <div class="top-social">
-              <a href="#"><i class="ti-facebook"></i></a>
-              <a href="#"><i class="ti-twitter-alt"></i></a>
-              <a href="#"><i class="ti-google"></i></a>
-              <a href="#"><i class="ti-instagram"></i></a>
+              <a ><i class="ti-facebook"></i></a>
+              <a ><i class="ti-twitter-alt"></i></a>
+              <a ><i class="ti-google"></i></a>
+              <a ><i class="ti-instagram"></i></a>
             </div>
           </div>
         </div>
@@ -88,11 +80,6 @@
             </div>
             <div class="col-lg-3 text-right col-lg-3">
               <ul class="nav-right">
-                <!-- <li class="heart-icon"><a href="#">
-                                    <i class="icon_heart_alt"></i>
-                                    <span>1</span>
-                                </a>
-                            </li> -->
                 <li class="cart-icon">
                   <a href="#">
                     <i class="icon_bag_alt"></i>
@@ -179,15 +166,12 @@
                   <li><a href="#">Kid's</a></li>
                 </ul>
               </li>
-              <!-- <li><a href="./blog.html">Blog</a></li> -->
               <li><a href="./contact.html">Contact</a></li>
               <li>
                 <a href="#">Pages</a>
                 <ul class="dropdown">
-                  <!-- <li><a href="./blog-details.html">Blog Details</a></li> -->
                   <li><a href="./shopping-cart.html">Shopping Cart</a></li>
                   <li><a href="./check-out.html">Checkout</a></li>
-                  <!-- <li><a href="./faq.html">Faq</a></li> -->
                   <li><a href="./register.html">Register</a></li>
                   <li><a href="./login.html">Login</a></li>
                 </ul>
@@ -222,14 +206,14 @@
           <div class="col-lg-6 offset-lg-3">
             <div class="login-form">
               <h2>Login</h2>
-              <form action="#">
+              <form name='f' th:action="@{/j_spring_security_check}" method='POST'>
                 <div class="group-input">
                   <label for="username">Username or email address *</label>
-                  <input type="text" id="username" />
+                  <input type="text" id="username" name="username" />
                 </div>
                 <div class="group-input">
                   <label for="pass">Password *</label>
-                  <input type="text" id="pass" />
+                  <input type="text" id="pass" name="pass"/>
                 </div>
                 <div class="group-input gi-check">
                   <div class="gi-more">
@@ -246,7 +230,7 @@
                 </button>
               </form>
               <div class="switch-login">
-                <a href="./register.html" class="or-login"
+                <a th:href="@{/register}" class="or-login"
                   >Or Create An Account</a
                 >
               </div>

@@ -1,6 +1,6 @@
 package it1.doan.webapp.admin.controller;
 
-import it1.doan.webapp.admin.service.AdminHinhAnhService;
+import it1.doan.webapp.admin.service.impl.AdminHinhAnhService;
 import it1.doan.webapp.model.HinhAnh;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

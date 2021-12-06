@@ -1,14 +1,21 @@
 package it1.doan.webapp.admin.controller;
 
 import it1.doan.webapp.admin.service.*;
+import it1.doan.webapp.admin.service.impl.AdminService;
+import it1.doan.webapp.admin.service.impl.ThuonghieuService;
+import it1.doan.webapp.admin.service.impl.UserService;
+import it1.doan.webapp.model.NguoiDung;
 import it1.doan.webapp.model.Pagination;
 import it1.doan.webapp.model.ThuongHieu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,12 +30,29 @@ public class ControllerThuongHieu {
     ThuonghieuService thuonghieuService;
     @Autowired
     function function ;
-
+    @Autowired
+    UserService userService;
 
     private int totalProductPage = 9;
 
-    @GetMapping( "/thuonghieu")
-    public String getAdminthuonghieu(Model model ,@RequestParam(name = "page",required = false) String currentPage){
+    @GetMapping( "/admin/thuonghieu")
+    public String getAdminthuonghieu(Model model , HttpServletRequest request ,
+                                     @RequestParam(name = "page",required = false) String currentPage){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
+        }
+
         if (currentPage == null) {
             currentPage = "1";
         }

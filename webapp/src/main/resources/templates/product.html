@@ -45,20 +45,20 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                    <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
-                    <div class="lan-selector">
-                        <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
-                                data-title="English">English</option>
-                            <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German </option>
-                        </select>
+                    <div class="dropdown" style="float:left;padding : 0;" th:if="${username}">
+                        <button class="dropbtn">Welcome,<p th:utext="${username}">
+                        </p></button>
+                        <div class="dropdown-content" style="left:0;">
+                            <a href="#"><i class=" fa fa-suitcase"></i>Profile</a>
+                            <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
+                        </div>
                     </div>
+                    <a th:unless="${username}" href="#" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
                     <div class="top-social">
-                        <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                        <a href="#"><i class="ti-linkedin"></i></a>
-                        <a href="#"><i class="ti-pinterest"></i></a>
+                        <a ><i class="ti-facebook"></i></a>
+                        <a ><i class="ti-twitter-alt"></i></a>
+                        <a ><i class="ti-linkedin"></i></a>
+                        <a ><i class="ti-pinterest"></i></a>
                     </div>
                 </div>
             </div>
@@ -68,14 +68,14 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-2">
                         <div class="logo">
-                            <a href="./index.html">
+                            <a th:href="@{/}">
                                 <img src="img/logo.png" alt="">
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
-                            <button type="button" class="category-btn">All Categories</button>
+                            <button type="button" class="category-btn">All Product</button>
                             <form action="#" class="input-group">
                                 <input type="text" placeholder="What do you need?">
                                 <button type="button"><i class="ti-search"></i></button>
@@ -84,11 +84,6 @@
                     </div>
                     <div class="col-lg-3 text-right col-md-3">
                         <ul class="nav-right">
-                            <li class="heart-icon"><a href="#">
-                                    <i class="icon_heart_alt"></i>
-                                    <span>1</span>
-                                </a>
-                            </li>
                             <li class="cart-icon"><a href="#">
                                     <i class="icon_bag_alt"></i>
                                     <span>3</span>
@@ -145,40 +140,29 @@
                 <div class="nav-depart">
                     <div class="depart-btn">
                         <i class="ti-menu"></i>
-                        <span>All departments</span>
+                        <span>All brands</span>
                         <ul class="depart-hover">
-                            <li class="active"><a href="#">Women’s Clothing</a></li>
-                            <li><a href="#">Men’s Clothing</a></li>
-                            <li><a href="#">Underwear</a></li>
-                            <li><a href="#">Kid's Clothing</a></li>
-                            <li><a href="#">Brand Fashion</a></li>
-                            <li><a href="#">Accessories/Shoes</a></li>
-                            <li><a href="#">Luxury Brands</a></li>
-                            <li><a href="#">Brand Outdoor Apparel</a></li>
+                            <li th:each="thuongHieus:${thuongHieus}"><a href="#" th:text="${thuongHieus.tenHang}"></a></li>
                         </ul>
                     </div>
                 </div>
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li><a href="./index.html">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
+                        <li><a th:href="@{/}">Home</a></li>
+                        <li><a th:href="@{/shop}">Shop</a></li>
                         <li><a href="#">Collection</a>
                             <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
-                                <li><a href="#">Kid's</a></li>
+                                <li th:each="loaisp:${loaisp}"><a href="#" th:text="${loaisp.tenLoaiSP}+'`s'"></a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a th:href="@{/contact}">Contact</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./check-out.html">Checkout</a></li>
-                                <li><a href="./faq.html">Faq</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
+                                <li><a th:if="${username}" href="http://localhost:9999/shopping-cart">Shopping Cart</a></li>
+                                <li><a th:unless="${username}" th:href="@{/login}">Shopping Cart</a></li>
+                                <li><a th:unless="${username}" th:href="@{/register}">Register</a></li>
+                                <li><a th:unless="${username}" th:href="@{/login}">Login</a></li>
+                                <li><a th:if="${username}" th:href="@{/logout}">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -195,8 +179,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-text product-more">
-                        <a href="./home.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="./shop.html">Shop</a>
+                        <a th:href="@{/}"><i class="fa fa-home"></i> Home</a>
+                        <a th:href="@{/shop}">Shop</a>
                         <span>Detail</span>
                     </div>
                 </div>
@@ -207,131 +191,8 @@
 
     <!-- Product Shop Section Begin -->
     <section class="product-shop spad page-details">
-        <div class="container">
+        <div class="container" style="margin-right: -6rem;">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Categories</h4>
-                        <ul class="filter-catagories">
-                            <li><a href="#">Men</a></li>
-                            <li><a href="#">Women</a></li>
-                            <li><a href="#">Kids</a></li>
-                        </ul>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Brand</h4>
-                        <div class="fw-brand-check">
-                            <div class="bc-item">
-                                <label for="bc-calvin">
-                                    Calvin Klein
-                                    <input type="checkbox" id="bc-calvin">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="bc-item">
-                                <label for="bc-diesel">
-                                    Diesel
-                                    <input type="checkbox" id="bc-diesel">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="bc-item">
-                                <label for="bc-polo">
-                                    Polo
-                                    <input type="checkbox" id="bc-polo">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="bc-item">
-                                <label for="bc-tommy">
-                                    Tommy Hilfiger
-                                    <input type="checkbox" id="bc-tommy">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Price</h4>
-                        <div class="filter-range-wrap">
-                            <div class="range-slider">
-                                <div class="price-input">
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
-                                </div>
-                            </div>
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                data-min="33" data-max="98">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                            </div>
-                        </div>
-                        <a href="#" class="filter-btn">Filter</a>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Color</h4>
-                        <div class="fw-color-choose">
-                            <div class="cs-item">
-                                <input type="radio" id="cs-black">
-                                <label class="cs-black" for="cs-black">Black</label>
-                            </div>
-                            <div class="cs-item">
-                                <input type="radio" id="cs-violet">
-                                <label class="cs-violet" for="cs-violet">Violet</label>
-                            </div>
-                            <div class="cs-item">
-                                <input type="radio" id="cs-blue">
-                                <label class="cs-blue" for="cs-blue">Blue</label>
-                            </div>
-                            <div class="cs-item">
-                                <input type="radio" id="cs-yellow">
-                                <label class="cs-yellow" for="cs-yellow">Yellow</label>
-                            </div>
-                            <div class="cs-item">
-                                <input type="radio" id="cs-red">
-                                <label class="cs-red" for="cs-red">Red</label>
-                            </div>
-                            <div class="cs-item">
-                                <input type="radio" id="cs-green">
-                                <label class="cs-green" for="cs-green">Green</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Size</h4>
-                        <div class="fw-size-choose">
-                            <div class="sc-item">
-                                <input type="radio" id="s-size">
-                                <label for="s-size">s</label>
-                            </div>
-                            <div class="sc-item">
-                                <input type="radio" id="m-size">
-                                <label for="m-size">m</label>
-                            </div>
-                            <div class="sc-item">
-                                <input type="radio" id="l-size">
-                                <label for="l-size">l</label>
-                            </div>
-                            <div class="sc-item">
-                                <input type="radio" id="xs-size">
-                                <label for="xs-size">xs</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-widget">
-                        <h4 class="fw-title">Tags</h4>
-                        <div class="fw-tags">
-                            <a href="#">Towel</a>
-                            <a href="#">Shoes</a>
-                            <a href="#">Coat</a>
-                            <a href="#">Dresses</a>
-                            <a href="#">Trousers</a>
-                            <a href="#">Men's hats</a>
-                            <a href="#">Backpack</a>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-6">
@@ -359,7 +220,6 @@
                                 <div class="pd-title">
                                     <span>oranges</span>
                                     <h3>Pure Pineapple</h3>
-                                    <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                                 </div>
                                 <div class="pd-rating">
                                     <i class="fa fa-star"></i>

@@ -20,4 +20,11 @@ public class NguoiDung {
     private int Status;
     private String quyen;
     private Date ngaytao;
+
+    public NguoiDung(String hoten, String sdt, String email, String mk) {
+        this.hoten = hoten;
+        this.sdt = sdt;
+        this.email = email;
+        this.mk = mk ;
+    }
 }

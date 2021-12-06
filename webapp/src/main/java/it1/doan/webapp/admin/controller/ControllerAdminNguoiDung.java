@@ -1,11 +1,9 @@
 package it1.doan.webapp.admin.controller;
 
 import it1.doan.webapp.admin.service.AdminPagepml;
-import it1.doan.webapp.admin.service.AdminService;
+import it1.doan.webapp.admin.service.impl.AdminService;
 import it1.doan.webapp.model.NguoiDung;
 import it1.doan.webapp.model.Pagination;
-import it1.doan.webapp.model.SanPham;
-import it1.doan.webapp.model.ThuongHieu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,8 +1,8 @@
 package it1.doan.webapp.admin.controller;
 
 import it1.doan.webapp.admin.service.AdminPagepml;
-import it1.doan.webapp.admin.service.AdminService;
-import it1.doan.webapp.admin.service.SanphamSizeService;
+import it1.doan.webapp.admin.service.impl.AdminService;
+import it1.doan.webapp.admin.service.impl.SanphamSizeService;
 import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,7 @@
 package it1.doan.webapp.admin.service;
 
 import it1.doan.webapp.admin.dao.*;
+import it1.doan.webapp.admin.service.impl.AdminService;
 import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AdminServicepml implements AdminService{
+public class AdminServicepml implements AdminService {
 
     @Autowired
     AdminSanPhamDao adminSanPhamDao;

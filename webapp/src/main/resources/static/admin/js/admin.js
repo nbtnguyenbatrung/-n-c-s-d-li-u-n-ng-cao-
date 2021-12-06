@@ -522,8 +522,7 @@ $(document).ready(function(){
         for(var i = 0 ; i<fi.files.length  ;i++){
             var a = fi.files.item(i).name;
             arr.push(a);
-        }
-        var masp = $('#id__sp').val();
+        }        var masp = $('#id__sp').val();
         $.ajax({
             url : "http://localhost:9999/saveha",
             type : "GET",
