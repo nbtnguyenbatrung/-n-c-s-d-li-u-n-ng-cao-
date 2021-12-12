@@ -21,10 +21,21 @@ public class NguoiDung {
     private String quyen;
     private Date ngaytao;
 
-    public NguoiDung(String hoten, String sdt, String email, String mk) {
+    public NguoiDung(String hoten, String sdt, String email, String mk, int status , String quyen) {
         this.hoten = hoten;
         this.sdt = sdt;
         this.email = email;
         this.mk = mk ;
+        this.Status = status;
+        this.quyen = quyen;
+    }
+
+    public NguoiDung(int ID, String hoten, String sdt, String email , int status , String quyen) {
+        this.ID = ID;
+        this.hoten = hoten;
+        this.sdt = sdt;
+        this.email = email;
+        this.Status = status;
+        this.quyen = quyen;
     }
 }

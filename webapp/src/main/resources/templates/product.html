@@ -22,6 +22,7 @@
     <link rel="stylesheet" th:href="@{css/jquery-ui.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{css/style.css}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -158,7 +159,7 @@
                         <li><a th:href="@{/contact}">Contact</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
-                                <li><a th:if="${username}" href="http://localhost:9999/shopping-cart">Shopping Cart</a></li>
+                                <li><a th:if="${username}" th:href="@{/shopping-cart}">Shopping Cart</a></li>
                                 <li><a th:unless="${username}" th:href="@{/login}">Shopping Cart</a></li>
                                 <li><a th:unless="${username}" th:href="@{/register}">Register</a></li>
                                 <li><a th:unless="${username}" th:href="@{/login}">Login</a></li>
@@ -193,98 +194,65 @@
     <section class="product-shop spad page-details">
         <div class="container" style="margin-right: -6rem;">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-11">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <div class="product-pic-zoom">
-                                <img class="product-big-img" src="img/product-single/product-1.jpg" alt="">
+                                <img class="product-big-img" th:src="@{'img/products/'+${homeSanPham.manHinh}}" alt="">
                                 <div class="zoom-icon">
                                     <i class="fa fa-search-plus"></i>
                                 </div>
                             </div>
                             <div class="product-thumbs">
                                 <div class="product-thumbs-track ps-slider owl-carousel">
-                                    <div class="pt active" data-imgbigurl="img/product-single/product-1.jpg"><img
-                                            src="img/product-single/product-1.jpg" alt=""></div>
-                                    <div class="pt" data-imgbigurl="img/product-single/product-2.jpg"><img
-                                            src="img/product-single/product-2.jpg" alt=""></div>
-                                    <div class="pt" data-imgbigurl="img/product-single/product-3.jpg"><img
-                                            src="img/product-single/product-3.jpg" alt=""></div>
-                                    <div class="pt" data-imgbigurl="img/product-single/product-3.jpg"><img
-                                            src="img/product-single/product-3.jpg" alt=""></div>
+                                    <div class="pt active" th:data-imgbigurl="@{'img/products/'+${homeSanPham.manHinh}}"><img
+                                            th:src="@{'img/products/'+${homeSanPham.manHinh}}" alt=""></div>
+                                    <div class="pt" th:data-imgbigurl="@{'img/products/'+${hinhAnhs.ha}}" th:each="hinhAnhs:${hinhAnhs}"><img
+                                            th:src="@{'img/products/'+${hinhAnhs.ha}}" alt=""></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="product-details">
                                 <div class="pd-title">
-                                    <span>oranges</span>
-                                    <h3>Pure Pineapple</h3>
+                                    <span></span>
+                                    <h3 th:text="${homeSanPham.tenSP}"></h3>
                                 </div>
-                                <div class="pd-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <span>(5)</span>
+                                <div th:if="${homeSanPham.soSao == 0}"><span> chưa có đánh giá </span></div>
+                                <div class="pd-rating" th:if="${homeSanPham.soSao > 0}">
+                                    <i class="fa fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} <= ${homeSanPham.soSao} "></i>
+                                    <i class="far fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} > ${homeSanPham.soSao} "></i>
+                                    <span th:text=" '(' + ${homeSanPham.soSao} + ')'"></span>
                                 </div>
                                 <div class="pd-desc">
-                                    <p>Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
-                                        sit amet, consectetur adipisicing elit, sed do mod tempor</p>
-                                    <h4>$495.00 <span>629.99</span></h4>
+                                    <h4 th:text="${#numbers.formatDecimal(homeSanPham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'">
+                                        <span th:text="${#numbers.formatDecimal(homeSanPham.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></h4>
                                 </div>
-                                <div class="pd-color">
-                                    <h6>Color</h6>
-                                    <div class="pd-color-choose">
-                                        <div class="cc-item">
-                                            <input type="radio" id="cc-black">
-                                            <label for="cc-black"></label>
-                                        </div>
-                                        <div class="cc-item">
-                                            <input type="radio" id="cc-yellow">
-                                            <label for="cc-yellow" class="cc-yellow"></label>
-                                        </div>
-                                        <div class="cc-item">
-                                            <input type="radio" id="cc-violet">
-                                            <label for="cc-violet" class="cc-violet"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pd-size-choose">
+                                <div class="pd-size-choose" th:each="sizes:${sizes}">
                                     <div class="sc-item">
                                         <input type="radio" id="sm-size">
-                                        <label for="sm-size">s</label>
-                                    </div>
-                                    <div class="sc-item">
-                                        <input type="radio" id="md-size">
-                                        <label for="md-size">m</label>
-                                    </div>
-                                    <div class="sc-item">
-                                        <input type="radio" id="lg-size">
-                                        <label for="lg-size">l</label>
-                                    </div>
-                                    <div class="sc-item">
-                                        <input type="radio" id="xl-size">
-                                        <label for="xl-size">xs</label>
+                                        <label for="sm-size" th:text="${sizes.tenSize}"></label>
                                     </div>
                                 </div>
                                 <div class="quantity">
+                                    <span style="margin-right: 2rem;margin-top: 0.5rem;"> Số Lượng </span>
                                     <div class="pro-qty">
                                         <input type="text" value="1">
                                     </div>
-                                    <a href="#" class="primary-btn pd-cart">Add To Cart</a>
+                                    <span style="margin-top: 0.5rem;margin-left: 1rem;" th:text="${homeSanPham.soluong}+' sản phẩm có sẵn'"> </span>
+                                </div>
+                                <div style="display: flex;margin-bottom: 2rem;">
+                                    <a href="#" style="margin-right: 2rem;" class="primary-btn pd-cart"> <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng </a>
+                                    <a href="#" style="" class="primary-btn pd-cart">Mua ngay</a>
                                 </div>
                                 <ul class="pd-tags">
-                                    <li><span>CATEGORIES</span>: More Accessories, Wallets & Cases</li>
-                                    <li><span>TAGS</span>: Clothing, T-shirt, Woman</li>
+                                    <li><span style="margin-right: 3rem ">CATEGORIES</span> <label th:text="${homeSanPham.tenloai}"></label> </li>
                                 </ul>
                                 <div class="pd-share">
-                                    <div class="p-code">Sku : 00012</div>
                                     <div class="pd-social">
-                                        <a href="#"><i class="ti-facebook"></i></a>
-                                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                                        <a href="#"><i class="ti-linkedin"></i></a>
+                                        <a ><i class="ti-facebook"></i></a>
+                                        <a ><i class="ti-twitter-alt"></i></a>
+                                        <a ><i class="ti-linkedin"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -293,14 +261,14 @@
                     <div class="product-tab">
                         <div class="tab-item">
                             <ul class="nav" role="tablist">
-                                <li>
-                                    <a class="active" data-toggle="tab" href="#tab-1" role="tab">DESCRIPTION</a>
+                                <li >
+                                    <a class="active" data-toggle="tab" href="#tab-1" role="tab">Mô tả sản phẩm </a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#tab-2" role="tab">SPECIFICATIONS</a>
+                                    <a data-toggle="tab" href="#tab-2" role="tab">Chi tiết sản phẩm</a>
                                 </li>
-                                <li>
-                                    <a data-toggle="tab" href="#tab-3" role="tab">Customer Reviews (02)</a>
+                                <li >
+                                    <a class="active" data-toggle="tab" href="#tab-3" role="tab">Đánh giá </a>
                                 </li>
                             </ul>
                         </div>
@@ -310,19 +278,8 @@
                                     <div class="product-content">
                                         <div class="row">
                                             <div class="col-lg-7">
-                                                <h5>Introduction</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip ex ea commodo consequat. Duis aute irure dolor in </p>
-                                                <h5>Features</h5>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                                    aliquip ex ea commodo consequat. Duis aute irure dolor in </p>
-                                            </div>
-                                            <div class="col-lg-5">
-                                                <img src="img/product-single/tab-desc.jpg" alt="">
+                                                <h5>Thông tin mô tả sản phẩm </h5>
+                                                <p th:text="${homeSanPham.moTa}"> </p>
                                             </div>
                                         </div>
                                     </div>
@@ -331,56 +288,20 @@
                                     <div class="specification-table">
                                         <table>
                                             <tr>
-                                                <td class="p-catagory">Customer Rating</td>
+                                                <td class="p-catagory">Người dùng đánh giá </td>
                                                 <td>
-                                                    <div class="pd-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <span>(5)</span>
+                                                    <div th:if="${homeSanPham.soSao == 0}"><span> chưa có đánh giá </span></div>
+                                                    <div class="pd-rating" th:if="${homeSanPham.soSao > 0}">
+                                                        <i class="fa fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} <= ${homeSanPham.soSao} "></i>
+                                                        <i class="far fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} > ${homeSanPham.soSao} "></i>
+                                                        <span th:text=" '(' + ${homeSanPham.soSao} + ')'"></span>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="p-catagory">Price</td>
+                                                <td class="p-catagory">Giá gốc</td>
                                                 <td>
-                                                    <div class="p-price">$495.00</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Add To Cart</td>
-                                                <td>
-                                                    <div class="cart-add">+ add to cart</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Availability</td>
-                                                <td>
-                                                    <div class="p-stock">22 in stock</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Weight</td>
-                                                <td>
-                                                    <div class="p-weight">1,3kg</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Size</td>
-                                                <td>
-                                                    <div class="p-size">Xxl</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Color</td>
-                                                <td><span class="cs-color"></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="p-catagory">Sku</td>
-                                                <td>
-                                                    <div class="p-code">00012</div>
+                                                    <div class="p-price" th:text="${#numbers.formatDecimal(homeSanPham.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"></div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -388,68 +309,54 @@
                                 </div>
                                 <div class="tab-pane fade" id="tab-3" role="tabpanel">
                                     <div class="customer-review-option">
-                                        <h4>2 Comments</h4>
+                                        <h4 th:text="${sl} + ' Comments'"></h4>
                                         <div class="comment-option">
-                                            <div class="co-item">
-                                                <div class="avatar-pic">
-                                                    <img src="img/product-single/avatar-1.png" alt="">
-                                                </div>
+                                            <div class="co-item" th:each="binhluan:${binhluan}">
+<!--                                                <div class="avatar-pic">-->
+<!--                                                    <img src="img/product-single/avatar-2.png" alt="">-->
+<!--                                                </div>-->
                                                 <div class="avatar-text">
                                                     <div class="at-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
+                                                        <i style="color: red;" class="fa fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} <= ${binhluan.SOSAO} "></i>
+                                                        <i class="fa fa-star-o" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} > ${binhluan.SOSAO} "></i>
                                                     </div>
-                                                    <h5>Brandon Kelley <span>27 Aug 2019</span></h5>
-                                                    <div class="at-reply">Nice !</div>
+                                                    <h5 th:text="${binhluan.HOTEN}"> <span th:text="${binhluan.NGAYDG}"></span></h5>
+                                                    <div class="at-reply" th:text="${binhluan.BINHLUAN}"></div>
                                                 </div>
                                             </div>
-                                            <div class="co-item">
-                                                <div class="avatar-pic">
-                                                    <img src="img/product-single/avatar-2.png" alt="">
-                                                </div>
-                                                <div class="avatar-text">
-                                                    <div class="at-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </div>
-                                                    <h5>Roy Banks <span>27 Aug 2019</span></h5>
-                                                    <div class="at-reply">Nice !</div>
-                                                </div>
-                                            </div>
+
                                         </div>
-                                        <div class="personal-rating">
-                                            <h6>Your Ratind</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
+
+                                        <!-- phần phân trang  -->
+                                        <div class="col-sm-7 text-right text-center-xs" style="float: right">
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
+                                                <li ><a  style="padding: 5px 10px;" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+                                            </ul>
+
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
+                                                <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${Previous}|}"><i class="fa fa-angle-left"></i></a></li>
+                                            </ul>
+
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} > ${PreviousLeft} and ${i} < ${CurrentPage}">
+                                                <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+                                            </ul>
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} == ${CurrentPage} ">
+                                                <li ><a style="background: aquamarine;padding: 5px 10px;" th:text="${i}"></a></li>
+                                            </ul>
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} < ${PreviousRight} and ${i} > ${CurrentPage}">
+                                                <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
+                                            </ul>
+
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} <  ${Page.totalPage}">
+                                                <li><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${Next}|}"><i class="fa fa-angle-right"></i></a></li>
+                                            </ul>
+
+                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} < ${Page.totalPage} ">
+                                                <li><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${totalpage}|}"><i class="fa fa-angle-double-right"></i></a></li>
+                                            </ul>
+
                                         </div>
-                                        <div class="leave-comment">
-                                            <h4>Leave A Comment</h4>
-                                            <form action="#" class="comment-form">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <input type="text" placeholder="Name">
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" placeholder="Email">
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <textarea placeholder="Messages"></textarea>
-                                                        <button type="submit" class="site-btn">Send message</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -685,16 +592,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.zoom.min.js"></script>
-    <script src="js/jquery.dd.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/jquery-ui.min.js}"></script>
+    <script th:src="@{js/jquery.countdown.min.js}"></script>
+    <script th:src="@{js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{js/jquery.zoom.min.js}"></script>
+    <script th:src="@{js/jquery.dd.min.js}"></script>
+    <script th:src="@{js/jquery.slicknav.js}"></script>
+    <script th:src="@{js/owl.carousel.min.js}"></script>
+    <script th:src="@{js/main.js}"></script>
 </body>
 
 </html>

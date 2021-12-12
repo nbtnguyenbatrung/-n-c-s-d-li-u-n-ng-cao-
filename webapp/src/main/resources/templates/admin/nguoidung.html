@@ -178,9 +178,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
           <div class="modal-content">
             <div class="modal-body">
               <div class="row" align = center >
-                  <h3> Thêm sản phẩm cho web </h3>
+                  <h3> Thêm người dùng </h3>
                   <form action="#">
-                    <table  cellspacing=20 height="500" width="550" class="table" ui-jq="footable" ui-options='{
+                    <table  cellspacing=20 width="400" class="table" ui-jq="footable" ui-options='{
                       "paging": {
                         "enabled": true
                       },
@@ -191,63 +191,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         "enabled": true
                       }}'>
                       <tr>
-                        <td> Mã sản phẩm * </td>
-                        <td> <input type="text" name="masp" id="masp" required > </td>
+                        <td> Họ và tên * </td>
+                        <td><input type="text" name="nameadd" id="nameadd" required></td>
                       </tr>
                       <tr>
-                        <td>Tên hãng * </td>
-                        <td>
-                          <select name="mahang" id="mahang" required >
-                            <option value="" > chọn hãng </option>
-                            <option value="HA0001"> NIKE </option>
-                            <option value="HA0002"> CAMPER </option>
-                            <option value="HA0003"> NEW BLANCE </option>
-                            <option value="HA0005"> CONVERSE </option>
-                            <option value="HA0006"> PUMA </option>
-                          </select>
-                        </td>
+                        <td> Số điện thoại * </td>
+                        <td><input type="text" name="sdtadd" id="sdtadd" required></td>
                       </tr>
                       <tr>
-                        <td> Tên khuyến mại </td>
-                        <td>
-                          <select name="makm" id="makm" required >
-                            <option > chọn khuyến mại </option>
-                            <option value="KM0001"> sale 50% </option>
-                            <option value="KM0002"> sale hết date </option>
-                            <option value="KM0003"> black free </option>
-                          </select>
-                        </td>
+                        <td> Email đăng nhập *</td>
+                        <td><input type="text" name="emailadd" id="emailadd" required></td>
                       </tr>
                       <tr>
-                        <td>Tên loại sản phẩm *</td>
-                        <td>
-                          <select name="maloaisp" id="maloaisp" required>
-                            <option value="" > chọn loại sản phẩm </option>
-                            <option value="LO0001"> NAM </option>
-                            <option value="LO0002"> NỮ </option>
-                            <option value="LO0003"> TRẺ EM </option>
-                          </select>
-                        </td>
+                        <td> Password *</td>
+                        <td><input type="password" name="passadd" id="passadd" required></td>
                       </tr>
                       <tr>
-                        <td>Tên sản phẩm *</td>
-                        <td><input type="text" name="tensp" id="tensp" required></td>
-                      </tr>
+                            <td> STATUS * </td>
+                            <td>
+                                <select  name="statusadd" id="statusadd" required >
+                                    <option > xét trạng thái </option>
+                                    <option value="1" > Active </option>
+                                    <option value="0" > No Active </option>
+                                </select >
+                            </td>
+                        </tr>
                       <tr>
-                        <td>Đơn giá *</td>
-                        <td><input type="text" name="dongia" id="dongia" required></td>
-                      </tr>
-                      <tr>
-                        <td>Hình nền chính *</td>
-                        <td><input type="file" name="hinhanh" id="hinhanh" required ></td>
-                      </tr>
-                      <tr>
-                        <td>Mô tả</td>
-                        <td><textarea name="mota" id="mota" cols="30" rows="5"></textarea></td>
-                      </tr>
+                            <td> Quyền * </td>
+                            <td>
+                                <select  name="quyenadd" id="quyenadd" required >
+                                    <option > xét quyền </option>
+                                    <option value="USER" > USER </option>
+                                    <option value="ADMIN" > ADMIN </option>
+                                </select >
+                            </td>
+                        </tr>
+
                     </table>
-                    <input type="submit" name="add" id="add" style="margin-top : 20px" value="Thêm">
                   </form>
+                  <button id="addnguoidung" > Save </button>
               </div>
             </div>
 
@@ -291,16 +273,143 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <td th:text="${nguoidung.quyen}"></td>
             <td th:text="${nguoidung.ngaytao}"></td>
             <td>
-              <button title=" Sửa "> <i class="fa fa-wrench" style="color : black; "></i> </button>
-              <button title=" xóa "> <i class="fa fa-times" style="color : black "></i> </button>
-              
+              <a th:href="@{/findOnend/(id=${nguoidung.ID})}" class="editnguoidung">
+                  <button title=" Sửa " data-toggle="modal" data-target=".bs-example-modal-lg1"> <i class="fa fa-wrench" style="color : black; "></i> </button>
+              </a>
+              <button th:if="${nguoidung.Status} == 0 " disabled title=" Khóa tài khoản  "> <i class="fa fa-times" style="color : black "></i> </button>
+              <a th:data-id = "${nguoidung.ID}"
+                 th:data-status = 0
+                 th:data-name = "${nguoidung.email}"
+                 onclick="Showconfim(this.getAttribute('data-id'),this.getAttribute('data-status'),this.getAttribute('data-name'))">
+                  <button th:if="${nguoidung.Status} == 1 " title=" Khóa tài khoản  ">
+                  <i class="fa fa-times" style="color : black "></i>
+                  </button>
+              </a>
+              <button th:if="${nguoidung.Status} == 1 " disabled title=" Mở Khóa tài khoản  "> <i class="fa fa-check"></i> </button>
+              <a th:data-id = "${nguoidung.ID}"
+                 th:data-status = 1
+                 th:data-name = "${nguoidung.email}"
+                 onclick="Showconfim1(this.getAttribute('data-id'),this.getAttribute('data-status'),this.getAttribute('data-name'))">
+                  <button th:if="${nguoidung.Status} == 0 " title=" Mở Khóa tài khoản  ">
+                    <i class="fa fa-check "></i>
+                  </button>
+              </a>
             </td>
           </tr>
           <tr>
         </tbody>
       </table>
 
-      <div class="col-sm-7 text-right text-center-xs">
+
+        <!-- Modal khóa tài khoản  -->
+        <div class="modal fade" id="ConfimationId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông Báo </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có muốn khóa tài khoản có email là :  " <span id="namend"></span> " hay không ?
+                    </div>
+                    <div class="modal-footer">
+                        <a id="yesOption" onclick="showinfomation()" type="button" class="btn btn-danger">Yes</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal kích hoạt tài khoản  -->
+        <div class="modal fade" id="ConfimationIdkh" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông Báo </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có muốn mở tài khoản có email là :  " <span id="nameemail"></span> " hay không ?
+                    </div>
+                    <div class="modal-footer">
+                        <a id="yesOption1" onclick="showinfomation1()" type="button" class="btn btn-danger">Yes</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- phần modol của edit  -->
+
+        <div class="modal fade bs-example-modal-lg1 myform" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" align = center>
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row" align = center >
+                            <h3> Sửa sản phẩm cho web </h3>
+                            <form method="post">
+                                <table  cellspacing=20 width="400" class="table" ui-jq="footable" ui-options='{
+                                  "paging": {
+                                    "enabled": true
+                                  },
+                                  "filtering": {
+                                    "enabled": true
+                                  },
+                                  "sorting": {
+                                    "enabled": true
+                                  }}'>
+
+                                    <tr>
+                                        <td> Họ và tên * </td>
+                                        <td><input type="text" name="nameedit" id="nameedit" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Số điện thoại * </td>
+                                        <td><input type="text" name="sdtedit" id="sdtedit" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Email đăng nhập *</td>
+                                        <td><input type="text" name="emailedit" id="emailedit" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td> STATUS * </td>
+                                        <td>
+                                            <select  name="statusedit" id="statusedit" required >
+                                                <option > xét trạng thái </option>
+                                                <option value="1" > Active </option>
+                                                <option value="0" > No Active </option>
+                                            </select >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Quyền * </td>
+                                        <td>
+                                            <select  name="quyenedit" id="quyenedit" required >
+                                                <option > xét quyền </option>
+                                                <option value="USER" > USER </option>
+                                                <option value="ADMIN" > ADMIN </option>
+                                            </select >
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            <button id="editnguoidung" > Save Edit </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-sm-7 text-right text-center-xs">
           <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
               <li ><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
           </ul>
@@ -349,5 +458,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script th:src="@{admin/js/jquery.nicescroll.js}"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" th:src="@{admmin/js/flot-chart/excanvas.min.js}"></script><![endif]-->
 <script th:src="@{admin/js/jquery.scrollTo.js}"></script>
+<script th:src="@{admin/js/admin.js}"></script>
+<script>
+            function Showconfim(id , status ,name){
+					$('#namend').text(name);
+					$('#yesOption').attr('href','/deletend/?id='+id+ '&status='+status );
+					$('#ConfimationId').modal('show');
+			}
+
+            function showinfomation(){
+                alert(" khóa tài khoản thành công ");
+            }
+
+            function Showconfim1(id , status ,name){
+					$('#nameemail').text(name);
+					$('#yesOption').attr('href','/deletend/?id='+id+ '&status='+status );
+					$('#ConfimationIdkh').modal('show');
+			}
+
+            function showinfomation1(){
+                alert(" mở khóa tài khoản thành công ");
+            }
+
+</script>
 </body>
 </html>

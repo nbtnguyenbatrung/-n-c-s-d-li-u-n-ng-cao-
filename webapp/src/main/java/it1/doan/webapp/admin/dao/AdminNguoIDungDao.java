@@ -3,8 +3,10 @@ package it1.doan.webapp.admin.dao;
 
 import com.sun.istack.internal.NotNull;
 import it1.doan.webapp.dao.Mapper.NguoIDungMapper;
+import it1.doan.webapp.dao.Mapper.ThuongHieuMapper;
 import it1.doan.webapp.model.NguoiDung;
 
+import it1.doan.webapp.model.ThuongHieu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -49,20 +51,47 @@ public class AdminNguoIDungDao extends JdbcDaoSupport {
         }
     }
 
-    @Transactional()
-    public int saveUser(@NotNull NguoiDung user){
-        NguoiDung user1 = existUser(user.getEmail());
-        if(user1==null){
-            try{
-                String sql="INSERT INTO NGUOIDUNG (HOTEN,SDT,EMAIL,MK,STATUS,QUYEN) VALUES(?,?,?,?,?,?)";
-                Object[] params = new Object[]{user.getHoten(),user.getSdt(),user.getEmail(),user.getMk(),user.getStatus(),user.getQuyen()};
-                int index=this.getJdbcTemplate().update(sql,params);
-                return index;
-            }catch (EmptyResultDataAccessException exception){
-                return -1;
-            }
+    public void Insert (NguoiDung nguoiDung){
+        try {
+            String sql = "INSERT INTO NGUOIDUNG(HOTEN,SDT ,EMAIL,MK,STATUS,QUYEN) VALUES (?,?,?,?,?,?) ";
+            this.getJdbcTemplate().update(sql,nguoiDung.getHoten(),nguoiDung.getSdt(),nguoiDung.getEmail(),nguoiDung.getMk(),nguoiDung.getStatus(),nguoiDung.getQuyen());
+        }catch (EmptyResultDataAccessException e){
+            e.getMessage();
         }
-        return -1;
+    }
+
+    public String Update(NguoiDung nguoiDung){
+        try {
+            String sql = "UPDATE NGUOIDUNG SET HOTEN = ? , SDT = ? , EMAIL = ? , STATUS = ? , QUYEN = ?   WHERE ID = ? ";
+            this.getJdbcTemplate().update(sql,nguoiDung.getHoten(),nguoiDung.getSdt(),nguoiDung.getEmail(),nguoiDung.getStatus(),nguoiDung.getQuyen(),nguoiDung.getID());
+            return "cập nhật thành công ";
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
+    }
+
+    public NguoiDung Get(int ID){
+        try {
+            NguoIDungMapper mapper = new NguoIDungMapper();
+            String sql = "SELECT * FROM NGUOIDUNG WHERE ID = ?" ;
+            NguoiDung nguoiDung = this.getJdbcTemplate().queryForObject(sql,new Object[]{ID},mapper);
+            return nguoiDung;
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
+    }
+
+    public String Delete(int ID , int status){
+        try {
+            String sql = "UPDATE NGUOIDUNG SET STATUS = "+status+" WHERE ID = ? ";
+            this.getJdbcTemplate().update(sql,ID);
+            return " xóa thành công hãng cac mã " + ID;
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
     }
 
 }

@@ -540,6 +540,75 @@ $(document).ready(function(){
         });
     });
 
+    $('#addnguoidung').click(function(event){
+            if ($('#nameadd').val() == false || $('#sdtadd').val() == false || $('#emailadd').val() == false || $('#passadd').val() == false || $('#statusadd').val() == false || $('#quyenadd').val() == false){
+                 alert(" Không được để trống các trường có ký hiệu * ! ");
+            }
+            else{
+                  $.ajax({
+                       url: "http://localhost:9999/savend",
+                       type: "GET",
+                       data: {
+                          hoten : $('#nameadd').val(),
+                          sdt : $('#sdtadd').val(),
+                          email : $('#emailadd').val(),
+                          mk : $('#passadd').val(),
+                          status : $('#statusadd').val(),
+                          quyen: $('#quyenadd').val()
+                       },
+                       success: function(data ) {
+                             alert(data);
+                             window.location =" http://localhost:9999/nguoidung";
+                       },
+                       error: function(e){
+                            alert(" nhập email không chính xác theo định dạng @gmail.com hoặc đã có email đăng ký ! ");
+
+                       }
+                  });
+
+            }
+            });
+
+    $('.editnguoidung').on('click',function(event){
+            event.preventDefault();
+            var href = $(this).attr('href');
+            $.get(href,function(nguoidung,status){
+                $('.myform #nameedit').val(nguoidung.hoten);
+                $('.myform #sdtedit').val(nguoidung.sdt);
+                $(".myform #emailedit").val(nguoidung.email);
+                $(".myform #statusedit").val(nguoidung.Status);
+                $(".myform #quyenedit").val(nguoidung.quyen);
+            });
+
+        });
+
+    $('#editnguoidung').click(function(event){
+                if ($('#nameedit').val() == false || $('#sdtedit').val() == false || $('#emailedit').val() == false || $('#statusedit').val() == false || $('#quyenedit').val() == false){
+                     alert(" Không được để trống các trường có ký hiệu * ! ");
+                }
+                else{
+                      $.ajax({
+                           url: "http://localhost:9999/updatend",
+                           type: "GET",
+                           data: {
+                              hoten : $('#nameedit').val(),
+                              sdt : $('#sdtedit').val(),
+                              email : $('#emailedit').val(),
+                              status : $('#statusedit').val(),
+                              quyen: $('#quyenedit').val()
+                           },
+                           success: function(data ) {
+                                 alert(data);
+                                 window.location =" http://localhost:9999/nguoidung";
+                           },
+                           error: function(e){
+                                alert(" nhập email không chính xác theo định dạng @gmail.com hoặc đã có email đăng ký ! ");
+
+                           }
+                      });
+                }
+                });
+
     $(document).on('change','.file__image',async function(){
         var masp = $('#id__sp').val();
         var id = $(this).data('gal_id');

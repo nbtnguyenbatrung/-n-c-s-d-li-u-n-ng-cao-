@@ -6,7 +6,9 @@ import it1.doan.webapp.model.NguoiDung;
 import org.springframework.ui.Model;
 
 public interface UserService {
-    int save(@NotNull UserRegistraionDto userRegistraionDto);
-    boolean checktypeUser(UserRegistraionDto userRegistraionDto, Model model);
+    void save(NguoiDung nguoiDung);
     NguoiDung getUserByEmail(String email);
+    String update(NguoiDung nguoiDung);
+    NguoiDung get(int ID);
+    String delete(int ID , int status );
 }

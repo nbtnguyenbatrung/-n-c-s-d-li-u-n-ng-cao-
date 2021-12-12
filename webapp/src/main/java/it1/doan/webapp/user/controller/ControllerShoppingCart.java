@@ -1,12 +1,9 @@
 package it1.doan.webapp.user.controller;
 
-
 import it1.doan.webapp.admin.service.impl.AdminService;
-import it1.doan.webapp.admin.service.impl.KhuyenMaiService;
 import it1.doan.webapp.admin.service.impl.UserService;
 import it1.doan.webapp.model.*;
 import it1.doan.webapp.user.service.HomeService;
-import it1.doan.webapp.user.service.KhuyenMaiServiceHome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,21 +15,18 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class HomeController {
+public class ControllerShoppingCart {
 
-    @Autowired
-    UserService userService;
-    @Autowired
-    KhuyenMaiServiceHome khuyenMaiService;
     @Autowired
     HomeService homeService;
     @Autowired
-    KhuyenMaiService khuyenMaiServiceadmin;
+    UserService userService;
     @Autowired
     AdminService adminService;
-    
-    @GetMapping("/")
-    public String index(Model model, HttpServletRequest request){
+
+    @GetMapping("/shopping-cart")
+    public String getshoppingcart(Model model, HttpServletRequest request){
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
             String name = authentication.getName();
@@ -49,41 +43,19 @@ public class HomeController {
             }
 
         }
-        List<KhuyenMai> khuyenMais = khuyenMaiService.getallKM();
-        model.addAttribute("khuyenmais",khuyenMais);
-        List<HomeSanPham> sanPhamnu = homeService.getSanPhamByType("NỮ");
-        HomeSanPham sanPham1 = sanPhamnu.get(0);
-        KhuyenMai khuyenMai11=khuyenMaiServiceadmin.Get(sanPham1.getMaKM());
-        int khuyenMai1 = 0;
-        if (khuyenMai11 != null)
-            khuyenMai1 = khuyenMai11.getSongay();
-
-        model.addAttribute("sanPham1",sanPham1);
-        model.addAttribute("khuyenMai1",khuyenMai1);
-        List<HomeSanPham> sanPhamnam = homeService.getSanPhamByType("NAM");
-        HomeSanPham sanPham2 = sanPhamnam.get(0);
-        KhuyenMai khuyenMai12=khuyenMaiServiceadmin.Get(sanPham2.getMaKM());
-        int khuyenMai2 = 0;
-        if (khuyenMai12 != null)
-            khuyenMai2 = khuyenMai12.getSongay();
-
-        model.addAttribute("sanPham2",sanPham2);
-        model.addAttribute("khuyenMai2",khuyenMai2);
-        List<HomeSanPham> sanPhamtreem = homeService.getSanPhamByType("TRẺ EM");
-        model.addAttribute("sanPhamnu",sanPhamnu);
-        model.addAttribute("sanPhamnam",sanPhamnam);
-        model.addAttribute("sanPhamtreem",sanPhamtreem);
 
         List<LoaiSanPham> loaiSanPhams = adminService.getAllloaisp(1);
         model.addAttribute("loaisp" , loaiSanPhams);
 
         List<ThuongHieu> thuongHieus = adminService.getAllthuonghieu(1);
         model.addAttribute("thuongHieus",thuongHieus);
-        return "index";
+
+        return "shopping-cart";
     }
 
-    @GetMapping("/contact")
-    public String contact(Model model, HttpServletRequest request){
+
+    @GetMapping("/check-out")
+    public String getcheckout(Model model, HttpServletRequest request){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
@@ -95,6 +67,9 @@ public class HomeController {
                     request.getSession().setAttribute("username",user.getHoten());
                 }
                 model.addAttribute("username",user.getHoten());
+                List<GioHang> gioHangs = homeService.getghbynd(user.getID());
+                model.addAttribute("giohang",gioHangs);
+                model.addAttribute("sl",gioHangs.size());
             }
 
         }
@@ -105,6 +80,6 @@ public class HomeController {
         List<ThuongHieu> thuongHieus = adminService.getAllthuonghieu(1);
         model.addAttribute("thuongHieus",thuongHieus);
 
-        return "contact";
+        return "check-out";
     }
 }

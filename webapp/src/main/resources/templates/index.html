@@ -56,7 +56,7 @@
                 <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
               </div>
             </div>
-            <a th:unless="${username}" href="#" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
+            <a th:unless="${username}" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
             <div class="top-social">
               <a ><i class="ti-facebook"></i></a>
               <a ><i class="ti-twitter-alt"></i></a>
@@ -87,59 +87,63 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 text-right col-md-3">
+            <div class="col-lg-3 text-right col-md-3" th:if="${username} and ${sl} gt 0" >
               <ul class="nav-right">
                 <li class="cart-icon">
-                  <a href="#">
+                  <a th:href="@{/shopping-cart}">
                     <i class="icon_bag_alt"></i>
-                    <span>3</span>
+                    <span th:text="${sl}"></span>
                   </a>
                   <div class="cart-hover">
                     <div class="select-items">
-                      <table>
+                      <table th:each="giohang:${giohang}">
                         <tbody>
                           <tr>
                             <td class="si-pic">
-                              <img src="img/select-product-1.jpg" alt="" />
+                              <img th:src="@{'img/products/'+${giohang.Image}}" alt="" />
                             </td>
                             <td class="si-text">
                               <div class="product-selected">
-                                <p>$60.00 x 1</p>
-                                <h6>Kabino Bedside Table</h6>
+                                <h6 th:text="${giohang.TenSP}"></h6>
                               </div>
-                            </td>
-                            <td class="si-close">
-                              <i class="ti-close"></i>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="si-pic">
-                              <img src="img/select-product-2.jpg" alt="" />
-                            </td>
-                            <td class="si-text">
-                              <div class="product-selected">
-                                <p>$60.00 x 1</p>
-                                <h6>Kabino Bedside Table</h6>
-                              </div>
-                            </td>
-                            <td class="si-close">
-                              <i class="ti-close"></i>
                             </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
-                    <div class="select-total">
-                      <span>total:</span>
-                      <h5>$120.00</h5>
-                    </div>
                     <div class="select-button">
-                      <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                      <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                      <a th:href="@{/shopping-cart}" class="primary-btn view-card">Xem Giỏ Hàng</a>
                     </div>
                   </div>
                 </li>
-                <li class="cart-price">$150.00</li>
+              </ul>
+            </div>
+            <div class="col-lg-3 text-right col-md-3" th:unless="${username}" >
+              <ul class="nav-right" style="    text-align: center;">
+                <li class="cart-icon">
+                  <a th:href="@{login}">
+                    <i class="icon_bag_alt"></i>
+                  </a>
+                  <div class="cart-hover">
+                    <div class="select-items">
+                      <span>Chưa có sản phẩm </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 text-right col-md-3" th:if="${sl == 0}" >
+              <ul class="nav-right" style=" text-align: center;">
+                <li class="cart-icon">
+                  <a href="#">
+                    <i class="icon_bag_alt"></i>
+                  </a>
+                  <div class="cart-hover">
+                    <div class="select-items">
+                      <span>Chưa có sản phẩm </span>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -152,7 +156,9 @@
               <i class="ti-menu"></i>
               <span>All brands</span>
               <ul class="depart-hover" >
-                <li th:each="thuongHieus:${thuongHieus}"><a href="#" th:text="${thuongHieus.tenHang}"></a></li>
+                <li th:each="thuongHieus:${thuongHieus}">
+                  <a th:href="@{|/shop?mahang=${thuongHieus.maHang}|}" th:text="${thuongHieus.tenHang}"></a>
+                </li>
               </ul>
             </div>
           </div>
@@ -163,14 +169,16 @@
               <li>
                 <a>Collection</a>
                 <ul class="dropdown" >
-                  <li th:each="loaisp:${loaisp}" ><a href="#" th:text="${loaisp.tenLoaiSP}+'`s'"></a></li>
+                  <li th:each="loaisp:${loaisp}" >
+                    <a th:href="@{|/shop?maloaisp=${loaisp.maLoaiSP}|}" th:text="${loaisp.tenLoaiSP}+'`s'"></a>
+                  </li>
                 </ul>
               </li>
               <li><a th:href="@{/contact}">Contact</a></li>
               <li>
                 <a>Pages</a>
                 <ul class="dropdown">
-                  <li><a th:if="${username}" href="http://localhost:9999/shopping-cart">Shopping Cart</a></li>
+                  <li><a th:if="${username}" th:href="@{/shopping-cart}">Shopping Cart</a></li>
                   <li><a th:unless="${username}" th:href="@{/login}">Shopping Cart</a></li>
                   <li><a th:unless="${username}" th:href="@{/register}">Register</a></li>
                   <li><a th:unless="${username}" th:href="@{/login}">Login</a></li>
@@ -272,7 +280,7 @@
                     <li class="w-icon active">
                       <a href="#"><i class="icon_bag_alt"></i></a>
                     </li>
-                    <li class="quick-view"><a th:href="@{/product(id=${sanpham.maSP})}">+ Quick View</a></li>
+                    <li class="quick-view"><a th:href="@{/product(masp=${sanpham.maSP})}">+ Quick View</a></li>
                     <li class="w-icon">
                       <a href="#"><i class="fa fa-random"></i></a>
                     </li>
@@ -280,7 +288,7 @@
                 </div>
                 <div class="pi-text">
                   <div class="catagory-name" th:text="'giày '+${sanpham.tenloai}"></div>
-                  <a href="#" >
+                  <a >
                     <h5 style="overflow: hidden;white-space: nowrap;text-overflow: Ellipsis;width: 200px;margin: auto;" th:utext="${sanpham.tenSP}" ></h5>
                   </a>
                   <div class="product-price" th:if="${sanpham.giasau} > 0 " >
@@ -361,7 +369,7 @@
                     <li class="w-icon active">
                       <a href="#"><i class="icon_bag_alt"></i></a>
                     </li>
-                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                    <li class="quick-view"><a th:href="@{/product(masp=${sanpham.maSP})}">+ Quick View</a></li>
                     <li class="w-icon">
                       <a href="#"><i class="fa fa-random"></i></a>
                     </li>
@@ -445,7 +453,7 @@
                     class="product-large set-bg"
                     data-setbg="img/child1.jpg"
             >
-              <h2>Women’s</h2>
+              <h2>Child’s</h2>
               <a href="#">Discover More</a>
             </div>
           </div>
@@ -467,7 +475,7 @@
                     <li class="w-icon active">
                       <a href="#"><i class="icon_bag_alt"></i></a>
                     </li>
-                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                    <li class="quick-view"><a th:href="@{/product(masp=${sanpham.maSP})}">+ Quick View</a></li>
                     <li class="w-icon">
                       <a href="#"><i class="fa fa-random"></i></a>
                     </li>
