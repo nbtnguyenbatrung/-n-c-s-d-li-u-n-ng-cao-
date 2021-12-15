@@ -11,6 +11,8 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,9 +29,15 @@ public class ControllerLogin {
     @Autowired
     AdminService adminService;
 
-    @GetMapping("/login")
-    public String loginPage(Model model, HttpServletRequest request){
+    @RequestMapping("/login")
+    public String loginPage(Model model, HttpServletRequest request,
+                            @RequestParam(name = "error" , required = false) String error){
 
+        if(error == "true" ){
+            String error1 = "Tên đăng nhập hoặc mật khẩu không chính xác";
+            model.addAttribute("error" , error1);
+            return "login";
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
             String name = authentication.getName();

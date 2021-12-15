@@ -28,6 +28,39 @@ public class HomeServiceimpl implements HomeService{
     }
 
     @Override
+    public void insert(GioHang gioHang) {
+        giaoHangDao.Insert(gioHang);
+    }
+
+    @Override
+    public void update(GioHang gioHang) {
+        giaoHangDao.update(gioHang);
+    }
+
+    @Override
+    public void delete(GioHang gioHang) {
+        giaoHangDao.delete(gioHang);
+    }
+
+    @Override
+    public void updateadd(GioHang gioHang) {
+        giaoHangDao.updateadd(gioHang);
+    }
+
+    @Override
+    public boolean getgiohang(GioHang gioHang) {
+        if(giaoHangDao.getgiohang(gioHang)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<GioHang> getgiohangbyone(GioHang gioHang) {
+        return giaoHangDao.getgiohangbyone(gioHang);
+    }
+
+    @Override
     public List<HomeSanPham> getspSearch(ProductSearch productSearch, int start, int end , boolean check[]) {
         return sanPhamDao.getspSearch(productSearch, start, end,check);
     }

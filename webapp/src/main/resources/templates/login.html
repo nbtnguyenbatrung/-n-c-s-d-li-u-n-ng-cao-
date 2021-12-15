@@ -134,7 +134,7 @@
             <div class="col-lg-3 text-right col-md-3" th:if="${sl == 0}" >
               <ul class="nav-right" style=" text-align: center;">
                 <li class="cart-icon">
-                  <a href="#">
+                  <a th:href="@{/shopping-cart}">
                     <i class="icon_bag_alt"></i>
                   </a>
                   <div class="cart-hover">
@@ -209,6 +209,9 @@
 
     <!-- Register Section Begin -->
     <div class="register-login-section spad">
+      <div style="text-align: center;color: red;font-size: 20px;height: 40px;">
+        <span th:text-="${error}"></span>
+      </div>
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-3">

@@ -11,6 +11,12 @@ import java.util.List;
 public interface HomeService {
     List<HomeSanPham> getSanPhamByType(String type);
     List<GioHang> getghbynd(int id);
+    void insert(GioHang gioHang);
+    void update(GioHang gioHang);
+    void delete(GioHang gioHang);
+    void updateadd(GioHang gioHang);
+    boolean getgiohang(GioHang gioHang );
+    List<GioHang> getgiohangbyone(GioHang gioHang);
     List<HomeSanPham> getspSearch(ProductSearch productSearch, int start , int end, boolean check[]);
     List<HomeSanPham> getallsp(ProductSearch productSearch,boolean check[]);
 

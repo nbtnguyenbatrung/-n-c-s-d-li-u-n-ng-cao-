@@ -2,6 +2,7 @@ package it1.doan.webapp.user.controller;
 
 import it1.doan.webapp.admin.service.impl.AdminPage;
 import it1.doan.webapp.admin.service.impl.AdminService;
+import it1.doan.webapp.admin.service.impl.LoaiSanPhamService;
 import it1.doan.webapp.admin.service.impl.UserService;
 import it1.doan.webapp.model.*;
 import it1.doan.webapp.user.service.HomeService;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 @Controller
@@ -33,6 +36,10 @@ public class ControllerProduct {
     ProductService productService;
     @Autowired
     AdminPage adminPage;
+    @Autowired
+    LoaiSanPhamService loaiSanPhamService;
+
+    List<HomeSanPham> homeSanPhams1  = new ArrayList<>();
 
     private int totalProductPage = 4;
     @RequestMapping("/product")
@@ -52,6 +59,8 @@ public class ControllerProduct {
                 model.addAttribute("username",user.getHoten());
                 List<GioHang> gioHangs = homeService.getghbynd(user.getID());
                 model.addAttribute("giohang",gioHangs);
+                model.addAttribute("id",user.getID());
+                model.addAttribute("sl",gioHangs.size());
             }
 
         }
@@ -81,7 +90,7 @@ public class ControllerProduct {
         Pagination pagination = adminPage.GetInfoPage(binhLuans.size(),totalProductPage,Integer.parseInt(currentPage));
         List<BinhLuan> binhLuans1 = productService.getpagebl(masp,pagination.getStart(),totalProductPage);
         model.addAttribute("binhluan",binhLuans1);
-        model.addAttribute("sl",binhLuans.size());
+        model.addAttribute("slbl",binhLuans.size());
         model.addAttribute("Page",pagination);
         model.addAttribute("totalpage",pagination.getTotalPage());
         model.addAttribute("CurrentPage",pagination.getCurrentPage());
@@ -91,6 +100,15 @@ public class ControllerProduct {
         model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
         String baseUrl = "/product?masp="+masp+"&page=";
         model.addAttribute("baseUrl",baseUrl);
+
+        LoaiSanPham loaiSanPham = loaiSanPhamService.Get(homeSanPham.getMaLoaiSP());
+        List<HomeSanPham> homeSanPhams = homeService.getSanPhamByType(loaiSanPham.getTenLoaiSP());
+        Random  random = new Random();
+        for(int i = 0 ; i< 4 ; i++){
+            int index = random.nextInt(homeSanPhams.size());
+            homeSanPhams1.add(homeSanPhams.get(index));
+        }
+        model.addAttribute("homeSanPhams1",homeSanPhams1);
 
         return "product";
     }

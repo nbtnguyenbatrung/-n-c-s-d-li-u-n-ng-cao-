@@ -134,7 +134,7 @@
             <div class="col-lg-3 text-right col-md-3" th:if="${sl == 0}" >
               <ul class="nav-right" style=" text-align: center;">
                 <li class="cart-icon">
-                  <a href="#">
+                  <a th:href="@{/shopping-cart}">
                     <i class="icon_bag_alt"></i>
                   </a>
                   <div class="cart-hover">
@@ -236,17 +236,12 @@
                 <div class="order-total">
                   <ul class="order-table">
                     <li>Product <span>Total</span></li>
-                    <li class="fw-normal">
-                      Combination x 1 <span>$60.00</span>
+                    <li class="fw-normal" th:each="gioHang1:${gioHang1}" th:text="${gioHang1.TenSP + ' X ' + gioHang1.soluong  }">
+                       <span th:if="${gioHang1.GiaSau == 0}" th:text="${#numbers.formatDecimal(gioHang1.Dongia * gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
+                       <span th:if="${gioHang1.GiaSau > 0}" th:text="${#numbers.formatDecimal(gioHang1.GiaSau*gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
                     </li>
-                    <li class="fw-normal">
-                      Combination x 1 <span>$60.00</span>
-                    </li>
-                    <li class="fw-normal">
-                      Combination x 1 <span>$120.00</span>
-                    </li>
-                    <li class="fw-normal">Subtotal <span>$240.00</span></li>
-                    <li class="total-price">Total <span>$240.00</span></li>
+                    <li class="fw-normal">Subtotal <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
+                    <li class="total-price">Total <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
                   </ul>
                   <div class="order-btn">
                     <button type="submit" class="site-btn place-btn">
@@ -390,5 +385,8 @@
     <script th:src="@{js/jquery.slicknav.js}"></script>
     <script th:src="@{js/owl.carousel.min.js}"></script>
     <script th:src="@{js/main.js}"></script>
+    <script>
+
+    </script>
   </body>
 </html>
