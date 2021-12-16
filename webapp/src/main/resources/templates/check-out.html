@@ -228,6 +228,8 @@
                   <label for="phone">Số Điện thoại người nhận <span>*</span></label>
                   <input type="text" id="phone" />
                 </div>
+                <input type="hidden" id="id" th:value="${id}">
+                <input type="hidden" id="check" th:value="${check}">
               </div>
             </div>
             <div class="col-lg-6">
@@ -237,6 +239,8 @@
                   <ul class="order-table">
                     <li>Product <span>Total</span></li>
                     <li class="fw-normal" th:each="gioHang1:${gioHang1}" th:text="${gioHang1.TenSP + ' X ' + gioHang1.soluong  }">
+                        <input type="hidden" class="masp" th:value="${gioHang1.maSP}">
+                        <input type="hidden" class="masize" th:value="${gioHang1.maSize}">
                        <span th:if="${gioHang1.GiaSau == 0}" th:text="${#numbers.formatDecimal(gioHang1.Dongia * gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
                        <span th:if="${gioHang1.GiaSau > 0}" th:text="${#numbers.formatDecimal(gioHang1.GiaSau*gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
                     </li>
@@ -244,7 +248,7 @@
                     <li class="total-price">Total <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
                   </ul>
                   <div class="order-btn">
-                    <button type="submit" class="site-btn place-btn">
+                    <button type="submit" class="site-btn place-btn place-order" >
                       Place Order
                     </button>
                   </div>
@@ -386,7 +390,49 @@
     <script th:src="@{js/owl.carousel.min.js}"></script>
     <script th:src="@{js/main.js}"></script>
     <script>
+      $(document).ready(function(){
+        if ($('#cun-name').val() == false || $('#street').val() == false|| $('#phone').val() == false  ){
+            alert(" Hãy nhập thông tin nhận hàng ! ");
+        }else{
+          if($('#check').val() == "true"){
+            $.ajax({
+                url: "http://localhost:9999//admnin/cart",
+                type: "GET",
+                data: {
+                   id : $('#id').val(),
+                   masp : $('#masp').val(),
+                   masize : $('#masize').val(),
+                   name : $('#cun-name').val(),
+                   address: $('#street').val(),
+                   phone: $('#phone').val()
+                },
+                success: function(data ) {
 
+                },
+                error: function(e){
+                     alert(" Error ! ");
+                }
+            );
+          }else{
+            $.ajax({
+                url: "http://localhost:9999//admnin/cart",
+                type: "GET",
+                data: {
+                   id : $('#id').val(),
+                   name : $('#cun-name').val(),
+                   address: $('#street').val(),
+                   phone: $('#phone').val()
+                },
+                success: function(data ) {
+
+                },
+                error: function(e){
+                     alert(" Error ! ");
+                }
+            );
+          }
+        }
+      });
     </script>
   </body>
 </html>

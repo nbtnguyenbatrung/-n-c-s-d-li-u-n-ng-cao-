@@ -24,6 +24,7 @@ public class ControllerShoppingCart {
     @Autowired
     AdminService adminService;
 
+    String check = "true";
 
     @GetMapping("/shopping-cart")
     public String getshoppingcart(Model model, HttpServletRequest request){
@@ -86,6 +87,7 @@ public class ControllerShoppingCart {
                 List<GioHang> gioHangs = homeService.getghbynd(user.getID());
                 model.addAttribute("giohang",gioHangs);
                 model.addAttribute("sl",gioHangs.size());
+                model.addAttribute("id",user.getID());
             }
 
         }
@@ -113,7 +115,7 @@ public class ControllerShoppingCart {
                     tong = tong + gioHang1.get(i).getDongia() * gioHang1.get(i).getSoluong();
                 }
             }
-
+            model.addAttribute("check",check);
             model.addAttribute("tong",tong);
         }else{
             List<GioHang> gioHang1 = homeService.getghbynd(id);
@@ -126,7 +128,8 @@ public class ControllerShoppingCart {
                     tong = tong + gioHang1.get(i).getDongia() * gioHang1.get(i).getSoluong();
                 }
             }
-
+            check = "false";
+            model.addAttribute("check",check);
             model.addAttribute("tong",tong);
         }
 

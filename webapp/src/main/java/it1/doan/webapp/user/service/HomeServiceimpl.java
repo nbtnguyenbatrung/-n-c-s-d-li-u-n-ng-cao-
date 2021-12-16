@@ -1,9 +1,12 @@
 package it1.doan.webapp.user.service;
 
 import it1.doan.webapp.common.ProductSearch;
+import it1.doan.webapp.model.ChiTietHoaDon;
 import it1.doan.webapp.model.GioHang;
+import it1.doan.webapp.model.HoaDon;
 import it1.doan.webapp.model.HomeSanPham;
 import it1.doan.webapp.user.dao.GiaoHangDao;
+import it1.doan.webapp.user.dao.HoaDonDao;
 import it1.doan.webapp.user.dao.SanPhamDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,9 @@ public class HomeServiceimpl implements HomeService{
     SanPhamDao sanPhamDao;
     @Autowired
     GiaoHangDao giaoHangDao;
+    @Autowired
+    HoaDonDao hoaDonDao;
+
     @Override
     public List<HomeSanPham> getSanPhamByType(String type) {
         return sanPhamDao.gettypesp(type);
@@ -68,5 +74,20 @@ public class HomeServiceimpl implements HomeService{
     @Override
     public List<HomeSanPham> getallsp(ProductSearch productSearch,boolean check[]) {
         return sanPhamDao.getallsp(productSearch,check);
+    }
+
+    @Override
+    public List<HoaDon> getallhd() {
+        return hoaDonDao.getallhd();
+    }
+
+    @Override
+    public void Insert(HoaDon hoaDon) {
+        hoaDonDao.Insert(hoaDon);
+    }
+
+    @Override
+    public void Insert(List<ChiTietHoaDon> chiTietHoaDon) {
+        hoaDonDao.Insert(chiTietHoaDon);
     }
 }

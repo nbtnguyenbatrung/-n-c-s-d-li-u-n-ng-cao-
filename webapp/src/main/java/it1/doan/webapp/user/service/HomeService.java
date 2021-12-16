@@ -1,7 +1,9 @@
 package it1.doan.webapp.user.service;
 
 import it1.doan.webapp.common.ProductSearch;
+import it1.doan.webapp.model.ChiTietHoaDon;
 import it1.doan.webapp.model.GioHang;
+import it1.doan.webapp.model.HoaDon;
 import it1.doan.webapp.model.HomeSanPham;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +21,9 @@ public interface HomeService {
     List<GioHang> getgiohangbyone(GioHang gioHang);
     List<HomeSanPham> getspSearch(ProductSearch productSearch, int start , int end, boolean check[]);
     List<HomeSanPham> getallsp(ProductSearch productSearch,boolean check[]);
+
+    List<HoaDon> getallhd();
+    void Insert(HoaDon hoaDon);
+    void Insert(List<ChiTietHoaDon> chiTietHoaDon);
 
 }
