@@ -61,6 +61,24 @@ public class GiaoHangDao extends JdbcDaoSupport {
         this.getJdbcTemplate().execute(sql);
     }
 
+    public void delete (List<GioHang> gioHangs){
+        String sql = "";
+        for(int i = 0 ; i < gioHangs.size() ; i++ ){
+            sql = sql + " DELETE FROM GIOHANG " +
+                    " WHERE ID = " + gioHangs.get(i).getID() +
+                    " AND MASP = '" + gioHangs.get(i).getMaSP() +
+                    "' AND MASIZE='" + gioHangs.get(i).getMaSize() + "' \n ";
+        }
+
+        this.getJdbcTemplate().execute(sql);
+    }
+
+    public void delete (int id){
+        String sql = " DELETE FROM GIOHANG " +
+                " WHERE ID = " + id ;
+        this.getJdbcTemplate().execute(sql);
+    }
+
     public boolean getgiohang(GioHang gioHang){
         String sql = "SELECT * FROM V_GIOHANG WHERE ID = " + gioHang.getID() +
                 " AND MASP = '"+gioHang.getMaSP()+"' AND MASIZE = '"+gioHang.getMaSize()+"' ";

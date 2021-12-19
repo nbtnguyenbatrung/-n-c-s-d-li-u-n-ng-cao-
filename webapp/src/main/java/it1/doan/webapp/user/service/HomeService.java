@@ -16,6 +16,8 @@ public interface HomeService {
     void insert(GioHang gioHang);
     void update(GioHang gioHang);
     void delete(GioHang gioHang);
+    void delete(int id);
+    void delete(List<GioHang> gioHangs);
     void updateadd(GioHang gioHang);
     boolean getgiohang(GioHang gioHang );
     List<GioHang> getgiohangbyone(GioHang gioHang);

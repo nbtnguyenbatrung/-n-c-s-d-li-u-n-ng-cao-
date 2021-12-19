@@ -49,6 +49,16 @@ public class HomeServiceimpl implements HomeService{
     }
 
     @Override
+    public void delete(int id) {
+        giaoHangDao.delete(id);
+    }
+
+    @Override
+    public void delete(List<GioHang> gioHangs) {
+    giaoHangDao.delete(gioHangs);
+    }
+
+    @Override
     public void updateadd(GioHang gioHang) {
         giaoHangDao.updateadd(gioHang);
     }

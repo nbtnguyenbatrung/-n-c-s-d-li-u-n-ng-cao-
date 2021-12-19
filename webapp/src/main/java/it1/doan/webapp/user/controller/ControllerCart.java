@@ -7,9 +7,12 @@ import it1.doan.webapp.model.HoaDon;
 import it1.doan.webapp.user.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +24,14 @@ public class ControllerCart {
     @Autowired
     HomeService homeService;
 
-    @RequestMapping("/admnin/cart")
-    public void cart(@RequestParam(name = "id") int id ,
-                     @RequestParam(name = "name") String name ,
-                     @RequestParam(name = "address") String address,
-                     @RequestParam(name = "phone") String phone,
-                     @RequestParam(name = "masp") String masp,
-                     @RequestParam(name = "masize") String masize){
+    @RequestMapping( "/cart" )
+    public String getcart(
+                          @RequestParam(name = "id" , required = false) int id ,
+                          @RequestParam(name = "name" , required = false) String name ,
+                          @RequestParam(name = "address" , required = false) String address,
+                          @RequestParam(name = "phone" ,required = false) String phone,
+                          @RequestParam(name = "masp" ,required = false) String masp,
+                          @RequestParam(name = "masize" ,required = false) String masize){
         List<HoaDon> hoaDons = homeService.getallhd();
         String mahd = "HD" + function.Laystt(hoaDons.get(0).getMaHD());
         HoaDon hoaDon = new HoaDon(mahd,id,name,phone,address);
@@ -48,6 +52,7 @@ public class ControllerCart {
             }
 
             homeService.Insert(chiTietHoaDons);
+            homeService.delete(gioHangs);
 
         }else{
             List<GioHang> gioHangs = homeService.getghbynd(id);
@@ -63,6 +68,8 @@ public class ControllerCart {
             }
 
             homeService.Insert(chiTietHoaDons);
+            homeService.delete(id);
         }
+        return "redirect:/purchase?id="+id;
     }
 }

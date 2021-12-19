@@ -2,6 +2,7 @@ package it1.doan.webapp.user.dao;
 
 import it1.doan.webapp.dao.Mapper.BinhLuanMapper;
 import it1.doan.webapp.dao.Mapper.HinhAnhMapper;
+import it1.doan.webapp.dao.Mapper.ProductSizeMapper;
 import it1.doan.webapp.dao.Mapper.SizeMapper;
 import it1.doan.webapp.model.BinhLuan;
 import it1.doan.webapp.model.HinhAnh;
@@ -22,10 +23,10 @@ public class ProductDao extends JdbcDaoSupport {
     }
 
     public List<Size> getsizebymasp(String masp){
-        String sql = "SELECT SIZE.MASIZE , SIZE.TENSIZE " +
+        String sql = "SELECT SIZE.MASIZE , SIZE.TENSIZE , SANPHAMSIZE.SOLUONG" +
                 " FROM SIZE INNER JOIN SANPHAMSIZE ON SIZE.MASIZE = SANPHAMSIZE.MASIZE " +
                 " WHERE MASP = '"+masp+"' AND STATUS = 1 ";
-        SizeMapper mapper = new SizeMapper();
+        ProductSizeMapper mapper = new ProductSizeMapper();
         List<Size> sizes = this.getJdbcTemplate().query(sql,mapper);
         return sizes;
     }

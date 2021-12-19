@@ -211,7 +211,7 @@
     <!-- Shopping Cart Section Begin -->
     <section class="checkout-section spad">
       <div class="container">
-        <form action="#" class="checkout-form">
+        <form class="checkout-form">
           <div class="row">
             <div class="col-lg-6">
               <h4>Thông tin chi tiết nhận hàng</h4>
@@ -238,25 +238,26 @@
                 <div class="order-total">
                   <ul class="order-table">
                     <li>Product <span>Total</span></li>
-                    <li class="fw-normal" th:each="gioHang1:${gioHang1}" th:text="${gioHang1.TenSP + ' X ' + gioHang1.soluong  }">
-                        <input type="hidden" class="masp" th:value="${gioHang1.maSP}">
-                        <input type="hidden" class="masize" th:value="${gioHang1.maSize}">
-                       <span th:if="${gioHang1.GiaSau == 0}" th:text="${#numbers.formatDecimal(gioHang1.Dongia * gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
-                       <span th:if="${gioHang1.GiaSau > 0}" th:text="${#numbers.formatDecimal(gioHang1.GiaSau*gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
+                    <li class="fw-normal" th:each="gioHang1:${gioHang1}" >
+                        <input type="hidden" id="masp" th:value="${gioHang1.maSP}">
+                        <input type="hidden" id="masize" th:value="${gioHang1.maSize}">
+                       <span style=" margin-top: -25px;" th:if="${gioHang1.GiaSau == 0}" th:text="${#numbers.formatDecimal(gioHang1.Dongia*gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'" > </span>
+                       <span style=" margin-top: -25px;" th:if="${gioHang1.GiaSau > 0}" th:text="${#numbers.formatDecimal(gioHang1.GiaSau*gioHang1.soluong, 0, 'COMMA', 0, 'POINT')}+'VND'"> </span>
+                        <span style=" float: left;margin-top: -25px;" th:text="${gioHang1.TenSP + ' X ' + gioHang1.soluong  }"></span>
                     </li>
                     <li class="fw-normal">Subtotal <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
                     <li class="total-price">Total <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
                   </ul>
                   <div class="order-btn">
-                    <button type="submit" class="site-btn place-btn place-order" >
-                      Place Order
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </form>
+          <button class="site-btn place-btn place-order" id="place-ordersc" style=" position: absolute;margin-top: -70px;margin-left: 800px;" >
+              Place Order
+          </button>
       </div>
     </section>
     <!-- Shopping Cart Section End -->
@@ -391,47 +392,56 @@
     <script th:src="@{js/main.js}"></script>
     <script>
       $(document).ready(function(){
-        if ($('#cun-name').val() == false || $('#street').val() == false|| $('#phone').val() == false  ){
-            alert(" Hãy nhập thông tin nhận hàng ! ");
-        }else{
-          if($('#check').val() == "true"){
-            $.ajax({
-                url: "http://localhost:9999//admnin/cart",
-                type: "GET",
-                data: {
-                   id : $('#id').val(),
-                   masp : $('#masp').val(),
-                   masize : $('#masize').val(),
-                   name : $('#cun-name').val(),
-                   address: $('#street').val(),
-                   phone: $('#phone').val()
-                },
-                success: function(data ) {
+        $('#place-ordersc').click(function(event){
 
-                },
-                error: function(e){
-                     alert(" Error ! ");
-                }
-            );
-          }else{
-            $.ajax({
-                url: "http://localhost:9999//admnin/cart",
-                type: "GET",
-                data: {
-                   id : $('#id').val(),
-                   name : $('#cun-name').val(),
-                   address: $('#street').val(),
-                   phone: $('#phone').val()
-                },
-                success: function(data ) {
-
-                },
-                error: function(e){
-                     alert(" Error ! ");
-                }
-            );
+          if ( $('#cun-name').val() == false || $('#street').val() == false|| $('#phone').val() == false  ){
+              alert(" Hãy nhập thông tin nhận hàng ! ");
           }
-        }
+          else{
+            var name = $('#cun-name').val();
+            var address = $('#street').val();
+            var phone = $('#phone').val();
+
+            if($('#check').val() == "true"){
+              $.ajax({
+                  url: "http://localhost:9999/cartt",
+                  type: "GET",
+                  data: {
+                     id : $('#id').val(),
+                     masp : $('#masp').val(),
+                     masize : $('#masize').val(),
+                     name : name,
+                     address: address,
+                     phone: phone
+                  },
+                  success: function( ) {
+                    window.location="http://localhost:9999/";
+                  },
+                  error: function(e){
+                       alert(" Error ! ");
+                  }
+              });
+            }
+            else{
+              $.ajax({
+                  url: "http://localhost:9999/cartt",
+                  type: "GET",
+                  data: {
+                     id : $('#id').val(),
+                     name : name,
+                     address: address,
+                     phone: phone
+                  },
+                  success: function( ) {
+                     window.location="http://localhost:9999/";
+                  },
+                  error: function(e){
+                       alert(" Error ! ");
+                  }
+              });
+            }
+          }
+        });
       });
     </script>
   </body>

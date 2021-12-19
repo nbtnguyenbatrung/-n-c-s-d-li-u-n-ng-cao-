@@ -12,6 +12,12 @@ import lombok.ToString;
 public class Size {
     private String maSize;
     private String tenSize;
+    private int soluong;
+
+    public Size(String maSize , String tenSize){
+        this.maSize = maSize;
+        this.tenSize = tenSize;
+    }
 
     public Size(String maSize){
         this.maSize = maSize;

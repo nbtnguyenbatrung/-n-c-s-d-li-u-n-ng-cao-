@@ -282,7 +282,10 @@
                                 <div class="pd-size-choose" >
                                     <div class="sc-item" th:each="sizes:${sizes}">
                                         <input style="width: 47px;height: 40px;" type="radio" th:id="${sizes.maSize}" th:value="${sizes.maSize}" name="size">
-                                        <label th:for="${sizes.maSize}" th:text="${sizes.tenSize}"></label>
+                                        <label th:if="${sizes.soluong == 0}" style="border-color: rgba(0,0,0,.09);color: rgba(0,0,0,.26);cursor: not-allowed;"
+                                               th:for="${sizes.maSize}" th:text="${sizes.tenSize}"></label>
+                                        <label th:if="${sizes.soluong > 0}"
+                                               th:for="${sizes.maSize}" th:text="${sizes.tenSize}"></label>
                                     </div>
                                 </div>
                                 <div class="quantity">
@@ -303,8 +306,8 @@
                                     <a th:unless="${username}" th:href="@{/login}" style="margin-right: 2rem;" class="primary-btn pd-cart">
                                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
                                     </a>
-                                    <button th:if="${username}" style="border: 0;" style="" class="primary-btn pd-cart buy-now" >Mua ngay</button>
-                                    <a th:unless="${username}" th:href="@{/login}" style="" class="primary-btn pd-cart">Mua ngay</a>
+                                    <button th:if="${username}" style="border: 0;"  class="primary-btn pd-cart buy-now" >Mua ngay</button>
+                                    <a th:unless="${username}" th:href="@{/login}"  class="primary-btn pd-cart">Mua ngay</a>
                                 </div>
                                 <ul class="pd-tags">
                                     <li><span style="margin-right: 3rem ">CATEGORIES</span> <label th:text="${homeSanPham.tenloai}"></label> </li>
@@ -639,7 +642,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                       });
 
                 }
-                });
+            });
 
             $('.buy-now').click(function(event){
                 var checkbox = document.getElementsByName("size");
@@ -653,6 +656,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                      alert(" bạn chưa chọn size cho sản phẩm  ");
                 }else{
                     var sl = $(".qt").text();
+                    $.ajax({
+                           url: "http://localhost:9999/admin/savesc",
+                           type: "GET",
+                           data: {
+                              id : $('#id').val(),
+                              masp : $('#masp').val(),
+                              masize : masize,
+                              soluong : sl
+                           }
+                      });
                     window.location='http://localhost:9999/check-out?id='+$('#id').val()+'&masp='+$('#masp').val()+'&masize='+masize+'&soluong='+sl;
                 }
 

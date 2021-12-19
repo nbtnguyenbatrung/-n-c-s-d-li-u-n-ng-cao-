@@ -618,7 +618,7 @@
                     <li class="subtotal">Subtotal <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
                     <li class="cart-total">Total <span th:text="${#numbers.formatDecimal(tong, 0, 'COMMA', 0, 'POINT')}+'VND'"></span></li>
                   </ul>
-                  <a href="http://localhost:9999/check-out" class="proceed-btn">PROCEED TO CHECK OUT</a>
+                  <button class="proceed-btn proceed">PROCEED TO CHECK OUT</button>
                 </div>
               </div>
             </div>
@@ -881,6 +881,11 @@
               $(".remove").click();
             });
         });
+
+        $('.proceed').click(function(event){
+           window.location='http://localhost:9999/check-out?id='+$('#id').val();
+        });
+
       });
     </script>
   </body>

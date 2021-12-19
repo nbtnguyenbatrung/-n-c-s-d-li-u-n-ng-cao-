@@ -67,12 +67,12 @@ public class ControllerShoppingCart {
     }
 
 
-    @GetMapping("/check-out")
+    @RequestMapping("/check-out")
     public String getcheckout(Model model, HttpServletRequest request,
-                              @RequestParam(name = "id" ,required = false) int id ,
+                              @RequestParam(name = "id" ,required = false) Integer id ,
                               @RequestParam( name = "masp" ,required = false) String masp ,
                               @RequestParam( name = "masize" , required = false) String masize,
-                              @RequestParam(name = "soluong" , required = false) int soluong){
+                              @RequestParam(name = "soluong" , required = false) Integer soluong){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
@@ -100,11 +100,6 @@ public class ControllerShoppingCart {
 
         if(masp != null && masize != null && soluong > 0 ){
             GioHang gioHang = new GioHang(id,masp,masize,soluong);
-            if(homeService.getgiohang(gioHang)){
-                homeService.updateadd(gioHang);
-            }else{
-                homeService.insert(gioHang);
-            }
             List<GioHang> gioHang1 = homeService.getgiohangbyone(gioHang);
             model.addAttribute("gioHang1",gioHang1);
             float tong = 0 ;
