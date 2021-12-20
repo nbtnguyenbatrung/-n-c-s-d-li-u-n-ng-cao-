@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/", "/login", "/register","/index").permitAll();
-        http.authorizeRequests().antMatchers("/shopping-cart","/check-out","/cart").hasAnyAuthority("ADMIN", "USER");
+        http.authorizeRequests().antMatchers("/shopping-cart","/check-out","/cart","/purchase").hasAnyAuthority("ADMIN", "USER");
         http.authorizeRequests().antMatchers("/admin","/admin/**").hasAuthority("ADMIN");
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().and()
                 .rememberMe().tokenRepository(this.persistentTokenRepository())
                 .tokenValiditySeconds(1 * 24 * 60 * 60);
+        http.cors();
 
     }
 

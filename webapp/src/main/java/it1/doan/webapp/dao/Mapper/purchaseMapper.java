@@ -18,7 +18,8 @@ public class purchaseMapper implements RowMapper<purchase> {
         String tensp = resultSet.getString("TENSP");
         Float giagoc = resultSet.getFloat("GIAGOC");
         String manhinh = resultSet.getString("MANHINH");
-        purchase purchase = new purchase(mahd,masp,masize,soluong,dongia,tensize,tensp,giagoc,manhinh);
+        Float tongtien = resultSet.getFloat("TONGTIEN");
+        purchase purchase = new purchase(mahd,masp,masize,soluong,dongia,tensize,tensp,giagoc,manhinh,tongtien);
         return purchase;
     }
 }

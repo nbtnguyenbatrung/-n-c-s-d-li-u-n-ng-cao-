@@ -19,4 +19,5 @@ public class purchase {
         String tenSP;
         Float giagoc;
         String manHinh;
+        Float tongtien;
 }

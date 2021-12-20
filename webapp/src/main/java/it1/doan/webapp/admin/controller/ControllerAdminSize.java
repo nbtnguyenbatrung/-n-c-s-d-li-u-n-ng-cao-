@@ -49,10 +49,9 @@ public class ControllerAdminSize {
         model.addAttribute("baseUrl",baseUrl);
         Size size = new Size(function.Laystt(sizes2.get(0).getMaSize()));
         model.addAttribute("size",size);
-//        Size size1 = new Size();
-//        model.addAttribute("sizeedit",size1);
         return "admin/size";
     }
+
 
     @RequestMapping(value = "/savesize",method = {RequestMethod.GET})
     @ResponseBody

@@ -233,6 +233,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
           </tr>
         </thead>
         <tbody th:each="size:${sizepage}">
+
           <tr data-expanded="true" align="center">
             <td th:text="${size.maSize}"></td>
             <td th:text="${size.tenSize}"></td>
@@ -243,10 +244,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                  onclick="Showconfim(this.getAttribute('data-id'),this.getAttribute('data-name'))">
                   <button title=" xóa "> <i class="fa fa-times" style="color : black "></i> </button>
               </a>
-              
+
             </td>
           </tr>
-          <tr>
         </tbody>
       </table>
 

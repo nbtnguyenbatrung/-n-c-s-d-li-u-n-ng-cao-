@@ -55,6 +55,8 @@
                         <div class="dropdown-content" style="left:0;">
                             <a th:href="@{|http://localhost:9999/purchase?id=${id}}|"><i class=" fa fa-suitcase"></i>Tài Khoản của tôi</a>
                             <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
+                            <input id="id" type="hidden" th:value="${id}">
+                            <input id="totalpage" type="hidden" th:value="${totalpage}">
                         </div>
                     </div>
                     <a th:unless="${username}" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
@@ -271,28 +273,8 @@
                         padding: 0;
                         width: 950px;
                         margin-top: 50px;">
-                        <div class="tab-pane fade-in active" id="tab-3" role="tabpanel">
-                            <div class="nd" th:each="purchases1:${purchases1}">
-                                <div class="nd1">
-                                    <div class="nd-left">
-                                        <img th:src="@{'img/products/'+${purchases1.manHinh}}">
-                                        <div class="nd-text">
-                                            <span th:utext="${purchases1.tenSP}"></span>
-                                            <span>size : 31 </span>
-                                            <span>X1</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <del style="color: darkgray;">24.000</del>
-                                        <span style="color: red;">1.000</span>
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <div class="nd2" >
-                                    <span style="color: red;">2.500</span> Tổng số tiền :
-                                </div>
-                            </div>
+                        <div class="tab-pane fade-in active" id="tab-3 " role="tabpanel">
+                            <div id="load_data"></div>
                         </div>
                         <div class="tab-pane fade" id="tab-4" role="tabpanel">
                             <div class="nd">
@@ -561,35 +543,116 @@
     <script th:src="@{js/owl.carousel.min.js}"></script>
     <script th:src="@{js/main.js}"></script>
     <script>
-        $(document).ready(function(){
-            if($('#password').val() == false || $('#password-new').val() == false || $('#confim-password').val() == false){
-                alert(" Không được để trống các trường có ký hiệu * ! ");
-            }else{
-                if($('#password-new').val() == $('#confim-password').val()){
-                    alert(" nhập lại mật khẩu không đúng ! ");
-                }else{
-                    $.ajax({
-                       url: "http://localhost:9999/requestpass",
-                       type: "GET",
-                       data: {
-                          id : $('#name').val(),
-                          passold : $('#password').val(),
-                          passnew : $('#password-new').val()
-                       },
-                       success: function(data ) {
-                             alert(data);
 
-                       },
-                       error: function(e){
-                            alert(e);
-                       }
-                    });
+        var page = 1;
+        var totalpage = $('#totalpage').val();
+        var action = 'inactive';
+        $(document).ready(function(){
+            $('#xn').click(function(event){
+                if($('#password').val() == false || $('#password-new').val() == false || $('#confim-password').val() == false){
+                    alert(" Không được để trống các trường có ký hiệu * ! ");
+                }else{
+                    if($('#password-new').val() == $('#confim-password').val()){
+                        alert(" nhập lại mật khẩu không đúng ! ");
+                    }else{
+                        $.ajax({
+                           url: "http://localhost:9999/requestpass",
+                           type: "GET",
+                           data: {
+                              id : $('#name').val(),
+                              passold : $('#password').val(),
+                              passnew : $('#password-new').val()
+                           },
+                           success: function(data ) {
+                                 alert(data);
+
+                           },
+                           error: function(e){
+                                alert(e);
+                           }
+                        });
+                    }
                 }
+            });
+
+
+            if(action == 'inactive'){
+                action = 'active';
+                LoadData(page);
             }
 
 
+            $(window).scroll(function(){
+                if($(window).scrollTop() + $(window).height() > $('#load_data').height() && page <= totalpage && action == 'inactive')
+                {
+                    console.log(page);
+                    console.log($(window).scrollTop());
+                    console.log($(window).height());
+                    console.log($('#load_data').height());
+                    action = 'active';
+                    page = page + 1;
+                    setTimeout(function(){
+                        LoadData(page);
+                    },1000);
+                }
+            });
 
         });
+
+        function LoadData(page) {
+            $.ajax({
+                url: 'http://localhost:9999/purchase-all',
+                type: 'GET',
+                data: {
+                    id: $('#id').val(),
+                    page: page
+                },
+                success: function (rs) {
+
+                    var str = "";
+                    $.each(rs, function (i, item) {
+                        var img = './img/products/' + item.manHinh;
+                        str += "<div class='nd'>" ;
+
+                        str += "<div class='nd1'>";
+                        str += "<div class='nd-left'>";
+                        str += "<img src="+ img + " >";
+                        str += "<div class='nd-text'>";
+                        str += "<span>" + item.tenSP + "</span>" ;
+                        str += "<span>X" + item.soluong + "</span>";
+                        str += "</div>"
+                        str += "</div>"
+                        str += "<div>"
+                        str += "<del style='color: darkgray;'>"+ item.giagoc +"</del>"
+                        str += "<span style='color: red;'>" + item.dongia + "</span>"
+                        str += "</div>"
+                        str += "</div>";
+                        str += "<hr>";
+
+                        str += "<div class='nd2' >";
+                        str += "<span style='color: red;'>" + item.tongtien + "</span>" + "Tổng số tiền : ";
+                        str += "</div>" ;
+                        str += "<div class='nd3' >"
+                        str += "<button >" + "HỦY ĐƠN" ;
+                        str += "</button>" ;
+                        str += "<button>" + "MUA LẠI" ;
+                        str += "</button>" ;
+                        str += "</div>" ;
+
+                        str += "</div>";
+                        str += "<div style='height: 20px;background-color: darkgray;'>"
+                        str += "</div>"
+                    });
+                    // id của thẻ tbody để hiển thị tất cả cá tr ra
+                    $('#load_data').append(str);
+                    action = 'inactive';
+                }
+            });
+        };
+
+
+
+
     </script>
 </body>
 

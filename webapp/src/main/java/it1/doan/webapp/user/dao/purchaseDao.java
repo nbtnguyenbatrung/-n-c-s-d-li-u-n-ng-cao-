@@ -41,17 +41,17 @@ public class purchaseDao extends JdbcDaoSupport {
             sql = "SELECT * FROM V_PURCHASE ORDER BY NGAYLAP DESC";
         }
         if(type == 0){
-            sql = "SELECT * FROM V_PURCHASE WHERE TYPE = " + type +
+            sql = "SELECT * FROM V_PURCHASE WHERE TRANGTHAI = " + type + "AND ID = " + id +
                     " ORDER BY NGAYLAP DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
         }
         if(type == 1){
-            sql = "SELECT * FROM V_PURCHASE WHERE TYPE = " + type +
+            sql = "SELECT * FROM V_PURCHASE WHERE TRANGTHAI = " + type +
                     " ORDER BY NGAYLAP DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
         }
         if(type == 2){
-            sql = "SELECT * FROM V_PURCHASE WHERE TYPE = " + type +
+            sql = "SELECT * FROM V_PURCHASE WHERE TRANGTHAI = " + type +
                     " ORDER BY NGAYLAP DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
         }
