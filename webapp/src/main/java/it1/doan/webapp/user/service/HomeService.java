@@ -1,10 +1,7 @@
 package it1.doan.webapp.user.service;
 
 import it1.doan.webapp.common.ProductSearch;
-import it1.doan.webapp.model.ChiTietHoaDon;
-import it1.doan.webapp.model.GioHang;
-import it1.doan.webapp.model.HoaDon;
-import it1.doan.webapp.model.HomeSanPham;
+import it1.doan.webapp.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,4 +25,8 @@ public interface HomeService {
     void Insert(HoaDon hoaDon);
     void Insert(List<ChiTietHoaDon> chiTietHoaDon);
 
+
+    void updatepass(int id , String passnew);
+    List<purchase> getallpurchase(int id,int type);
+    List<purchase> getdonhang(int id, int type , int start , int end);
 }

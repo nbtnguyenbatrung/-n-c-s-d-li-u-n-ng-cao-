@@ -51,7 +51,7 @@
               <button class="dropbtn">Welcome,<p th:utext="${username}">
               </p></button>
               <div class="dropdown-content" style="left:0;">
-                <a href="#"><i class=" fa fa-suitcase"></i>Profile</a>
+                <a th:href="@{|http://localhost:9999/purchase?id=${id}}|"><i class=" fa fa-suitcase"></i>Tài Khoản của tôi</a>
                 <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
               </div>
             </div>

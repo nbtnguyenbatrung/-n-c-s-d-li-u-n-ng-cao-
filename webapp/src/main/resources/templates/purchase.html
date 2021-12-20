@@ -49,20 +49,20 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                    <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
-                    <!-- <div class="lan-selector">
-                        <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                            <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
-                                data-title="English">English</option>
-                            <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
-                                data-title="Bangladesh">German </option>
-                        </select>
-                    </div> -->
+                    <div class="dropdown" style="float:left;padding : 0;" th:if="${username}">
+                        <button class="dropbtn">Welcome,<p th:utext="${username}">
+                        </p></button>
+                        <div class="dropdown-content" style="left:0;">
+                            <a th:href="@{|http://localhost:9999/purchase?id=${id}}|"><i class=" fa fa-suitcase"></i>Tài Khoản của tôi</a>
+                            <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
+                        </div>
+                    </div>
+                    <a th:unless="${username}" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
                     <div class="top-social">
-                        <a href="#"><i class="ti-facebook"></i></a>
-                        <a href="#"><i class="ti-twitter-alt"></i></a>
-                        <a href="#"><i class="ti-linkedin"></i></a>
-                        <a href="#"><i class="ti-pinterest"></i></a>
+                        <a ><i class="ti-facebook"></i></a>
+                        <a ><i class="ti-twitter-alt"></i></a>
+                        <a ><i class="ti-linkedin"></i></a>
+                        <a ><i class="ti-pinterest"></i></a>
                     </div>
                 </div>
             </div>
@@ -72,69 +72,77 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-2">
                         <div class="logo">
-                            <a href="./index.html">
+                            <a th:href="@{/}">
                                 <img src="img/logo.png" alt="">
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
-                            <button type="button" class="category-btn">All Categories</button>
+                            <button type="button" class="category-btn">All Product</button>
                             <div class="input-group">
                                 <input type="text" placeholder="What do you need?">
                                 <button type="button"><i class="ti-search"></i></button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 text-right col-md-3">
+                    <div class="col-lg-3 text-right col-md-3" th:if="${username} and ${sl} gt 0" >
                         <ul class="nav-right">
                             <li class="cart-icon">
-                                <a href="#">
+                                <a th:href="@{/shopping-cart}">
                                     <i class="icon_bag_alt"></i>
-                                    <span>3</span>
+                                    <span th:text="${sl}"></span>
                                 </a>
                                 <div class="cart-hover">
                                     <div class="select-items">
-                                        <table>
+                                        <table th:each="giohang:${giohang}">
                                             <tbody>
-                                                <tr>
-                                                    <td class="si-pic"><img src="img/select-product-1.jpg" alt=""></td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="si-pic"><img src="img/select-product-2.jpg" alt=""></td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
-                                                            <h6>Kabino Bedside Table</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close"></i>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td class="si-pic">
+                                                    <img th:src="@{'img/products/'+${giohang.Image}}" alt="" />
+                                                </td>
+                                                <td class="si-text">
+                                                    <div class="product-selected">
+                                                        <h6 th:text="${giohang.TenSP}"></h6>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="select-total">
-                                        <span>total:</span>
-                                        <h5>$120.00</h5>
-                                    </div>
                                     <div class="select-button">
-                                        <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                                        <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                        <a th:href="@{/shopping-cart}" class="primary-btn view-card">Xem Giỏ Hàng</a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="cart-price">$150.00</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 text-right col-md-3" th:unless="${username}" >
+                        <ul class="nav-right" style="    text-align: center;">
+                            <li class="cart-icon">
+                                <a th:href="@{login}">
+                                    <i class="icon_bag_alt"></i>
+                                </a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <span>Chưa có sản phẩm </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 text-right col-md-3" th:if="${sl == 0}" >
+                        <ul class="nav-right" style=" text-align: center;">
+                            <li class="cart-icon">
+                                <a th:href="@{/shopping-cart}">
+                                    <i class="icon_bag_alt"></i>
+                                </a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <span>Chưa có sản phẩm </span>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -145,40 +153,33 @@
                 <div class="nav-depart">
                     <div class="depart-btn">
                         <i class="ti-menu"></i>
-                        <span>All departments</span>
-                        <ul class="depart-hover">
-                            <li class="active"><a href="#">Women’s Clothing</a></li>
-                            <li><a href="#">Men’s Clothing</a></li>
-                            <li><a href="#">Underwear</a></li>
-                            <li><a href="#">Kid's Clothing</a></li>
-                            <li><a href="#">Brand Fashion</a></li>
-                            <li><a href="#">Accessories/Shoes</a></li>
-                            <li><a href="#">Luxury Brands</a></li>
-                            <li><a href="#">Brand Outdoor Apparel</a></li>
+                        <span>All brands</span>
+                        <ul class="depart-hover" >
+                            <li th:each="thuongHieus:${thuongHieus}">
+                                <a th:href="@{|/shop?mahang=${thuongHieus.maHang}|}" th:text="${thuongHieus.tenHang}"></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li><a href="./index.html">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Collection</a>
-                            <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
-                                <li><a href="#">Kid's</a></li>
+                        <li><a th:href="@{/}">Home</a></li>
+                        <li><a th:href="@{/shop}">Shop</a></li>
+                        <li><a >Collection</a>
+                            <ul class="dropdown" >
+                                <li th:each="loaisp:${loaisp}" >
+                                    <a th:href="@{|/shop?maloaisp=${loaisp.maLoaiSP}|}" th:text="${loaisp.tenLoaiSP}+'`s'"></a>
+                                </li>
                             </ul>
                         </li>
-                        <!-- <li><a href="./blog.html">Blog</a></li> -->
-                        <li><a href="./contact.html">Contact</a></li>
-                        <li><a href="#">Pages</a>
+                        <li><a th:href="@{/contact}">Contact</a></li>
+                        <li><a >Pages</a>
                             <ul class="dropdown">
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./check-out.html">Checkout</a></li>
-                                <li><a href="./faq.html">Faq</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
+                                <li><a th:if="${username}" th:href="@{/shopping-cart}">Shopping Cart</a></li>
+                                <li><a th:unless="${username}" th:href="@{/login}">Shopping Cart</a></li>
+                                <li><a th:unless="${username}" th:href="@{/register}">Register</a></li>
+                                <li><a th:unless="${username}" th:href="@{/login}">Login</a></li>
+                                <li><a th:if="${username}" th:href="@{/logout}">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -195,16 +196,16 @@
             <ul class="nav" role="tablist" style="flex-direction: column;">
                 <li>
                     <i class="fas fa-unlock-alt" style="margin-right : 10px"></i>
-                    <a class="active" data-toggle="tab" href="#tab-1" role="tab">Đổi mật khẩu</a>
+                    <a data-toggle="tab" href="#tab-1" role="tab">Đổi mật khẩu</a>
                 </li>
                 <li style="margin-top : 20px">
                     <i class="far fa-clipboard" style="margin-right : 10px"></i>
-                    <a data-toggle="tab" href="#tab-2" role="tab">Đơn mua</a>
+                    <a class="active" data-toggle="tab" href="#tab-2" role="tab">Đơn mua</a>
                 </li>
             </ul>
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade-in active me-password" id="tab-1" role="tabpanel">
+            <div class="tab-pane fade me-password" id="tab-1" role="tabpanel">
                 <div class="title">
                     <h1 class="title-1" style="font-size: 20px;">
                         Đổi Mật Khẩu
@@ -218,8 +219,8 @@
                     <div class="mk">
                         <div class="mk-nho">
                             <div class="mk1">
-                                <label>Mật Khẩu Hiện Tại </label>
-                                <input id="password" type="password">
+                                <label>Mật Khẩu Hiện Tại * </label>
+                                <input id="password-old" type="password">
                                 <button id="forwart" style="border: none;background-color: white;margin-left: 50px;">
                                     Quên mật khẩu ?
                                 </button>
@@ -229,7 +230,7 @@
                     <div class="mk">
                         <div class="mk-nho">
                             <div class="mk1">
-                                <label>Mật Khẩu Mới </label>
+                                <label>Mật Khẩu Mới * </label>
                                 <input type="password" id="password-new">
                             </div>
                         </div>
@@ -237,7 +238,7 @@
                     <div class="mk">
                         <div class="mk-nho">
                             <div class="mk1">
-                                <label>Nhập Lại Mật Khẩu </label>
+                                <label>Nhập Lại Mật Khẩu * </label>
                                 <input id="confim-password" type="password">
                             </div>
                         </div>
@@ -245,10 +246,10 @@
                     <button style="background-color: red;
                     border: none;
                     padding: 10px 20px;
-                    color: white;">Xác Nhận</button>
+                    color: white;" id = "xn">Xác Nhận</button>
                 </div>
             </div>
-            <div class="tab-pane fade" class="me-donhang" id="tab-2" role="tabpanel">
+            <div class="tab-pane fade-in active" id="tab-2" role="tabpanel">
                 <div class="tab-item">
                     <ul class="nav" role="tablist">
                         <li>
@@ -271,12 +272,13 @@
                         width: 950px;
                         margin-top: 50px;">
                         <div class="tab-pane fade-in active" id="tab-3" role="tabpanel">
-                            <div class="nd">
+                            <div class="nd" th:each="purchases1:${purchases1}">
                                 <div class="nd1">
                                     <div class="nd-left">
-                                        <img src="./img/products/product-1.jpg">
+                                        <img th:src="@{'img/products/'+${purchases1.manHinh}}">
                                         <div class="nd-text">
-                                            <span>cơm cháy ngon ngọt</span>
+                                            <span th:utext="${purchases1.tenSP}"></span>
+                                            <span>size : 31 </span>
                                             <span>X1</span>
                                         </div>
                                     </div>
@@ -557,7 +559,38 @@
     <script th:src="@{js/jquery.dd.min.js}"></script>
     <script th:src="@{js/jquery.slicknav.js}"></script>
     <script th:src="@{js/owl.carousel.min.js}"></script>
-    <script th;src="@{js/main.js}"></script>
+    <script th:src="@{js/main.js}"></script>
+    <script>
+        $(document).ready(function(){
+            if($('#password').val() == false || $('#password-new').val() == false || $('#confim-password').val() == false){
+                alert(" Không được để trống các trường có ký hiệu * ! ");
+            }else{
+                if($('#password-new').val() == $('#confim-password').val()){
+                    alert(" nhập lại mật khẩu không đúng ! ");
+                }else{
+                    $.ajax({
+                       url: "http://localhost:9999/requestpass",
+                       type: "GET",
+                       data: {
+                          id : $('#name').val(),
+                          passold : $('#password').val(),
+                          passnew : $('#password-new').val()
+                       },
+                       success: function(data ) {
+                             alert(data);
+
+                       },
+                       error: function(e){
+                            alert(e);
+                       }
+                    });
+                }
+            }
+
+
+
+        });
+    </script>
 </body>
 
 </html>

@@ -1,13 +1,11 @@
 package it1.doan.webapp.user.service;
 
 import it1.doan.webapp.common.ProductSearch;
-import it1.doan.webapp.model.ChiTietHoaDon;
-import it1.doan.webapp.model.GioHang;
-import it1.doan.webapp.model.HoaDon;
-import it1.doan.webapp.model.HomeSanPham;
+import it1.doan.webapp.model.*;
 import it1.doan.webapp.user.dao.GiaoHangDao;
 import it1.doan.webapp.user.dao.HoaDonDao;
 import it1.doan.webapp.user.dao.SanPhamDao;
+import it1.doan.webapp.user.dao.purchaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +20,8 @@ public class HomeServiceimpl implements HomeService{
     GiaoHangDao giaoHangDao;
     @Autowired
     HoaDonDao hoaDonDao;
+    @Autowired
+    purchaseDao purchaseDao;
 
     @Override
     public List<HomeSanPham> getSanPhamByType(String type) {
@@ -99,5 +99,20 @@ public class HomeServiceimpl implements HomeService{
     @Override
     public void Insert(List<ChiTietHoaDon> chiTietHoaDon) {
         hoaDonDao.Insert(chiTietHoaDon);
+    }
+
+    @Override
+    public void updatepass(int id, String passnew) {
+        purchaseDao.updatepass(id , passnew);
+    }
+
+    @Override
+    public List<purchase> getallpurchase(int id, int type) {
+        return purchaseDao.getallpurchase(id,type);
+    }
+
+    @Override
+    public List<purchase> getdonhang(int id,int type, int start, int end) {
+        return purchaseDao.getdonhang(id,type,start,end);
     }
 }

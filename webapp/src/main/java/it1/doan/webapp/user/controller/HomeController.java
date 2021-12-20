@@ -45,6 +45,7 @@ public class HomeController {
                 model.addAttribute("username",user.getHoten());
                 List<GioHang> gioHangs = homeService.getghbynd(user.getID());
                 model.addAttribute("giohang",gioHangs);
+                model.addAttribute("id",user.getID());
                 model.addAttribute("sl",gioHangs.size());
             }
 
