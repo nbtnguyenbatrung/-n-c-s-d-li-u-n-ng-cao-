@@ -115,4 +115,19 @@ public class HomeServiceimpl implements HomeService{
     public List<purchase> getdonhang(int id,int type, int start, int end) {
         return purchaseDao.getdonhang(id,type,start,end);
     }
+
+    @Override
+    public void updateuserdh(String mahd, String masp, String masize) {
+        purchaseDao.updateuserdh(mahd,masp,masize);
+    }
+
+    @Override
+    public void Insert(String madg, int id, String masp, int sosao, String binhluan) {
+        purchaseDao.Insert(madg, id, masp, sosao, binhluan);
+    }
+
+    @Override
+    public List<DanhGiaByUser> getallDanhgia() {
+        return purchaseDao.getallDanhgia();
+    }
 }

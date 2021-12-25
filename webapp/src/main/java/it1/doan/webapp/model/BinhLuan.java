@@ -16,7 +16,7 @@ public class BinhLuan {
 
     private String HOTEN;
     private String BINHLUAN;
-    private int SOSAO;
+    private float SOSAO;
     private Date NGAYDG;
 
 }

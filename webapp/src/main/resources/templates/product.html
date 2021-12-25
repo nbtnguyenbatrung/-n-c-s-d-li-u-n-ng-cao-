@@ -94,9 +94,10 @@
                         <div class="dropdown-content" style="left:0;">
                             <a th:href="@{|http://localhost:9999/purchase?id=${id}}|"><i class=" fa fa-suitcase"></i>Tài Khoản của tôi</a>
                             <a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a>
+                            <input type="hidden" id="totalpage" th:value="${slbl}">
                         </div>
                     </div>
-                    <a th:unless="${username}" href="#" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                    <a th:unless="${username}" th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
                     <div class="top-social">
                         <a ><i class="ti-facebook"></i></a>
                         <a ><i class="ti-twitter-alt"></i></a>
@@ -374,50 +375,8 @@
                                 <div class="tab-pane fade" id="tab-3" role="tabpanel">
                                     <div class="customer-review-option">
                                         <h4 th:text="${slbl} + ' Comments'"></h4>
-                                        <div class="comment-option">
-                                            <div class="co-item" th:each="binhluan:${binhluan}">
-<!--                                                <div class="avatar-pic">-->
-<!--                                                    <img src="img/product-single/avatar-2.png" alt="">-->
-<!--                                                </div>-->
-                                                <div class="avatar-text">
-                                                    <div class="at-rating">
-                                                        <i class="fa fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} <= ${binhluan.SOSAO} "></i>
-                                                        <i class="far fa-star" th:each="i : ${#numbers.sequence( 1, 5 ,1)}" th:if="${i} > ${binhluan.SOSAO} "></i>
-                                                    </div>
-                                                    <h5 th:text="${binhluan.HOTEN}"> <span th:text="${binhluan.NGAYDG}"></span></h5>
-                                                    <div class="at-reply" th:text="${binhluan.BINHLUAN}"></div>
-                                                </div>
-                                            </div>
+                                        <div class="comment-option" id="load_data">
 
-                                        </div>
-
-                                        <!-- phần phân trang  -->
-                                        <div class="col-sm-7 text-right text-center-xs" style="float: right">
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
-                                                <li ><a  style="padding: 5px 10px;" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
-                                            </ul>
-
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
-                                                <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${Previous}|}"><i class="fa fa-angle-left"></i></a></li>
-                                            </ul>
-
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} > ${PreviousLeft} and ${i} < ${CurrentPage}">
-                                                <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-                                            </ul>
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} == ${CurrentPage} ">
-                                                <li ><a style="background: aquamarine;padding: 5px 10px;" th:text="${i}"></a></li>
-                                            </ul>
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} < ${PreviousRight} and ${i} > ${CurrentPage}">
-                                                <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-                                            </ul>
-
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} <  ${Page.totalPage}">
-                                                <li><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${Next}|}"><i class="fa fa-angle-right"></i></a></li>
-                                            </ul>
-
-                                            <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} < ${Page.totalPage} ">
-                                                <li><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${totalpage}|}"><i class="fa fa-angle-double-right"></i></a></li>
-                                            </ul>
 
                                         </div>
 
@@ -594,6 +553,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script th:src="@{js/owl.carousel.min.js}"></script>
     <script th:src="@{js/main.js}"></script>
     <script>
+        var page = 1;
+        var totalpage = $('#totalpage').val();
+        var action = 'inactive';
+
         $(document).ready(function(){
             $(".qt-plus").click(function(){
                 $(this).parent().children(".qt").html(parseInt($(this).parent().children(".qt").html()) + 1);
@@ -637,14 +600,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                            },
                            error: function(e){
                                 alert(" số lượng hàng không đủ ! ");
-
                            }
                       });
 
                 }
             });
 
+
             $('.buy-now').click(function(event){
+                var check = "trung";
                 var checkbox = document.getElementsByName("size");
                 var masize = "trung";
                 for (var i = 0; i < checkbox.length; i++){
@@ -664,13 +628,144 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                               masp : $('#masp').val(),
                               masize : masize,
                               soluong : sl
+                           },
+                           success: function(data ) {
+                                 window.location='http://localhost:9999/check-out?id='+$('#id').val()+'&masp='+$('#masp').val()+'&masize='+masize+'&soluong='+sl;
+                           },
+                           error: function(e){
+                                check = "h" ;
+                                alert(" số lượng hàng không đủ ! ");
                            }
-                      });
-                    window.location='http://localhost:9999/check-out?id='+$('#id').val()+'&masp='+$('#masp').val()+'&masize='+masize+'&soluong='+sl;
+                    });
+
                 }
 
             });
+
+            if(action == 'inactive'){
+                action = 'active';
+                LoadData(page);
+            }
+
+            $(window).scroll(function(){
+                if($(window).scrollTop() + $(window).height() > $('#load_data').height() && page < totalpage && action == 'inactive')
+                {
+
+                    action = 'active';
+                    page = page + 1;
+                    setTimeout(function(){
+                        LoadData(page);
+                    },1000);
+                }
+            });
+
         });
+
+
+        function LoadData(page) {
+            $.ajax({
+                url: 'http://localhost:9999/danhgiaproduct',
+                type: 'GET',
+                data: {
+                    masp: $('#masp').val(),
+                    page: page,
+                },
+                success: function (rs) {
+
+                    var str = "";
+                    $.each(rs, function (i, item) {
+                        str += "<div class='co-item'>" ;
+                        str += "<div class='avatar-text'>" ;
+                        str += "<div class='at-rating'>";
+                        if(item.SOSAO >4){
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                        }
+                        if(item.SOSAO >3 && item.SOSAO <=4){
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                        }
+                        if(item.SOSAO >2 && item.SOSAO <=3){
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                        }
+                        if(item.SOSAO >1 && item.SOSAO <=2){
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                        }
+                        if(item.SOSAO >0 && item.SOSAO <=1){
+                            str += "<i class='fa fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                        }
+                        if(item.SOSAO == 0){
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                            str += "<i class='far fa-star'>";
+                            str += "</i>";
+                        }
+
+                        str += "</div>";
+                        str += "<h5 >" + item.HOTEN;
+                        str += "<span >" + item.NGAYDG ;
+                        str += "</span>";
+                        str += "</h5>";
+                        str += "<div class='at-reply'>" + item.BINHLUAN;
+                        str += "</div>";
+                        str += "</div>";
+                        str += "</div>";
+                    });
+                    // id của thẻ tbody để hiển thị tất cả cá tr ra
+                    $('#load_data').append(str);
+                    action = 'inactive';
+                }
+            });
+        };
     </script>
 </body>
 

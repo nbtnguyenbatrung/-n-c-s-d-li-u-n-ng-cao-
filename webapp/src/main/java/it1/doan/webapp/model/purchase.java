@@ -20,4 +20,6 @@ public class purchase {
         Float giagoc;
         String manHinh;
         Float tongtien;
+        int trangthai;
+        int songay;
 }

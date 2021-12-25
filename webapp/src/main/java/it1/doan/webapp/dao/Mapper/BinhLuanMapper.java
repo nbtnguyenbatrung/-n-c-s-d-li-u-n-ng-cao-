@@ -15,7 +15,7 @@ public class BinhLuanMapper implements RowMapper<BinhLuan> {
     public BinhLuan mapRow(ResultSet resultSet, int i) throws SQLException {
         String HOTEN = resultSet.getString("HOTEN");
         String BINHLUAN = resultSet.getString("BINHLUAN");
-        Integer SOSAO = resultSet.getInt("SOSAO");
+        Float SOSAO = resultSet.getFloat("SOSAO");
         Timestamp NGAYDG = resultSet.getTimestamp("NGAYDG");
         BinhLuan binhluan = new BinhLuan(HOTEN,BINHLUAN,SOSAO,NGAYDG);
         return binhluan;

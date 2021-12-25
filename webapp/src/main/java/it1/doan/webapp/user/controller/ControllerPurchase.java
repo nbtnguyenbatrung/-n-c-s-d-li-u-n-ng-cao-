@@ -1,11 +1,9 @@
 package it1.doan.webapp.user.controller;
 
 import it1.doan.webapp.admin.service.AdminPagepml;
+import it1.doan.webapp.admin.service.function;
 import it1.doan.webapp.admin.service.impl.UserService;
-import it1.doan.webapp.model.GioHang;
-import it1.doan.webapp.model.NguoiDung;
-import it1.doan.webapp.model.Pagination;
-import it1.doan.webapp.model.purchase;
+import it1.doan.webapp.model.*;
 import it1.doan.webapp.user.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,13 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ControllerPurchase {
@@ -30,6 +26,8 @@ public class ControllerPurchase {
     UserService userService;
     @Autowired
     AdminPagepml adminPage;
+    @Autowired
+    function function ;
 
     private int totalProductPage = 4;
     private  String check = "";
@@ -54,93 +52,22 @@ public class ControllerPurchase {
         }
 
 
-        List<purchase> purchases = homeService.getallpurchase(id,0);
-        int totalData = purchases.size();
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt("1"));
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-
-//        if (currentPage == null) {
-//            currentPage = "1";
-//        }
-//        if (type == -1){
-//            String baseUrl = "/purchase?id="+id+"&type="+type+"&page=";
-//            List<purchase> purchases = homeService.getallpurchase(id,type);
-//            int totalData = purchases.size();
-//            Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-//            List<purchase> purchases1 = homeService.getdonhang(id,type,pagination.getStart(),totalProductPage);
-//            model.addAttribute("purchases1",purchases1);
-//            model.addAttribute("Page",pagination);
-//            model.addAttribute("totalpage",pagination.getTotalPage());
-//            model.addAttribute("CurrentPage",pagination.getCurrentPage());
-//            model.addAttribute("Previous",pagination.getCurrentPage()-1);
-//            model.addAttribute("Next",pagination.getCurrentPage()+1);
-//            model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-//            model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-//            model.addAttribute("baseUrl",baseUrl);
-//            check = "all";
-//        }
-//
-//        if (type == 0){
-//            String baseUrl = "/purchase?id="+id+"&type="+type+"&page=";
-//            List<purchase> purchases = homeService.getallpurchase(id,type);
-//            int totalData = purchases.size();
-//            Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-//            List<purchase> purchases1 = homeService.getdonhang(id,type,pagination.getStart(),totalProductPage);
-//            model.addAttribute("purchases1",purchases1);
-//            model.addAttribute("Page",pagination);
-//            model.addAttribute("totalpage",pagination.getTotalPage());
-//            model.addAttribute("CurrentPage",pagination.getCurrentPage());
-//            model.addAttribute("Previous",pagination.getCurrentPage()-1);
-//            model.addAttribute("Next",pagination.getCurrentPage()+1);
-//            model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-//            model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-//            model.addAttribute("baseUrl",baseUrl);
-//            check = "confirmation";
-//        }
-//
-//        if (type == 1){
-//            String baseUrl = "/purchase?id="+id+"&type="+type+"&page=";
-//            List<purchase> purchases = homeService.getallpurchase(id,type);
-//            int totalData = purchases.size();
-//            Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-//            List<purchase> purchases1 = homeService.getdonhang(id,type,pagination.getStart(),totalProductPage);
-//            model.addAttribute("purchases1",purchases1);
-//            model.addAttribute("Page",pagination);
-//            model.addAttribute("totalpage",pagination.getTotalPage());
-//            model.addAttribute("CurrentPage",pagination.getCurrentPage());
-//            model.addAttribute("Previous",pagination.getCurrentPage()-1);
-//            model.addAttribute("Next",pagination.getCurrentPage()+1);
-//            model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-//            model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-//            model.addAttribute("baseUrl",baseUrl);
-//            check = "delivered";
-//        }
-//
-//        if (type == 2){
-//            String baseUrl = "/purchase?id="+id+"&type="+type+"&page=";
-//            List<purchase> purchases = homeService.getallpurchase(id,type);
-//            int totalData = purchases.size();
-//            Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-//            List<purchase> purchases1 = homeService.getdonhang(id,type,pagination.getStart(),totalProductPage);
-//            model.addAttribute("purchases1",purchases1);
-//            model.addAttribute("Page",pagination);
-//            model.addAttribute("totalpage",pagination.getTotalPage());
-//            model.addAttribute("CurrentPage",pagination.getCurrentPage());
-//            model.addAttribute("Previous",pagination.getCurrentPage()-1);
-//            model.addAttribute("Next",pagination.getCurrentPage()+1);
-//            model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-//            model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-//            model.addAttribute("baseUrl",baseUrl);
-//            check = "cancelled";
-//        }
-//
-//        model.addAttribute("check",check);
+        List<purchase> purchases0 = homeService.getallpurchase(id,0);
+        List<purchase> purchases1 = homeService.getallpurchase(id,1);
+        List<purchase> purchases2 = homeService.getallpurchase(id,2);
+        List<purchase> purchases3 = homeService.getallpurchase(id,-1);
+        int totalData0 = purchases0.size();
+        int totalData1 = purchases1.size();
+        int totalData2 = purchases2.size();
+        int totalData3 = purchases3.size();
+        Pagination pagination0 = adminPage.GetInfoPage(totalData0,totalProductPage,1);
+        Pagination pagination1 = adminPage.GetInfoPage(totalData1,totalProductPage,1);
+        Pagination pagination2 = adminPage.GetInfoPage(totalData2,totalProductPage,1);
+        Pagination pagination3 = adminPage.GetInfoPage(totalData3,totalProductPage,1);
+        model.addAttribute("totalpage",pagination0.getTotalPage());
+        model.addAttribute("totalpage1",pagination1.getTotalPage());
+        model.addAttribute("totalpage2",pagination2.getTotalPage());
+        model.addAttribute("totalpage3",pagination3.getTotalPage());
 
         return "purchase";
     }
@@ -148,12 +75,21 @@ public class ControllerPurchase {
     @RequestMapping("/purchase-all")
     @ResponseBody
     public List<purchase> getallpurchase (@RequestParam(name = "id" , required = false) int id ,
-                        @RequestParam(name = "page") int currentpage){
-        List<purchase> purchases1 = homeService.getallpurchase(id,0);
+                        @RequestParam(name = "page") int currentpage,
+                        @RequestParam(name = "type") int type){
+        List<purchase> purchases1 = homeService.getallpurchase(id,type);
         int totalData = purchases1.size();
         Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentpage);
-        List<purchase> purchases = homeService.getdonhang(10,0,pagination.getStart(),totalProductPage);
+        List<purchase> purchases = homeService.getdonhang(id,type,pagination.getStart(),totalProductPage);
         return purchases;
+    }
+
+    @RequestMapping(value = "/admin/updateuserdh",method = RequestMethod.GET)
+    @ResponseBody
+    public String update(@RequestParam("mahd") String mahd ,@RequestParam("masp") String masp,
+                         @RequestParam("masize") String masize ){
+        homeService.updateuserdh(mahd,masp,masize);
+        return " Hủy đơn thành công ";
     }
     @GetMapping("/requestpass")
     public String requestpass(@RequestParam(name = "id") int id,
@@ -170,5 +106,17 @@ public class ControllerPurchase {
         else{
             return "mật khẩu hiện tại không đúng ";
         }
+    }
+
+    @RequestMapping(value = "/admin/danhgiauser",method = RequestMethod.GET)
+    @ResponseBody
+    public String InsertDg(@RequestParam(name = "id") int id,
+                           @RequestParam(name = "masp") String masp,
+                           @RequestParam(name = "sosao") int sosao,
+                           @RequestParam(name = "binhluan") String binhluan){
+        List<DanhGiaByUser> danhGiaByUsers = homeService.getallDanhgia();
+        String madg = "DG"+function.Laystt(danhGiaByUsers.get(0).getMaDG());
+        homeService.Insert(madg,id,masp,sosao,binhluan);
+        return "Đánh giá sản phẩm thành công ";
     }
 }

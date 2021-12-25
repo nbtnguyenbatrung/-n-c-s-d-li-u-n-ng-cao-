@@ -109,7 +109,7 @@ public class ControllerThuongHieu {
     @GetMapping("/deleteth")
     public String delete(@RequestParam(name = "id") String id){
         thuonghieuService.Delete(id);
-        return "redirect:/thuonghieu";
+        return "redirect:/admin/thuonghieu";
     }
 
 }

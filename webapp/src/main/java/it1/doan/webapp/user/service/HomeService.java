@@ -29,4 +29,8 @@ public interface HomeService {
     void updatepass(int id , String passnew);
     List<purchase> getallpurchase(int id,int type);
     List<purchase> getdonhang(int id, int type , int start , int end);
+    void updateuserdh(String mahd , String masp , String masize);
+
+    void Insert(String madg , int id , String masp , int sosao , String binhluan);
+    List<DanhGiaByUser> getallDanhgia ();
 }

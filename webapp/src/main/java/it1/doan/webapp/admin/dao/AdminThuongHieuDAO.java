@@ -31,7 +31,6 @@ public class AdminThuongHieuDAO extends JdbcDaoSupport {
         catch (EmptyResultDataAccessException e){
             return null;
         }
-
     }
 
     public List<ThuongHieu> getAllthuonghieu(int status){

@@ -41,8 +41,7 @@ public class ControllerProduct {
     private int totalProductPage = 4;
     @RequestMapping("/product")
     public String getProduct(Model model, HttpServletRequest request ,
-                             @RequestParam(name = "masp",required = false) String masp,
-                             @RequestParam(name = "page",required = false) String currentPage){
+                             @RequestParam(name = "masp",required = false) String masp){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
@@ -79,24 +78,8 @@ public class ControllerProduct {
         model.addAttribute("hinhAnhs" , hinhAnhs);
 
 
-        if (currentPage==null){
-            currentPage = "1";
-        }
-
         List<BinhLuan> binhLuans = productService.getallbl(masp);
-        Pagination pagination = adminPage.GetInfoPage(binhLuans.size(),totalProductPage,Integer.parseInt(currentPage));
-        List<BinhLuan> binhLuans1 = productService.getpagebl(masp,pagination.getStart(),totalProductPage);
-        model.addAttribute("binhluan",binhLuans1);
         model.addAttribute("slbl",binhLuans.size());
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        String baseUrl = "/product?masp="+masp+"&page=";
-        model.addAttribute("baseUrl",baseUrl);
 
         LoaiSanPham loaiSanPham = loaiSanPhamService.Get(homeSanPham.getMaLoaiSP());
         List<HomeSanPham> homeSanPhams = homeService.getSanPhamByType(loaiSanPham.getTenLoaiSP());
@@ -108,5 +91,15 @@ public class ControllerProduct {
         model.addAttribute("homeSanPhams1",homeSanPhams1);
 
         return "product";
+    }
+
+    @RequestMapping("/danhgiaproduct")
+    @ResponseBody
+    public List<BinhLuan> getallbinhluan(@RequestParam(name = "masp" , required = false) String masp ,
+                                         @RequestParam(name = "page") int currentpage){
+        List<BinhLuan> binhLuanList = productService.getallbl(masp);
+        Pagination pagination = adminPage.GetInfoPage(binhLuanList.size(),totalProductPage,currentpage);
+        List<BinhLuan> binhLuans1 = productService.getpagebl(masp,pagination.getStart(),totalProductPage);
+        return binhLuans1;
     }
 }
