@@ -25,7 +25,16 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
   </head>
+  <style>
+    .act{
+      color: #e7ab3c;
+    }
 
+    .actsize{
+      color: white;
+      background-color: black;
+    }
+  </style>
   <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -62,6 +71,10 @@
               <a ><i class="ti-google"></i></a>
               <a ><i class="ti-instagram"></i></a>
             </div>
+            <input id="totalpage" type="hidden" th:value="${totalpage}">
+            <input id="mahang" type="hidden" th:value="${mahang}">
+            <input id="maloaisp" type="hidden" th:value="${maloaisp}">
+            <input id="tensp" type="hidden" th:value="${tensp}">
           </div>
         </div>
       </div>
@@ -80,10 +93,10 @@
                 <button type="button" class="category-btn">
                   All Product
                 </button>
-                <form action="#" class="input-group">
-                  <input type="text" placeholder="What do you need?" />
+                <div class="input-group">
+                  <input type="text" placeholder="What do you need?" id="search"/>
                   <button type="button"><i class="ti-search"></i></button>
-                </form>
+                </div>
               </div>
             </div>
             <div class="col-lg-3 text-right col-md-3" th:if="${username} and ${sl} gt 0">
@@ -218,8 +231,10 @@
               <h4 class="fw-title">Categories</h4>
               <ul class="filter-catagories">
                 <li th:each="loaisp:${loaisp}">
-                  <a th:if="${loaisp.maLoaiSP} != ${maloaisp}" th:href="@{|${urlmahang}${urlmaloaisp}${loaisp.maLoaiSP}${urlphumaloaisp}|}" th:text="${loaisp.tenLoaiSP}"></a>
-                  <a style="color: #e7ab3c;" th:if="${loaisp.maLoaiSP} == ${maloaisp}" th:href="@{|${urlmahang}${urlmaloaisp}${loaisp.maLoaiSP}${urlphumaloaisp}|}" th:text="${loaisp.tenLoaiSP}"></a>
+                    <button class="btnloaisp" th:data-loaisp="${loaisp.maLoaiSP}"
+                            style="border: none;
+                            background: none;"
+                            th:text="${loaisp.tenLoaiSP}"></button>
                 </li>
               </ul>
             </div>
@@ -227,8 +242,10 @@
               <h4 class="fw-title" >Brand</h4>
               <ul class="filter-catagories">
                 <li th:each="thuongHieus:${thuongHieus}">
-                  <a th:if="${thuongHieus.maHang} != ${mahang}" th:href="@{|${urlmahang}${thuongHieus.maHang}${urlphumahang}|}" th:text="${thuongHieus.tenHang}"></a>
-                  <a style="color: #e7ab3c;" th:if="${thuongHieus.maHang} == ${mahang}" th:href="@{|${urlmahang}${thuongHieus.maHang}${urlphumahang}|}" th:text="${thuongHieus.tenHang}"></a>
+                  <button class="btnhang" th:data-hang="${thuongHieus.maHang}"
+                          style="border: none;
+                            background: none;"
+                          th:text="${thuongHieus.tenHang}"></button>
                 </li>
               </ul>
             </div>
@@ -236,12 +253,10 @@
               <h4 class="fw-title">Size</h4>
               <div class="fw-size-choose">
                 <div class="sc-item" th:each="sizes:${sizes}">
-                  <a th:href="@{|${urlmahang}${urlmasize}${sizes.maSize}${urlphumasize}|}">
-                    <label th:if="${sizes.maSize} != ${masize}" th:text="${sizes.tenSize}" >
+
+                    <label class="btnsize" th:data-size="${sizes.maSize}" th:text="${sizes.tenSize}" >
                     </label>
-                    <label th:if="${sizes.maSize} == ${masize}" style="color: white;background-color: black;" th:text="${sizes.tenSize}" >
-                    </label>
-                  </a>
+
                 </div>
               </div>
             </div>
@@ -249,65 +264,10 @@
           <div class="col-lg-9 order-1 order-lg-2">
 
             <div class="product-list">
-              <div class="row">
-                <div class="col-lg-4 col-sm-6" th:each="sanPhams:${sanPhams}">
-                  <div class="product-item">
-                    <div class="pi-pic">
-                      <img th:src="@{'img/products/'+${sanPhams.manHinh}}" alt="" />
-                      <div class="sale pp-sale" th:if="${sanPhams.giasau} > 0 ">Sale</div>
-                      <div class="icon">
-                        <i class="icon_heart_alt"></i>
-                      </div>
-                      <ul>
-                        <li class="quick-view"><a th:href="@{/product(masp=${sanPhams.maSP})}">+ Quick View</a></li>
-                      </ul>
-                    </div>
-                    <div class="pi-text">
-                      <div class="catagory-name" th:text="'giày '+${sanPhams.tenloai}"></div>
-                      <a href="#">
-                        <h5 th:utext="${sanPhams.tenSP}"></h5>
-                      </a>
-                      <div class="product-price" th:if="${sanPhams.giasau} > 0 ">
-                        <label th:text="${#numbers.formatDecimal(sanPhams.giasau, 0, 'COMMA', 0, 'POINT')}+'VND'"></label>
-                        <span th:text="${#numbers.formatDecimal(sanPhams.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'"></span>
-                      </div>
-                      <div class="product-price" th:if="${sanPhams.giasau} == 0 " th:text="${#numbers.formatDecimal(sanPhams.donGia, 0, 'COMMA', 0, 'POINT')}+'VND'">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="row" id="load_data">
               </div>
             </div>
             <div class="loading-more">
-              <!-- phần phân trang  -->
-              <div class="col-sm-7 text-right text-center-xs" style="display: inline-flex;">
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
-                  <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}1|}" ><i class="fa fa-angle-double-left"></i></a></li>
-                </ul>
-
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
-                  <li ><a  style="padding: 5px 10px;" th:href="@{|${baseUrl}${Previous}|}"><i class="fa fa-angle-left"></i></a></li>
-                </ul>
-
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} > ${PreviousLeft} and ${i} < ${CurrentPage}">
-                  <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-                </ul>
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} == ${CurrentPage} ">
-                  <li ><a style="background: aquamarine;padding: 5px 10px;"  th:text="${i}"></a></li>
-                </ul>
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} < ${PreviousRight} and ${i} > ${CurrentPage}">
-                  <li ><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-                </ul>
-
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} <  ${Page.totalPage}">
-                  <li><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${Next}|}"><i class="fa fa-angle-right"></i></a></li>
-                </ul>
-
-                <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} < ${Page.totalPage} ">
-                  <li><a style="padding: 5px 10px;" th:href="@{|${baseUrl}${totalpage}|}"><i class="fa fa-angle-double-right"></i></a></li>
-                </ul>
-
-              </div>
             </div>
           </div>
         </div>
@@ -443,5 +403,151 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+      var page = 1;
+      var check = 1;
+      var action = 'inactive';
+      var mahang = $('#mahang').val();
+      var maloaisp = $('#maloaisp').val();
+      var masize = "";
+      var tensp = $('#tensp').val();
+      $(document).ready(function(){
+        if(action == 'inactive'){
+           action = 'active';
+           LoadData(page,mahang,maloaisp,masize,tensp);
+        }
+
+        $(window).scroll(function(){
+
+            if($(window).scrollTop() + $(window).height() > $('#load_data').height() && check == 1 && action == 'inactive')
+            {
+                action = 'active';
+                page = page + 1;
+                setTimeout(function(){
+                    LoadData(page,mahang,maloaisp,masize,tensp);
+                },1000);
+            }
+        });
+
+      });
+      $('body').on('click','.btnloaisp',function(){
+            $(this).siblings().removeClass("act");
+            $(this).addClass("act");
+            maloaisp=$(this).data('loaisp');
+            page = 1;
+            [...document.getElementsByClassName("col-lg-4")].map(n => n && n.remove());
+            document.getElementById("removeno").remove();
+            LoadData(page,mahang,maloaisp,masize,tensp);
+
+      });
+
+      $('body').on('click','.btnsize',function(){
+            masize=$(this).data('size');
+            page = 1;
+            [...document.getElementsByClassName("col-lg-4")].map(n => n && n.remove());
+            document.getElementById("removeno").remove();
+            LoadData(page,mahang,maloaisp,masize,tensp);
+        });
+
+      $('body').on('click','.btnhang',function(){
+            $(this).siblings().removeClass("act");
+            $(this).addClass("act");
+            mahang=$(this).data('hang');
+            page = 1;
+            [...document.getElementsByClassName("col-lg-4")].map(n => n && n.remove());
+            document.getElementById("removeno").remove();
+            LoadData(page,mahang,maloaisp,masize,tensp);
+
+        });
+
+      function LoadData(page,mahang,maloaisp,masize,tensp) {
+            $.ajax({
+                url: 'http://localhost:9999/productall',
+                type: 'GET',
+                data: {
+                    mahang: mahang,
+                    maloaisp: maloaisp,
+                    masize : masize,
+                    tensp : tensp,
+                    page : page,
+                },
+                success: function (rs) {
+                    if(rs == ""){
+                    var str = "";
+                          str += "<h1 id='removeno'>" + "không còn sản phẩm nào " + "</h1>";
+                          $('.loading-more').append(str);
+                          action = 'inactive';
+                          check = 2;
+                        }else{
+                    var str = "";
+                    $.each(rs, function (i, item) {
+
+                        var img = './img/products/' + item.manHinh;
+                        var href = 'http://localhost:9999/product?masp=' + item.maSP;
+                        str += "<div class='col-lg-4 col-sm-6' >" ;
+
+                        str += "<div class='product-item'>";
+                        str += "<div class='pi-pic'>";
+                        str += "<img src="+ img + " >";
+                        if(item.giasau > 0){
+                          str += "<div class='sale pp-sale'>" + "Sale" ;
+                          str += "</div>";
+                        }
+                        str += "<div class='icon'>";
+                        str += "<i class='icon_heart_alt'>";
+                        str += "</i>";
+                        str += "</div>";
+                        str += "<ul>";
+                        str += "<li class='quick-view'>" ;
+                        str += "<a href=" + href + " >" + " + Quick View " ;
+                        str += "</a>";
+                        str += "</li>";
+                        str += "</ul>" ;
+                        str += "</div>" ;
+                        str += "<div class='pi-text'>";
+                        str += "<div class='catagory-name'>giày " +item.tenloai;
+                        str += "</div>";
+                        str += "<a>";
+                        str += "<h5 >" + item.tenSP;
+                        str += "</h5>";
+                        str += "</a>";
+                        if(item.giasau > 0){
+                          str += "<div class='product-price'>"
+                          str += "<label>" + item.giasau ;
+                          str += "</label>";
+                          str += "<span >" + item.donGia;
+                          str += "</span>" ;
+                          str += "</div>";
+                        }else{
+                          str += "<div class='product-price' >" + item.donGia;
+                          str += "</div>";
+                        }
+                        str += "</div> ";
+                        str += "</div>"
+                        str += "</div>";
+
+                    });
+
+                    // id của thẻ tbody để hiển thị tất cả cá tr ra
+                    $('#load_data').append(str);
+                    action = 'inactive';
+                    check = 1;
+                    }
+                }
+            });
+      };
+
+      $('#search').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if (keycode == '13') {
+            tensp=$('#search').val();
+            page = 1;
+            [...document.getElementsByClassName("col-lg-4")].map(n => n && n.remove());
+            document.getElementById("removeno").remove();
+            LoadData(page,mahang,maloaisp,masize,tensp);
+          }
+      });
+
+    </script>
   </body>
 </html>

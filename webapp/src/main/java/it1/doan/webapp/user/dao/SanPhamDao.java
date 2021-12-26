@@ -37,7 +37,7 @@ public class SanPhamDao extends JdbcDaoSupport {
         return homeSanPham;
     }
 
-    public List<HomeSanPham> getallsp(ProductSearch productSearch,boolean check[]){
+    public List<HomeSanPham> getallsp(ProductSearch productSearch){
         String sql = "SELECT DISTINCT  V_SANPHAM.* " +
                 " FROM V_SANPHAM LEFT JOIN SANPHAMSIZE ON V_SANPHAM.MASP = SANPHAMSIZE.MASP  " +
                 " WHERE STATUS = 1 " ;
@@ -52,7 +52,7 @@ public class SanPhamDao extends JdbcDaoSupport {
             sql += " and MASIZE= '" + productSearch.getMasize() + "'";
         }
         if (productSearch.getTensp() != null && !productSearch.getTensp().isEmpty()&& productSearch.getTensp()!="") {
-            sql += " and TENSP= '" + productSearch.getTensp() + "'";
+            sql += " and TENSP LIKE  N'%" + productSearch.getTensp() + "%'";
         }
 
         HomeSanPhamMapper mapper = new HomeSanPhamMapper();
@@ -61,7 +61,7 @@ public class SanPhamDao extends JdbcDaoSupport {
     }
 
 
-    public List<HomeSanPham> getspSearch(ProductSearch productSearch, int start , int end , boolean check[]){
+    public List<HomeSanPham> getspSearch(ProductSearch productSearch, int start , int end ){
         String sql = "SELECT DISTINCT  V_SANPHAM.* " +
                 " FROM V_SANPHAM LEFT JOIN SANPHAMSIZE ON V_SANPHAM.MASP = SANPHAMSIZE.MASP  " +
                 " WHERE STATUS = 1 " ;
@@ -75,7 +75,7 @@ public class SanPhamDao extends JdbcDaoSupport {
             sql += " and MASIZE= '" + productSearch.getMasize() + "'";
         }
         if (productSearch.getTensp() != null && !productSearch.getTensp().isEmpty()&& productSearch.getTensp()!="") {
-            sql += " and TENSP= '" + productSearch.getTensp() + "'";
+            sql += " and TENSP LIKE  N'%" + productSearch.getTensp() + "%'";
         }
         sql +=  " ORDER BY STATUS DESC OFFSET " + (start-1) + "ROWS  " +
                 " FETCH NEXT  "+ end + "ROWS ONLY  ";

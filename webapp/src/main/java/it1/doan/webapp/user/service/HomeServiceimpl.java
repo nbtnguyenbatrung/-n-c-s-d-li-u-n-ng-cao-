@@ -77,13 +77,13 @@ public class HomeServiceimpl implements HomeService{
     }
 
     @Override
-    public List<HomeSanPham> getspSearch(ProductSearch productSearch, int start, int end , boolean check[]) {
-        return sanPhamDao.getspSearch(productSearch, start, end,check);
+    public List<HomeSanPham> getspSearch(ProductSearch productSearch, int start, int end ) {
+        return sanPhamDao.getspSearch(productSearch, start, end);
     }
 
     @Override
-    public List<HomeSanPham> getallsp(ProductSearch productSearch,boolean check[]) {
-        return sanPhamDao.getallsp(productSearch,check);
+    public List<HomeSanPham> getallsp(ProductSearch productSearch) {
+        return sanPhamDao.getallsp(productSearch);
     }
 
     @Override

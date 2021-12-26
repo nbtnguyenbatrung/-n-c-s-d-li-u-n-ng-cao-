@@ -120,10 +120,10 @@
                     <div class="col-lg-7 col-md-7">
                         <div class="advanced-search">
                             <button type="button" class="category-btn">All Product</button>
-                            <form action="#" class="input-group">
-                                <input type="text" placeholder="What do you need?">
+                            <div  class="input-group">
+                                <input type="text" placeholder="What do you need?" id="search">
                                 <button type="button"><i class="ti-search"></i></button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3 text-right col-md-3" th:if="${username} and ${sl} gt 0" >
@@ -766,6 +766,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                 }
             });
         };
+
+        $('#search').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if (keycode == '13') {
+            window.location='http://localhost:9999/shop?tensp='+$('#search').val();
+          }
+        });
     </script>
 </body>
 

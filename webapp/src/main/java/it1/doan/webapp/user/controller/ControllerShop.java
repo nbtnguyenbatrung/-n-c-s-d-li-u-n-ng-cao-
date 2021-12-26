@@ -12,7 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,11 +31,10 @@ public class ControllerShop {
     @Autowired
     AdminPagepml adminPage;
 
-    private int totalProductPage = 1;
-    private boolean check[] = {false,false,false,false,false};
+    private int totalProductPage = 3;
+
     @GetMapping("/shop")
-    public String getShop(Model model, HttpServletRequest request,
-                          @RequestParam(name = "page",required = false) String currentPage ){
+    public String getShop(Model model, HttpServletRequest request){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
             String name = authentication.getName();
@@ -66,55 +67,30 @@ public class ControllerShop {
         String tensp = request.getParameter("tensp");
         ProductSearch productSearch = new ProductSearch(mahang,maloaisp,masize,tensp);
 
-        if (currentPage == null) {
-            currentPage = "1";
-            check[0] = false;
-        }
-        if(mahang == "null" || mahang == "" || request.getParameter("mahang") == null){
-            productSearch.setMahang("");
-        }
-        if(maloaisp == "null" || maloaisp == "" || request.getParameter("maloaisp") == null){
-            productSearch.setMaloaisp("");
-        }
-        if(masize == "null" || masize == "" || request.getParameter("masize") == null){
-            productSearch.setMasize("");
-        }
-        if(tensp == "null" || tensp == "" || request.getParameter("tensp") == null){
-            productSearch.setTensp("");
-        }
-
-        List<HomeSanPham> homeSanPhams = homeService.getallsp(productSearch,check);
+        List<HomeSanPham> homeSanPhams = homeService.getallsp(productSearch);
         int totalData = homeSanPhams.size();
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-        List<HomeSanPham> sanPhams = homeService.getspSearch(productSearch,pagination.getStart(),totalProductPage,check);
-        model.addAttribute("sanPhams",sanPhams);
-        model.addAttribute("Page",pagination);
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,1);
         model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        String baseUrl = "/shop?mahang="+productSearch.getMahang()+"&maloaisp="+productSearch.getMaloaisp()+"&masize="+productSearch.getMasize()+"&tensp="+productSearch.getTensp()+"&page=";
-        model.addAttribute("baseUrl",baseUrl);
-        String urlmahang = "/shop?mahang=";
-        String urlmaloaisp = productSearch.getMahang()+"&maloaisp=";
-        String urlmasize = productSearch.getMahang()+"&maloaisp="+productSearch.getMaloaisp()+"&masize=";
-        String urltensp = productSearch.getMahang()+"&maloaisp="+productSearch.getMaloaisp()+"&masize="+productSearch.getMasize()+"&tensp=";
-        String urlphumahang ="&maloaisp="+productSearch.getMaloaisp()+"&masize="+productSearch.getMasize()+"&tensp="+productSearch.getTensp();
-        String urlphumaloaisp ="&masize="+productSearch.getMasize()+"&tensp="+productSearch.getTensp();
-        String urlphumasize ="&tensp="+productSearch.getTensp();
-        model.addAttribute("urlmahang",urlmahang);
-        model.addAttribute("urlmaloaisp",urlmaloaisp);
-        model.addAttribute("urlmasize",urlmasize);
-        model.addAttribute("urltensp",urltensp);
-        model.addAttribute("urlphumahang",urlphumahang);
-        model.addAttribute("urlphumaloaisp",urlphumaloaisp);
-        model.addAttribute("urlphumasize",urlphumasize);
         model.addAttribute("mahang",mahang);
         model.addAttribute("maloaisp",maloaisp);
-        model.addAttribute("masize",masize);
+        model.addAttribute("tensp",tensp);
         return "shop";
+    }
+
+    @RequestMapping("/productall")
+    @ResponseBody
+    public List<HomeSanPham> getallsp(HttpServletRequest request,
+                                      @RequestParam(name = "page",required = false) int currentPage){
+        String mahang = request.getParameter("mahang");
+        String maloaisp = request.getParameter("maloaisp");
+        String masize = request.getParameter("masize");
+        String tensp = request.getParameter("tensp");
+        ProductSearch productSearch = new ProductSearch(mahang,maloaisp,masize,tensp);
+        List<HomeSanPham> homeSanPhams = homeService.getallsp(productSearch);
+        int totalData = homeSanPhams.size();
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentPage);
+        List<HomeSanPham> sanPhams = homeService.getspSearch(productSearch,pagination.getStart(),totalProductPage);
+        return sanPhams;
     }
 
 }

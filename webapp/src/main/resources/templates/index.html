@@ -82,7 +82,7 @@
                   All Product
                 </button>
                 <div class="input-group">
-                  <input type="text" placeholder="What do you need?" />
+                  <input type="text" placeholder="What do you need?" id="search"/>
                   <button type="button"><i class="ti-search"></i></button>
                 </div>
               </div>
@@ -654,5 +654,13 @@
     <script th:src="@{js/jquery.slicknav.js}"></script>
     <script th:src="@{js/owl.carousel.min.js}"></script>
     <script th:src="@{js/main.js}"></script>
+    <script>
+        $('#search').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if (keycode == '13') {
+            window.location='http://localhost:9999/shop?tensp='+$('#search').val();
+          }
+        });
+    </script>
   </body>
 </html>

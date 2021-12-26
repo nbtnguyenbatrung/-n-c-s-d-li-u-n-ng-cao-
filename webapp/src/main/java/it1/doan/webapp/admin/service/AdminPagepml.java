@@ -50,7 +50,7 @@ public class AdminPagepml implements AdminPage {
             return 1;
         }
         if (currentPage > totalPage) {
-            return totalPage;
+            return totalPage+1;
         }
             return currentPage;
 

@@ -18,8 +18,8 @@ public interface HomeService {
     void updateadd(GioHang gioHang);
     boolean getgiohang(GioHang gioHang );
     List<GioHang> getgiohangbyone(GioHang gioHang);
-    List<HomeSanPham> getspSearch(ProductSearch productSearch, int start , int end, boolean check[]);
-    List<HomeSanPham> getallsp(ProductSearch productSearch,boolean check[]);
+    List<HomeSanPham> getspSearch(ProductSearch productSearch, int start , int end);
+    List<HomeSanPham> getallsp(ProductSearch productSearch);
 
     List<HoaDon> getallhd();
     void Insert(HoaDon hoaDon);
