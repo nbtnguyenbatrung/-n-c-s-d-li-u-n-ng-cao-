@@ -4,15 +4,19 @@ import it1.doan.webapp.admin.service.AdminPagepml;
 import it1.doan.webapp.admin.service.impl.AdminService;
 import it1.doan.webapp.admin.service.impl.DonHangService;
 import it1.doan.webapp.admin.service.impl.HoaDonService;
-import it1.doan.webapp.model.DonHang;
-import it1.doan.webapp.model.Pagination;
+import it1.doan.webapp.admin.service.impl.UserService;
+import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -25,10 +29,28 @@ public class ControLLerAdminDonHang {
     HoaDonService hoaDonService;
     @Autowired
     DonHangService donHangServicel;
+    @Autowired
+    UserService userService;
     private int totalProductPage = 9;
 
-    @GetMapping("/donhang")
-    public String getAdmindonhang(Model model ,@RequestParam(name = "page",required = false) String currentPage){
+    @GetMapping("/admin/donhang")
+    public String getAdmindonhang(Model model ,@RequestParam(name = "page",required = false) String currentPage,
+                        HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
+        }
+
         if (currentPage == null) {
             currentPage = "1";
         }
@@ -50,27 +72,38 @@ public class ControLLerAdminDonHang {
         return "admin/donhang";
     }
 
-    @GetMapping("/hoadon")
-    public String getAdminhoadon(Model model ,@RequestParam(name = "page",required = false) String currentPage){
-        if (currentPage == null) {
-            currentPage = "1";
+    @GetMapping("/admin/hoadon")
+    public String getAdminhoadon(Model model ,
+                                HttpServletRequest request ){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
         }
-        List<DonHang> donHangs = adminService.getAllhd();
-        int totalData = donHangs.size();
-        String baseUrl = "/hoadon?page=";
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-        List<DonHang> donHangs1 = adminService.getPagehd(pagination.getStart(),totalProductPage);
-        model.addAttribute("localDate", LocalDate.now());
-        model.addAttribute("hoadon",donHangs1);
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        model.addAttribute("baseUrl",baseUrl);
+
         return "admin/hoadon";
+    }
+
+    @RequestMapping(value = "/admin/hoadonall",method = {RequestMethod.GET})
+    @ResponseBody
+    public List<DonHang> getallhoadon(@RequestParam(name = "page",required = false) int currentPage,
+                                     @RequestParam(name = "startdate",required = false) Date startdate ,
+                                     @RequestParam(name = "enddate",required = false) Date enddate){
+        List<DonHang> donHangs = adminService.getAllhd(startdate,enddate);
+        int totalData = donHangs.size();
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentPage);
+        List<DonHang> donHangs1 = adminService.getPagehd(pagination.getStart(),totalProductPage,startdate,enddate);
+
+        return donHangs1;
     }
 
     @GetMapping("/deletehd")
@@ -81,7 +114,23 @@ public class ControLLerAdminDonHang {
 
     @RequestMapping("/chitiethoadon")
     public String chitiethoadon(Model model , @RequestParam(name = "id") String id ,
-                                @RequestParam(name = "page",required = false) String currentPage){
+                                @RequestParam(name = "page",required = false) String currentPage,
+                                HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
+        }
+
         if (currentPage == null) {
             currentPage = "1";
         }

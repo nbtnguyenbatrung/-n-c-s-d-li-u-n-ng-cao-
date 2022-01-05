@@ -61,13 +61,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!-- user login dropdown start-->
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <img alt="" src="admin/images/3.png">
-                <span class="username">John Doe</span>
+                <img alt="" th:src="@{admin/images/3.png}">
+                <span class="username" th:utext="${username}"></span>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu extended logout">
-                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                <li><a href="login.html"><i class="fa fa-key"></i> Log Out</a></li>
+
+                <li><a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a></li>
             </ul>
         </li>
         <!-- user login dropdown end -->
@@ -96,43 +96,43 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Sản phẩm </span>
                     </a>
                     <ul class="sub">
-						<li><a href="http://localhost:9999/sanpham">Sản phẩm </a></li>
-                        <li><a href="http://localhost:9999/sanphamsize">Sản phẩm size </a></li>
-                        <li><a href="http://localhost:9999/sanphamkhuyenmai">Sản phẩm khuyến mại </a></li>
-                        <li><a href="http://localhost:9999/sanphamdanhgia">Sản phẩm được đánh giá </a></li>
+						<li><a href="http://localhost:9999/admin/sanpham">Sản phẩm </a></li>
+                        <li><a href="http://localhost:9999/admin/sanphamsize">Sản phẩm size </a></li>
+                        <li><a href="http://localhost:9999/admin/sanphamkhuyenmai">Sản phẩm khuyến mại </a></li>
+                        <li><a href="http://localhost:9999/admin/sanphamdanhgia">Sản phẩm được đánh giá </a></li>
                     </ul>
                 </li>
 
 				<li>
-                    <a href="http://localhost:9999/thuonghieu">
+                    <a href="http://localhost:9999/admin/thuonghieu">
                         <i class="fa fa-book"></i>
                         <span> thương hiệu sản phẩm </span>
                     </a>
                 </li>
 
 				<li>
-                    <a href="http://localhost:9999/khuyenmai">
+                    <a href="http://localhost:9999/admin/khuyenmai">
                         <i class="fa fa-money"></i>
                         <span> Khuyến mãi </span>
                     </a>
                 </li>
 
 				<li>
-                    <a href="http://localhost:9999/loaisanpham">
+                    <a href="http://localhost:9999/admin/loaisanpham">
                         <i class="fa fa-book"></i>
                         <span> Loại sản phẩm </span>
                     </a>
                 </li>
 				
 				<li>
-                    <a href="http://localhost:9999/size">
+                    <a href="http://localhost:9999/admin/size">
                         <i class="fa fa-book"></i>
                         <span> Size </span>
                     </a>
                 </li>
 
 				<li>
-                    <a href="http://localhost:9999/nguoidung">
+                    <a href="http://localhost:9999/admin/nguoidung">
                         <i class="fa fa-group"></i>
                         <span> Người dùng </span>
                     </a>
@@ -144,8 +144,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span> Hóa đơn </span>
                     </a>
                     <ul class="sub">
-                        <li><a href="http://localhost:9999/donhang"> Đơn hàng </a></li>
-                        <li><a href="http://localhost:9999/hoadon">Hóa đơn </a></li>
+                        <li><a href="http://localhost:9999/admin/donhang"> Đơn hàng </a></li>
+                        <li><a href="http://localhost:9999/admin/hoadon">Hóa đơn </a></li>
 						
                     </ul>
                 </li>

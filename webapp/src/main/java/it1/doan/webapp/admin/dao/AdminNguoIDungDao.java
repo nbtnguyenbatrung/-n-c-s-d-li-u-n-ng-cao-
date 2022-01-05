@@ -24,8 +24,12 @@ public class AdminNguoIDungDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<NguoiDung> getPagend(int start , int end){
-        String sql ="SELECT * FROM NGUOIDUNG ORDER BY ID DESC OFFSET " + (start-1) + "ROWS  " +
+    public List<NguoiDung> getPagend(int start , int end ,String keyword){
+        String sql ="SELECT * FROM NGUOIDUNG " ;
+        if(keyword != null ){
+            sql += " WHERE ID LIKE  N'%" + keyword + "%'  OR HOTEN LIKE  N'%" + keyword + "%' OR EMAIL LIKE  N'%" + keyword + "%'";
+        }
+        sql +=  "ORDER BY ID DESC OFFSET " + (start-1) + "ROWS  " +
                 " FETCH NEXT  "+ end + "ROWS ONLY  ";
         NguoIDungMapper mapper = new NguoIDungMapper();
         List<NguoiDung> nguoiDungs= this.getJdbcTemplate().query(sql,mapper);
@@ -34,6 +38,16 @@ public class AdminNguoIDungDao extends JdbcDaoSupport {
 
     public List<NguoiDung> getAllnd(){
         String sql ="SELECT * FROM NGUOIDUNG ";
+        NguoIDungMapper mapper = new NguoIDungMapper();
+        List<NguoiDung> nguoiDungs= this.getJdbcTemplate().query(sql,mapper);
+        return  nguoiDungs;
+    }
+
+    public List<NguoiDung> getAllnd(String keyword){
+        String sql ="SELECT * FROM NGUOIDUNG ";
+        if(keyword != null){
+            sql += " WHERE ID LIKE  N'%" + keyword + "%'  OR HOTEN LIKE  N'%" + keyword + "%' OR EMAIL LIKE  N'%" + keyword + "%'";
+        }
         NguoIDungMapper mapper = new NguoIDungMapper();
         List<NguoiDung> nguoiDungs= this.getJdbcTemplate().query(sql,mapper);
         return  nguoiDungs;

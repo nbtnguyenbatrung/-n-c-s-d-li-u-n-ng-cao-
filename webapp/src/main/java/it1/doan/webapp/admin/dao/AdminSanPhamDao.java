@@ -18,8 +18,12 @@ public class AdminSanPhamDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<SanPham> getPagesp(int start , int end){
-        String sql ="SELECT * FROM SANPHAM ORDER BY MASP DESC OFFSET " + (start-1) + "ROWS  " +
+    public List<SanPham> getPagesp(int start , int end , String keyword){
+        String sql ="SELECT * FROM SANPHAM WHERE STATUS = 1 " ;
+        if(keyword != null){
+            sql += " AND MASP LIKE  N'%" + keyword + "%'  OR TENSP LIKE  N'%" + keyword + "%'";
+        }
+        sql +=  " ORDER BY MASP DESC OFFSET " + (start-1) + "ROWS  " +
                 " FETCH NEXT  "+ end + "ROWS ONLY  ";
         SanPhamMapper mapper = new SanPhamMapper();
         List<SanPham> sanPhams= this.getJdbcTemplate().query(sql,mapper);
@@ -41,6 +45,22 @@ public class AdminSanPhamDao extends JdbcDaoSupport {
                 return  sanPhams;
             }
             return  null;
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
+    }
+
+    public List<SanPham> getAllsp(String keyword){
+        try {
+
+                String sql ="SELECT * FROM SANPHAM WHERE STATUS = 1";
+                if(keyword != null){
+                    sql += " AND MASP LIKE  N'%" + keyword + "%'  OR TENSP LIKE  N'%" + keyword + "%'";
+                }
+                SanPhamMapper mapper = new SanPhamMapper();
+                List<SanPham> sanPhams= this.getJdbcTemplate().query(sql,mapper);
+                return  sanPhams;
         }catch (EmptyResultDataAccessException e){
             return null;
         }

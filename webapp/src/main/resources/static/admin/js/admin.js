@@ -1,7 +1,7 @@
 $(document).ready(function(){
-    $('.editthuonghieu').on('click',function(event){
-        event.preventDefault();
-        var href = $(this).attr('href');
+    $('body').on('click','.editthuonghieu',function(){
+        var mahang=$(this).data('mahangedit');
+        var href = '/findOneth/?id=' + mahang;
         $.get(href,function(thuonghieu,status){
             $('.myform #maHang').val(thuonghieu.maHang);
             $('.myform #tenHang').val(thuonghieu.tenHang);
@@ -25,7 +25,7 @@ $(document).ready(function(){
              },
              success: function(value ) {
                    alert(value);
-                   window.location =" http://localhost:9999/thuonghieu";
+                   window.location =" http://localhost:9999/admin/thuonghieu";
              },
              error: function(e){
                   alert(" ERROR! ");
@@ -50,7 +50,7 @@ $(document).ready(function(){
               },
               success: function(value ) {
                     alert(value);
-                    window.location =" http://localhost:9999/thuonghieu";
+                    window.location =" http://localhost:9999/admin/thuonghieu";
               },
               error: function(e){
                    alert(" ERROR! ");
@@ -60,9 +60,9 @@ $(document).ready(function(){
         }
     });
 
-    $('.editsize').on('click',function(event){
-            event.preventDefault();
-            var href = $(this).attr('href');
+    $('body').on('click','.editsize',function(){
+            var masize=$(this).data('masizeedit');
+            var href = '/findOnesize/?id=' + masize;
             $.get(href,function(size,status){
                 $('.myform #maSize').val(size.maSize);
                 $('.myform #tenSize').val(size.tenSize);
@@ -84,7 +84,7 @@ $(document).ready(function(){
                           },
                     success: function(value ) {
                         alert(value);
-                        window.location =" http://localhost:9999/size";
+                        window.location =" http://localhost:9999/admin/size";
                         },
                     error: function(e){
                        alert(" ADD KHÔNG ĐƯỢC : TÊN SIZE GIỐNG NHAU!! ");
@@ -106,7 +106,7 @@ $(document).ready(function(){
                   },
                   success: function(value ) {
                         alert(value);
-                        window.location =" http://localhost:9999/size";
+                        window.location =" http://localhost:9999/admin/size";
                   },
                   error: function(e){
                        alert(" EDIT KHÔNG ĐƯỢC : TÊN SIZE GIỐNG NHAU! ");
@@ -115,9 +115,10 @@ $(document).ready(function(){
          }
     });
 
-    $('.editsanphamsize').on('click',function(event){
-         event.preventDefault();
-         var href = $(this).attr('href');
+    $('body').on('click','.editsanphamsize',function(){
+         var masize=$(this).data('masizeedit');
+         var masp=$(this).data('maspedit');
+         var href = '/findOnespsize/?id='+masize+'&id2='+masp;
          $.get(href,function(sanphamsize,status){
             $('.myform #masp').val(sanphamsize.maSP);
             $('.myform #masize').val(sanphamsize.maSize);
@@ -140,7 +141,7 @@ $(document).ready(function(){
              },
              success: function(value ) {
                  alert(value);
-                 window.location =" http://localhost:9999/sanphamsize";
+                 window.location =" http://localhost:9999/admin/sanphamsize";
              },
              error: function(e){
                  alert(" ĐÃ CÓ SIZE NÀY THUỘC SẢN PHẨM  ");
@@ -164,7 +165,7 @@ $(document).ready(function(){
              },
              success: function(value ) {
                   alert(value);
-                  window.location =" http://localhost:9999/sanphamsize";
+                  window.location =" http://localhost:9999/admin/sanphamsize";
              },
              error: function(e){
                   alert(" ĐÃ CÓ SIZE NÀY THUỘC SẢN PHẨM ");
@@ -174,9 +175,9 @@ $(document).ready(function(){
        }
     });
 
-    $('.editloaisp').on('click',function(event){
-         event.preventDefault();
-         var href = $(this).attr('href');
+    $('body').on('click','.editloaisp',function(){
+         var maloaisp=$(this).data('maloaispedit');
+         var href = '/findOneloaisp/?id='+maloaisp;
          $.get(href,function(loaisanpham,status){
             $('.myform #maLoaiSP').val(loaisanpham.maLoaiSP);
             $('.myform #tenLoaiSP').val(loaisanpham.tenLoaiSP);
@@ -228,9 +229,9 @@ $(document).ready(function(){
           });
        }
     });
-    $('.editkm').on('click',function(event){
-         event.preventDefault();
-         var href = $(this).attr('href');
+    $('body').on('click','.editkm',function(){
+         var makm=$(this).data('makmedit');
+         var href = '/findOnekm/?id='+makm;
          $.get(href,function(khuyenmai,status){
             $('.myform #makm').val(khuyenmai.maKM);
             $('.myform #tenkm').val(khuyenmai.tenKM);
@@ -334,9 +335,9 @@ $(document).ready(function(){
              });
     });
 
-    $('.editsanpham').on('click',function(event){
-          event.preventDefault();
-          var href = $(this).attr('href');
+    $('body').on('click','.editsanpham',function(){
+          var masp=$(this).data('maspedit');
+          var href = '/findOnesp/?id='+masp;
           $.get(href,function(sanpham,status){
              $('.myform #masp').val(sanpham.maSP);
              $('.myform #mahang').val(sanpham.maHang);
@@ -569,9 +570,9 @@ $(document).ready(function(){
             }
             });
 
-    $('.editnguoidung').on('click',function(event){
-            event.preventDefault();
-            var href = $(this).attr('href');
+    $('body').on('click','.editnguoidung',function(){
+            var id=$(this).data('idedit');
+            var href = '/findOnend/?id='+id;
             $.get(href,function(nguoidung,status){
                 $('.myform #nameedit').val(nguoidung.hoten);
                 $('.myform #sdtedit').val(nguoidung.sdt);

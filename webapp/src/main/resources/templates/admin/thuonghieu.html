@@ -54,18 +54,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="top-nav clearfix">
     <!--search & user info start-->
     <ul class="nav pull-right top-menu">
-        <li>
-            <input type="text" class="form-control search" placeholder=" Search">
-        </li>
+
         <!-- user login dropdown start-->
         <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <a data-toggle="dropdown" class="dropdown-toggle" >
                 <img alt="" th:src="@{images/3.png}">
                 <span class="username" th:utext="${username}"></span>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu extended logout">
-                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
                 <li><a th:href="@{/logout}"><i class="fa fa-key"></i> Log Out</a></li>
             </ul>
         </li>
@@ -95,43 +92,43 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Sản phẩm</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="http://localhost:9999/sanpham">Sản phẩm </a></li>
-                        <li><a href="http://localhost:9999/sanphamsize">Sản phẩm size </a></li>
-                        <li><a href="http://localhost:9999/sanphamkhuyenmai">Sản phẩm khuyến mại </a></li>
-                        <li><a href="http://localhost:9999/sanphamdanhgia">Sản phẩm được đánh giá </a></li>
+                        <li><a href="http://localhost:9999/admin/sanpham">Sản phẩm </a></li>
+                        <li><a href="http://localhost:9999/admin/sanphamsize">Sản phẩm size </a></li>
+                        <li><a href="http://localhost:9999/adminsanphamkhuyenmai">Sản phẩm khuyến mại </a></li>
+                        <li><a href="http://localhost:9999/admin/sanphamdanhgia">Sản phẩm được đánh giá </a></li>
                     </ul>
                 </li>
 
                 <li>
-                  <a class="active" href="http://localhost:9999/thuonghieu">
+                  <a class="active" href="http://localhost:9999/admin/thuonghieu">
                       <i class="fa fa-book"></i>
                       <span> thương hiệu sản phẩm </span>
                   </a>
                 </li>
 
                 <li>
-                  <a href="http://localhost:9999/khuyenmai">
+                  <a href="http://localhost:9999/admin/khuyenmai">
                       <i class="fa fa-money"></i>
                       <span> Khuyến mãi </span>
                   </a>
                 </li>
 
                 <li>
-                  <a href="http://localhost:9999/loaisanpham">
+                  <a href="http://localhost:9999/admin/loaisanpham">
                       <i class="fa fa-book"></i>
                       <span> Loại sản phẩm </span>
                   </a>
                 </li>
 
                 <li>
-                  <a href="http://localhost:9999/size">
+                  <a href="http://localhost:9999/adminsize">
                       <i class="fa fa-book"></i>
                       <span> Size </span>
                   </a>
                 </li>
 
                 <li>
-                  <a href="http://localhost:9999/nguoidung">
+                  <a href="http://localhost:9999/admin/nguoidung">
                       <i class="fa fa-group"></i>
                       <span> Người dùng </span>
                   </a>
@@ -142,8 +139,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Hóa đơn</span>
                     </a>
                     <ul class="sub">
-                      <li><a href="http://localhost:9999/donhang"> Đơn hàng </a></li>
-                      <li><a href="http://localhost:9999/hoadon">Hóa đơn </a></li>
+                      <li><a href="http://localhost:9999/admin/donhang"> Đơn hàng </a></li>
+                      <li><a href="http://localhost:9999/admin/hoadon">Hóa đơn </a></li>
                     </ul>
                 </li>
                 
@@ -167,10 +164,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <section id="main-content">
 	<section class="wrapper">
 		<div class="table-agile-info">
+      <div style="    display: flex;">
       <button title=" Thêm " style="background: transparent; border: none;" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" >
         <i class="fa fa-plus" style="color : black "></i>
         <span style="color: black;"> Add </span>
       </button>
+      <input title="search" id="search" type="text" class="form-control search" placeholder=" Search">
+      </div>
     <!-- phần modal của add  -->
       <div class="modal fade bs-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" align = center>
         <div class="modal-dialog modal-lg" role="document">
@@ -243,22 +243,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <th style="text-align:center">Tác Vụ </th>
           </tr>
         </thead>
-        <tbody th:each="thuonghieu:${thuonghieupage}">
-          <tr data-expanded="true" align="center">
-            <td th:text="${thuonghieu.maHang}"></td>
-            <td th:text="${thuonghieu.tenHang}"></td>
-            <td><img th:src="@{'img/logo/'+${thuonghieu.logo}}" height="130" width="120"
-                     class="img-thumbnail" > </td>
-            <td>
-              <a th:href="@{/findOneth/(id=${thuonghieu.maHang})}" class="editthuonghieu"><button title=" Sửa " data-toggle="modal" data-target=".bs-example-modal-lg1"> <i class="fa fa-wrench" style="color : black; "></i> </button> </a>
-              <a th:data-id = "${thuonghieu.maHang}"
-                 th:data-name = "${thuonghieu.tenHang}"
-              onclick="Showconfim(this.getAttribute('data-id'),this.getAttribute('data-name'))">
-                  <button title=" xóa "> <i class="fa fa-times" style="color : black "></i> </button>
-               </a>
-            </td>
-          </tr>
-          <tr>
+        <tbody  id="load_data">
+
         </tbody>
       </table>
 
@@ -335,35 +321,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         </div>
 
-        <!-- phần phân trang  -->
-      <div class="col-sm-7 text-right text-center-xs">
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
-          <li ><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
-        </ul>
-
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} > 1">
-            <li ><a th:href="@{|${baseUrl}${Previous}|}"><i class="fa fa-angle-left"></i></a></li>
-        </ul>
-
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} > ${PreviousLeft} and ${i} < ${CurrentPage}">
-            <li ><a th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-        </ul>
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} == ${CurrentPage} ">
-            <li ><a style="background: aquamarine;" th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-        </ul>
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:each="i : ${#numbers.sequence( 1, totalpage ,1)}" th:if="${i} != ${CurrentPage} and ${i} < ${PreviousRight} and ${i} > ${CurrentPage}">
-            <li ><a th:href="@{|${baseUrl}${i}|}" th:text="${i}"></a></li>
-        </ul>
-
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} <  ${Page.totalPage}">
-            <li><a th:href="@{|${baseUrl}${Next}|}"><i class="fa fa-angle-right"></i></a></li>
-        </ul>
-
-        <ul class="pagination pagination-sm m-t-none m-b-none" th:if="${Page.currentPage} < ${Page.totalPage} ">
-            <li><a th:href="@{|${baseUrl}${totalpage}|}"><i class="fa fa-angle-double-right"></i></a></li>
-        </ul>
-
-      </div>
     </div>
   </div>
 </div>
@@ -389,11 +346,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script th:src="@{js/admin.js}"></script>
 <!-- scrip chó thêm sửa xóa upload ảnh -->
 <script>
-            function Showconfim(id , name){
-					$('#ThuonghieuName').text(name);
-					$('#yesOption').attr('href','/deleteth?id='+id);
-					$('#ConfimationId').modal('show');
-			}
+            var page = 1;
+            var action = 'inactive';
+            var check = 1;
+            var keyword = "" ;
 
 			function choosefile(fileInput){
 			    if(fileInput.files && fileInput.files[0]){
@@ -438,6 +394,95 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			function showinfomation(){
                 alert(" xóa dữ liệu thành công  ");
             }
+
+        $(document).ready(function(){
+            if(action == 'inactive'){
+                action = 'active';
+                LoadData(page,keyword);
+            }
+
+            $(window).scroll(function(){
+
+                if($(window).scrollTop() + $(window).height() > $('#load_data').height() && check == 1 && action == 'inactive')
+                {
+                    action = 'active';
+                    page = page + 1;
+                    setTimeout(function(){
+                        LoadData(page,keyword);
+                    },1000);
+                }
+            });
+
+            $('body').on('click','.Showconfim',function(){
+                var name = $(this).data('name');
+                var id = $(this).data('id');
+                $('#ThuonghieuName').text(name);
+					$('#yesOption').attr('href','/deleteth?id='+id);
+					$('#ConfimationId').modal('show');
+            });
+        });
+        function LoadData(page,keyword) {
+            $.ajax({
+                url: 'http://localhost:9999/admin/thuonghieuall',
+                type: 'GET',
+                data: {
+                    page : page,
+                    keyword : keyword,
+                },
+                success: function (rs) {
+                    if(rs == ""){
+                        check = 2;
+                    }else{
+                        var str = "";
+                        $.each(rs, function (i, item) {
+
+                            var img = './img/logo/' + item.logo;
+                            var href = '/findOneth/?id=' + item.maHang;
+                            str += "<tr data-expanded='true' align='center' class='trung'> " ;
+                            str += "<td>" + item.maHang;
+                            str += "</td>";
+                            str += "<td >" + item.tenHang;
+                            str += "</td>";
+                            str += "<td>" ;
+                            str += "<img src=" +img + " height='130' width='120' class='img-thumbnail' >";
+                            str += "</td>";
+                            str += "<td>";
+                            str += "<a data-mahangedit = '"+item.maHang+"' class='editthuonghieu'>";
+                            str += "<button title=' Sửa ' data-toggle='modal' data-target='.bs-example-modal-lg1'>";
+                            str += "<i class='fa fa-wrench' style='color : black; '>";
+                            str += "</i>";
+                            str += "</button>";
+                            str += "</a>";
+                            str += "<a data-id = '"+item.maHang+"' data-name = '"+item.tenHang+"' class='Showconfim' >";
+                            str += "<button title=' xóa '>";
+                            str += "<i class='fa fa-times' style='color : black '>";
+                            str += "</i>";
+                            str += "</button>";
+                            str += "</a>";
+                            str += "</td>";
+                            str += "</tr>";
+
+                        });
+
+                        // id của thẻ tbody để hiển thị tất cả cá tr ra
+                        $('#load_data').append(str);
+                        action = 'inactive';
+                        check = 1;
+
+                    }
+                }
+            });
+      };
+
+      $('#search').keypress(function(event){
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if (keycode == '13') {
+            keyword=$('#search').val();
+            page = 1;
+            [...document.getElementsByClassName("trung")].map(n => n && n.remove());
+            LoadData(page,keyword);
+          }
+      });
 
 </script>
 </body>

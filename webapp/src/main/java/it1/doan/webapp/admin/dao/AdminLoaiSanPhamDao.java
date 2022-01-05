@@ -17,8 +17,12 @@ public class AdminLoaiSanPhamDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<LoaiSanPham> getPageloaisp(int start , int end){
-        String sql ="SELECT * FROM LOAISANPHAM WHERE STATUS = 1 ORDER BY MALOAISP DESC OFFSET " + (start-1) + "ROWS  " +
+    public List<LoaiSanPham> getPageloaisp(int start , int end , String keyword){
+        String sql ="SELECT * FROM LOAISANPHAM WHERE STATUS = 1" ;
+        if(keyword != null){
+            sql += " AND MALOAISP LIKE  N'%" + keyword + "%'  OR TENLOAISP LIKE  N'%" + keyword + "%'";
+        }
+        sql +=  " ORDER BY MALOAISP DESC OFFSET " + (start-1) + "ROWS  " +
                 " FETCH NEXT  "+ end + "ROWS ONLY  ";
         LoaiSanPhamMapper mapper = new LoaiSanPhamMapper();
         List<LoaiSanPham> loaiSanPhams= this.getJdbcTemplate().query(sql,mapper);
@@ -41,6 +45,24 @@ public class AdminLoaiSanPhamDao extends JdbcDaoSupport {
                 return loaiSanPhams;
             }
             return null;
+
+        }
+        catch (EmptyResultDataAccessException e){
+            return  null;
+        }
+    }
+
+    public List<LoaiSanPham> getAllloaisp(String keyword){
+
+        try {
+
+                String sql = "SELECT * FROM LOAISANPHAM WHERE STATUS = 1" ;
+                if(keyword != null){
+                    sql += " AND MALOAISP LIKE  N'%" + keyword + "%'  OR TENLOAISP LIKE  N'%" + keyword + "%'";
+                }
+                LoaiSanPhamMapper mapper = new LoaiSanPhamMapper();
+                List<LoaiSanPham> loaiSanPhams = this.getJdbcTemplate().query(sql,mapper);
+                return loaiSanPhams;
 
         }
         catch (EmptyResultDataAccessException e){

@@ -10,6 +10,10 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -18,9 +22,14 @@ public class AdminHoaDonDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<DonHang> getPagehd(int start , int end){
+    public List<DonHang> getPagehd(int start , int end , Date startdate , Date enddate){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String sql ="SELECT MAHD,NGAYLAP,SUM(DONGIA*SOLUONG) AS GIATRI" +
-                " FROM V_HOADON WHERE TRANGTHAI = 1 GROUP BY MAHD,NGAYLAP " +
+                " FROM V_HOADON  " ;
+        if(!dateFormat.format(startdate).equals(dateFormat.format(new Date())) && !dateFormat.format(enddate).equals(dateFormat.format(new Date())) ){
+            sql += " WHERE NGAYLAP between '" + dateFormat.format(startdate) + "' and '" + dateFormat.format(enddate) + "'";
+        }
+        sql +=  " GROUP BY MAHD,NGAYLAP " +
                 " ORDER BY NGAYLAP DESC OFFSET " + (start-1) + " ROWS  " +
                 " FETCH NEXT  "+ end + " ROWS ONLY  ";
         HoaDonMapper mapper = new HoaDonMapper();
@@ -28,9 +37,14 @@ public class AdminHoaDonDao extends JdbcDaoSupport {
         return  donHangs;
     }
 
-    public List<DonHang> getAllhd(){
+    public List<DonHang> getAllhd(Date startdate , Date enddate){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String sql ="SELECT MAHD,NGAYLAP,SUM(DONGIA*SOLUONG) AS GIATRI  " +
-                "FROM V_HOADON GROUP BY MAHD,NGAYLAP ORDER BY NGAYLAP ";
+                "FROM V_HOADON " ;
+        if(!dateFormat.format(startdate).equals(dateFormat.format(new Date())) && !dateFormat.format(enddate).equals(dateFormat.format(new Date()))){
+            sql += " WHERE NGAYLAP between '" + dateFormat.format(startdate) + "' and '" + dateFormat.format(enddate) + "' ";
+        }
+        sql +=  "GROUP BY MAHD,NGAYLAP ORDER BY NGAYLAP ";
         HoaDonMapper mapper = new HoaDonMapper();
         List<DonHang> donHangs= this.getJdbcTemplate().query(sql,mapper);
         return  donHangs;

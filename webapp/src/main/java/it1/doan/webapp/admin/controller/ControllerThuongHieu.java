@@ -36,8 +36,7 @@ public class ControllerThuongHieu {
     private int totalProductPage = 9;
 
     @GetMapping( "/admin/thuonghieu")
-    public String getAdminthuonghieu(Model model , HttpServletRequest request ,
-                                     @RequestParam(name = "page",required = false) String currentPage){
+    public String getAdminthuonghieu(Model model , HttpServletRequest request){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication!=null){
@@ -53,28 +52,22 @@ public class ControllerThuongHieu {
 
         }
 
-        if (currentPage == null) {
-            currentPage = "1";
-        }
-        String baseUrl = "/thuonghieu?page=";
         List<ThuongHieu> thuongHieus2 = adminService.getAllthuonghieu(2);
-        List<ThuongHieu> thuongHieus = adminService.getAllthuonghieu(1);
-        int totalData = thuongHieus.size();
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-        List<ThuongHieu> thuongHieus1 = adminService.getPagethuonghieu(pagination.getStart(),totalProductPage);
-        model.addAttribute("localDate", LocalDate.now());
-        model.addAttribute("thuonghieupage",thuongHieus1);
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        model.addAttribute("baseUrl",baseUrl);
         ThuongHieu thuongHieu = new ThuongHieu("HA"+function.Laystt(thuongHieus2.get(0).getMaHang()));
         model.addAttribute("thuonghieu",thuongHieu);
         return "admin/thuonghieu";
+    }
+
+    @RequestMapping(value = "/admin/thuonghieuall",method = {RequestMethod.GET})
+    @ResponseBody
+    public List<ThuongHieu> getallthuonghieu(@RequestParam(name = "page",required = false) int currentPage,
+                                             @RequestParam(name = "keyword",required = false) String keyword){
+        List<ThuongHieu> thuongHieus = adminService.getallthuonghieu(keyword);
+        int totalData = thuongHieus.size();
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentPage);
+        List<ThuongHieu> thuongHieus1 = adminService.getPagethuonghieu(pagination.getStart(),totalProductPage,keyword);
+
+        return thuongHieus1;
     }
 
     @RequestMapping(value = "/saveth",method = {RequestMethod.GET})

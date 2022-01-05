@@ -4,14 +4,18 @@ import it1.doan.webapp.admin.service.AdminPagepml;
 import it1.doan.webapp.admin.service.impl.AdminService;
 import it1.doan.webapp.admin.service.impl.DanhGiaService;
 import it1.doan.webapp.admin.service.impl.SanPhamService;
+import it1.doan.webapp.admin.service.impl.UserService;
 import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -27,12 +31,31 @@ public class ControllerAdminSanPhamDanhGia {
     SanPhamService sanPhamService;
     private int totalProductPage = 9;
 
-    @GetMapping("/sanphamdanhgia")
+    @Autowired
+    UserService userService;
+
+    @GetMapping("/admin/sanphamdanhgia")
     public String getAdminsanphamdanhgia(Model model , final HttpServletResponse response ,
                                          @RequestParam(name = "page",required = false) String currentPage,
                                         @RequestParam(name = "id",required = false) String masp,
                                          @RequestParam(name = "sosao",required = false) String sosao,
-                                        @RequestParam(name = "bl",required = false) String bl){
+                                        @RequestParam(name = "bl",required = false) String bl,
+                                         HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
+        }
+
         String maspview;
         float sosaoview;
         String blview;
@@ -62,7 +85,7 @@ public class ControllerAdminSanPhamDanhGia {
         SanPham sanPhams = sanPhamService.Get(maspview);
         if (sanPhams == null){
             response.setStatus(HttpStatus.NOT_FOUND.value());
-            String url = "http://localhost:9999/sanphamdanhgia";
+            String url = "http://localhost:9999/admin/sanphamdanhgia";
             model.addAttribute("url",url);
             return "admin/404";
         }
@@ -91,11 +114,11 @@ public class ControllerAdminSanPhamDanhGia {
         model.addAttribute("Next",pagination.getCurrentPage()+1);
         model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
         model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        String baseUrl = "/sanphamdanhgia?id="+maspview+"&sosao="+sosaourl+"&bl="+blview+"&page=";
+        String baseUrl = "/admin/sanphamdanhgia?id="+maspview+"&sosao="+sosaourl+"&bl="+blview+"&page=";
         model.addAttribute("baseUrl",baseUrl);
         model.addAttribute("sosaoif",sosao);
         model.addAttribute("blif",blview);
-        String url = "/sanphamdanhgia?id="+maspview+"&sosao=";
+        String url = "/admin/sanphamdanhgia?id="+maspview+"&sosao=";
         model.addAttribute("url",url);
         String url1 = "&bl="+blview+"&page=1";
         model.addAttribute("url1",url1);

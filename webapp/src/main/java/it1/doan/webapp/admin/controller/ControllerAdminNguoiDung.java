@@ -7,11 +7,14 @@ import it1.doan.webapp.model.NguoiDung;
 import it1.doan.webapp.model.Pagination;
 import it1.doan.webapp.model.ThuongHieu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,27 +29,36 @@ public class ControllerAdminNguoiDung {
 
     private int totalProductPage = 9;
 
-    @GetMapping("/nguoidung")
-    public String getAdminnguoidung(Model model ,@RequestParam(name = "page",required = false) String currentPage){
-        if (currentPage == null) {
-            currentPage = "1";
+    @GetMapping("/admin/nguoidung")
+    public String getAdminnguoidung(Model model , HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
         }
-        List<NguoiDung> nguoiDungs = adminService.getAllnd();
-        int totalData = nguoiDungs.size();
-        String baseUrl = "/nguoidung?page=";
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-        List<NguoiDung> nguoiDungs1 = adminService.getPagend(pagination.getStart(),totalProductPage);
-        model.addAttribute("localDate", LocalDate.now());
-        model.addAttribute("nguoidung",nguoiDungs1);
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        model.addAttribute("baseUrl",baseUrl);
+
         return "admin/nguoidung";
+    }
+
+    @RequestMapping(value = "/admin/nguoidungall",method = {RequestMethod.GET})
+    @ResponseBody
+    public List<NguoiDung> getallnguoidung(@RequestParam(name = "page",required = false) int currentPage,
+                                             @RequestParam(name = "keyword",required = false) String keyword){
+        List<NguoiDung> nguoiDungs = adminService.getAllnd(keyword);
+        int totalData = nguoiDungs.size();
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentPage);
+        List<NguoiDung> nguoiDungs1 = adminService.getPagend(pagination.getStart(),totalProductPage,keyword);
+
+        return nguoiDungs1;
     }
 
     @RequestMapping(value = "/savend",method = {RequestMethod.GET})

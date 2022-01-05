@@ -19,9 +19,13 @@ public class AdminSizeDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<Size> getPageSize(int start , int end){
+    public List<Size> getPageSize(int start , int end , String keyword){
         try {
-            String sql ="SELECT * FROM SIZE WHERE STATUS = 1 ORDER BY MASIZE DESC OFFSET " + (start-1) + "ROWS  " +
+            String sql ="SELECT * FROM SIZE WHERE STATUS = 1 " ;
+            if(keyword != ""){
+                sql += " AND MASIZE LIKE  N'%" + keyword + "%'  OR TENSIZE LIKE  N'%" + keyword + "%'";
+            }
+                   sql += "ORDER BY MASIZE DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
             SizeMapper mapper = new SizeMapper();
             List<Size> sizes= this.getJdbcTemplate().query(sql,mapper);
@@ -52,6 +56,22 @@ public class AdminSizeDao extends JdbcDaoSupport {
             return null;
         }
 
+    }
+
+    public List<Size> getallsize(String keyword) {
+
+        String sql = "SELECT * FROM SIZE WHERE STATUS = 1";
+        if(keyword!=""){
+            sql += " AND MASIZE LIKE  N'%" + keyword + "%'  OR TENSIZE LIKE  N'%" + keyword + "%'";
+        }
+
+        SizeMapper mapper = new SizeMapper();
+        try {
+            List<Size> sizes = this.getJdbcTemplate().query(sql, mapper);
+            return sizes;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public String Insert(Size size){

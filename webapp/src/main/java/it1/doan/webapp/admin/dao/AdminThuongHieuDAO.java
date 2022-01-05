@@ -1,8 +1,6 @@
 package it1.doan.webapp.admin.dao;
 
-import it1.doan.webapp.dao.Mapper.SanPhamMapper;
 import it1.doan.webapp.dao.Mapper.ThuongHieuMapper;
-import it1.doan.webapp.model.SanPham;
 import it1.doan.webapp.model.ThuongHieu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,10 +17,13 @@ public class AdminThuongHieuDAO extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<ThuongHieu> getPagethuonghieu(int start , int end){
+    public List<ThuongHieu> getPagethuonghieu(int start , int end , String keyword){
         try{
-            String sql ="SELECT * FROM HANG WHERE STATUS = 1 " +
-                    " ORDER BY MAHANG DESC OFFSET " + (start-1) + "ROWS  " +
+            String sql ="SELECT * FROM HANG WHERE STATUS = 1 " ;
+            if(keyword != ""){
+                sql += " AND MAHANG LIKE  N'%" + keyword + "%'  OR TENHANG LIKE  N'%" + keyword + "%'";
+            }
+            sql +=  " ORDER BY MAHANG DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
             ThuongHieuMapper mapper = new ThuongHieuMapper();
             List<ThuongHieu> thuongHieus= this.getJdbcTemplate().query(sql,mapper);
@@ -56,9 +57,12 @@ public class AdminThuongHieuDAO extends JdbcDaoSupport {
 
     }
 
-    public List<ThuongHieu> findThuongHieu(String mahang) {
+    public List<ThuongHieu> getallthuonghieu(String keyword) {
 
-        String sql = "SELECT * FROM HANG WHERE MAHANG =" + mahang + "STATUS = 1";
+        String sql = "SELECT * FROM HANG WHERE STATUS = 1";
+        if(keyword!=""){
+            sql += " AND MAHANG LIKE  N'%" + keyword + "%'  OR TENHANG LIKE  N'%" + keyword + "%'";
+        }
 
         ThuongHieuMapper mapper = new ThuongHieuMapper();
         try {

@@ -19,12 +19,16 @@ public class AdminSanPhamSizeDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<SanPhamSize> getPagesanphamsize(int start , int end){
+    public List<SanPhamSize> getPagesanphamsize(int start , int end , String keyword){
         try {
             String sql ="SELECT sanpham.masp,sanpham.tensp,size.masize,size.tensize,sanphamsize.soluong" +
                     " FROM SANPHAM INNER JOIN SANPHAMSIZE ON SANPHAM.MASP = SANPHAMSIZE.MASP " +
-                    " INNER JOIN SIZE ON SIZE.MASIZE = SANPHAMSIZE.MASIZE " +
-                    " ORDER BY SANPHAMSIZE.NGAYCREATE DESC OFFSET " + (start-1) + "ROWS  " +
+                    " INNER JOIN SIZE ON SIZE.MASIZE = SANPHAMSIZE.MASIZE " ;
+            if(keyword != ""){
+                sql += " WHERE SANPHAM.MASP LIKE  N'%" + keyword + "%'  OR TENSP LIKE  N'%" + keyword + "%' " +
+                        " OR SIZE.MASIZE LIKE  N'%" + keyword + "%'  OR TENSIZE LIKE  N'%" + keyword + "%' ";
+            }
+            sql +=  " ORDER BY SANPHAMSIZE.NGAYCREATE DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
             SanPhamSizeMapper mapper = new SanPhamSizeMapper();
             List<SanPhamSize> sanPhamSizes= this.getJdbcTemplate().query(sql,mapper);
@@ -35,10 +39,14 @@ public class AdminSanPhamSizeDao extends JdbcDaoSupport {
 
     }
 
-     public List<SanPhamSize> getAllspsize(){
+     public List<SanPhamSize> getAllspsize(String keyword){
         try {
             String sql = "SELECT * FROM SANPHAM INNER JOIN SANPHAMSIZE ON SANPHAM.MASP = SANPHAMSIZE.MASP " +
                     "INNER JOIN SIZE ON SIZE.MASIZE = SANPHAMSIZE.MASIZE";
+            if(keyword !=""){
+                sql += " WHERE SANPHAM.MASP LIKE  N'%" + keyword + "%'  OR TENSP LIKE  N'%" + keyword + "%' " +
+                        " OR SIZE.MASIZE LIKE  N'%" + keyword + "%'  OR TENSIZE LIKE  N'%" + keyword + "%' ";
+            }
             SanPhamSizeMapper mapper = new SanPhamSizeMapper();
             List<SanPhamSize> sanPhamSize= this.getJdbcTemplate().query(sql,mapper);
             return  sanPhamSize;

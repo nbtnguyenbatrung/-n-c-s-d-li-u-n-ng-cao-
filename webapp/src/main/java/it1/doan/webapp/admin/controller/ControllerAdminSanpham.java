@@ -5,12 +5,16 @@ import it1.doan.webapp.admin.service.AdminPagepml;
 import it1.doan.webapp.admin.service.impl.AdminService;
 import it1.doan.webapp.admin.service.impl.SanPhamService;
 import it1.doan.webapp.admin.service.function;
+import it1.doan.webapp.admin.service.impl.UserService;
 import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,30 +28,29 @@ public class ControllerAdminSanpham {
     SanPhamService sanPhamService;
     @Autowired
     function function ;
+    @Autowired
+    UserService userService;
 
     private int totalProductPage = 9;
 
-    @GetMapping("/sanpham")
-    public String getAdminsanpham(Model model ,@RequestParam(name = "page",required = false) String currentPage){
-        if (currentPage == null) {
-            currentPage = "1";
+    @GetMapping("/admin/sanpham")
+    public String getAdminsanpham(Model model , HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
         }
+
         List<SanPham> sanPhams2 = adminService.getAllsp(2);
-        List<SanPham> sanPhams = adminService.getAllsp(1);
-        int totalData = sanPhams.size();
-        String baseUrl = "/sanpham?page=";
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-        List<SanPham> sanPhams1 = adminService.getPagesp(pagination.getStart(),totalProductPage);
-        model.addAttribute("localDate", LocalDate.now());
-        model.addAttribute("sanphams",sanPhams1);
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        model.addAttribute("baseUrl",baseUrl);
         SanPham sanPham = new SanPham("SP"+function.Laystt(sanPhams2.get(0).getMaSP()));
         model.addAttribute("sanpham",sanPham);
         List<ThuongHieu> thuongHieus = adminService.getAllthuonghieu(1);
@@ -58,6 +61,18 @@ public class ControllerAdminSanpham {
         model.addAttribute("loaisanpham",loaiSanPhams);
 
         return "admin/sanpham";
+    }
+
+    @RequestMapping(value = "/admin/sanphamall",method = {RequestMethod.GET})
+    @ResponseBody
+    public List<SanPham> getallsanpham(@RequestParam(name = "page",required = false) int currentPage,
+                                             @RequestParam(name = "keyword",required = false) String keyword){
+        List<SanPham> sanPhams = adminService.getallsp(keyword);
+        int totalData = sanPhams.size();
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentPage);
+        List<SanPham> sanPhams1 = adminService.getPagesp(pagination.getStart(),totalProductPage,keyword);
+
+        return sanPhams1;
     }
 
     @RequestMapping(value = "/savesp",method = {RequestMethod.GET})
@@ -92,10 +107,8 @@ public class ControllerAdminSanpham {
     @ResponseBody
     public SanPham get( @RequestParam(name = "id") String id){
         SanPham sanPham = sanPhamService.Get(id);
-        if (sanPham.getMaSP() == id ) {
+
             return sanPham;
-        }
-        throw new NotFoundException("không có sản phẩm này trong hệ thống ");
     }
 
     @GetMapping("/deletesp")

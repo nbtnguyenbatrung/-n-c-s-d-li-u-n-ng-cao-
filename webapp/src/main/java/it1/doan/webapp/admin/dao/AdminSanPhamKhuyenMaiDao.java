@@ -22,19 +22,26 @@ public class AdminSanPhamKhuyenMaiDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<SanPhamKhuyenMai> getPagespkm(int start , int end){
+    public List<SanPhamKhuyenMai> getPagespkm(int start , int end , String keyword){
         String sql ="SELECT * , DATEDIFF(day, GETDATE(), KHUYENMAI.NGAYKT) AS SONGAY " +
-                " FROM SANPHAM INNER JOIN KHUYENMAI ON SANPHAM.MAKM = KHUYENMAI.MAKM " +
-                " ORDER BY KHUYENMAI.NGAYBD DESC OFFSET " + (start-1) + "ROWS  " +
+                " FROM SANPHAM INNER JOIN KHUYENMAI ON SANPHAM.MAKM = KHUYENMAI.MAKM " ;
+
+        if(keyword != ""){
+            sql += " WHERE TENSP LIKE  N'%" + keyword + "%' ";
+        }
+        sql +=  " ORDER BY KHUYENMAI.NGAYBD DESC OFFSET " + (start-1) + "ROWS  " +
                 " FETCH NEXT  "+ end + "ROWS ONLY  ";
         SanPhamKhuyenMaiMapper mapper = new SanPhamKhuyenMaiMapper();
         List<SanPhamKhuyenMai> sanPhamKhuyenMais = this.getJdbcTemplate().query(sql,mapper);
         return  sanPhamKhuyenMais;
     }
 
-    public List<SanPhamKhuyenMai> getAllspkm(){
+    public List<SanPhamKhuyenMai> getAllspkm(String keyword){
         String sql ="SELECT * , DATEDIFF(day, GETDATE(), KHUYENMAI.NGAYKT) AS SONGAY " +
                 "FROM SANPHAM INNER JOIN KHUYENMAI ON SANPHAM.MAKM = KHUYENMAI.MAKM ";
+        if(keyword != ""){
+            sql += " WHERE TENSP LIKE  N'%" + keyword + "%' ";
+        }
         SanPhamKhuyenMaiMapper mapper = new SanPhamKhuyenMaiMapper();
         List<SanPhamKhuyenMai> sanPhamKhuyenMai= this.getJdbcTemplate().query(sql,mapper);
         return  sanPhamKhuyenMai;

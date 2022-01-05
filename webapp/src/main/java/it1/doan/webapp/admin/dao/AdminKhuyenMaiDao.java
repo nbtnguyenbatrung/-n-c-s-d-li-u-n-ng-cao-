@@ -19,10 +19,13 @@ public class AdminKhuyenMaiDao extends JdbcDaoSupport {
         this.setDataSource(dataSource);
     }
 
-    public List<KhuyenMai> getPagekhuyenmai(int start , int end){
+    public List<KhuyenMai> getPagekhuyenmai(int start , int end , String keyword){
         try{
-            String sql ="SELECT * ,DATEDIFF(day, GETDATE(), KHUYENMAI.NGAYKT) AS SONGAY FROM KHUYENMAI" +
-                    " ORDER BY MAKM DESC OFFSET " + (start-1) + "ROWS  " +
+            String sql ="SELECT * ,DATEDIFF(day, GETDATE(), KHUYENMAI.NGAYKT) AS SONGAY FROM KHUYENMAI " ;
+            if(keyword != null){
+                sql += " WHERE MAKM LIKE  N'%" + keyword + "%'  OR TENKM LIKE  N'%" + keyword + "%'";
+            }
+            sql +=  " ORDER BY MAKM DESC OFFSET " + (start-1) + "ROWS  " +
                     " FETCH NEXT  "+ end + "ROWS ONLY  ";
             KhuyenMaiMapper mapper = new KhuyenMaiMapper();
             List<KhuyenMai> khuyenMais= this.getJdbcTemplate().query(sql,mapper);
@@ -37,6 +40,18 @@ public class AdminKhuyenMaiDao extends JdbcDaoSupport {
     public List<KhuyenMai> getAllKhuyenMai(){
         String sql ="SELECT * ,DATEDIFF(day, GETDATE(), KHUYENMAI.NGAYKT) AS SONGAY" +
                 " FROM KHUYENMAI ORDER BY MAKM DESC ";
+        KhuyenMaiMapper mapper = new KhuyenMaiMapper();
+        List<KhuyenMai> khuyenMais= this.getJdbcTemplate().query(sql,mapper);
+        return  khuyenMais;
+    }
+
+    public List<KhuyenMai> getAllKhuyenMai(String keyword){
+        String sql ="SELECT * ,DATEDIFF(day, GETDATE(), KHUYENMAI.NGAYKT) AS SONGAY" +
+                " FROM KHUYENMAI " ;
+        if(keyword != null){
+            sql += " WHERE MAKM LIKE  N'%" + keyword + "%'  OR TENKM LIKE  N'%" + keyword + "%'";
+        }
+        sql +=  "ORDER BY MAKM DESC ";
         KhuyenMaiMapper mapper = new KhuyenMaiMapper();
         List<KhuyenMai> khuyenMais= this.getJdbcTemplate().query(sql,mapper);
         return  khuyenMais;

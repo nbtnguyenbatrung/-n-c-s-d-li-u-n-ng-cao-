@@ -6,6 +6,8 @@ import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -40,39 +42,49 @@ public class AdminServicepml implements AdminService {
     }
 
     @Override
-    public List<SanPham> getPagesp(int start, int end) {
-        return adminSanPhamDao.getPagesp(start,end);
+    public List<SanPham> getPagesp(int start, int end , String keyword) {
+        return adminSanPhamDao.getPagesp(start,end,keyword);
+    }
+
+    @Override
+    public List<SanPham> getallsp(String keyword) {
+        return adminSanPhamDao.getAllsp(keyword);
     }
 
 
     @Override
-    public List<SanPhamSize> getAllspsize() {
-        return adminSanPhamSizeDao.getAllspsize();
+    public List<SanPhamSize> getAllspsize(String keyword) {
+        return adminSanPhamSizeDao.getAllspsize(keyword);
     }
 
     @Override
-    public List<SanPhamSize> getPagespsize(int start, int end) {
-        return adminSanPhamSizeDao.getPagesanphamsize(start,end);
+    public List<SanPhamSize> getPagespsize(int start, int end,String keyword) {
+        return adminSanPhamSizeDao.getPagesanphamsize(start,end,keyword);
     }
 
     @Override
-    public List<SanPhamKhuyenMai> getAllspkm() {
-        return adminSanPhamKhuyenMaiDao.getAllspkm();
+    public List<SanPhamKhuyenMai> getAllspkm(String keyword) {
+        return adminSanPhamKhuyenMaiDao.getAllspkm(keyword);
     }
 
     @Override
-    public List<SanPhamKhuyenMai> getPagespkm(int start, int end) {
-        return adminSanPhamKhuyenMaiDao.getPagespkm(start,end);
+    public List<SanPhamKhuyenMai> getPagespkm(int start, int end , String keyword) {
+        return adminSanPhamKhuyenMaiDao.getPagespkm(start,end,keyword);
     }
 
     @Override
-    public List<ThuongHieu> getPagethuonghieu(int start, int end) {
-        return adminThuongHieuDAO.getPagethuonghieu(start,end);
+    public List<ThuongHieu> getPagethuonghieu(int start, int end , String keyword) {
+        return adminThuongHieuDAO.getPagethuonghieu(start,end,keyword);
     }
 
     @Override
     public List<ThuongHieu> getAllthuonghieu(int status) {
         return adminThuongHieuDAO.getAllthuonghieu(status);
+    }
+
+    @Override
+    public List<ThuongHieu> getallthuonghieu(String keyword) {
+        return adminThuongHieuDAO.getallthuonghieu(keyword);
     }
 
 
@@ -82,8 +94,13 @@ public class AdminServicepml implements AdminService {
     }
 
     @Override
-    public List<LoaiSanPham> getPageloaisp(int start, int end) {
-        return adminLoaiSanPhamDao.getPageloaisp(start, end);
+    public List<LoaiSanPham> getPageloaisp(int start, int end , String keyword) {
+        return adminLoaiSanPhamDao.getPageloaisp(start, end , keyword);
+    }
+
+    @Override
+    public List<LoaiSanPham> getAllloaisp(String keyword) {
+        return adminLoaiSanPhamDao.getAllloaisp(keyword);
     }
 
     @Override
@@ -92,8 +109,13 @@ public class AdminServicepml implements AdminService {
     }
 
     @Override
-    public List<Size> getPageSize(int start, int end) {
-        return adminSizeDao.getPageSize(start,end);
+    public List<Size> getPageSize(int start, int end , String keyword) {
+        return adminSizeDao.getPageSize(start,end,keyword);
+    }
+
+    @Override
+    public List<Size> getallsize(String keyword) {
+        return adminSizeDao.getallsize(keyword);
     }
 
     @Override
@@ -102,8 +124,13 @@ public class AdminServicepml implements AdminService {
     }
 
     @Override
-    public List<NguoiDung> getPagend(int start, int end) {
-        return adminNguoIDungDao.getPagend(start,end);
+    public List<NguoiDung> getPagend(int start, int end , String keyword) {
+        return adminNguoIDungDao.getPagend(start,end,keyword);
+    }
+
+    @Override
+    public List<NguoiDung> getAllnd(String keyword) {
+        return adminNguoIDungDao.getAllnd(keyword);
     }
 
     @Override
@@ -117,13 +144,13 @@ public class AdminServicepml implements AdminService {
     }
 
     @Override
-    public List<DonHang> getAllhd() {
-        return adminHoaDonDao.getAllhd();
+    public List<DonHang> getAllhd(Date startdate , Date enddate) {
+        return adminHoaDonDao.getAllhd(startdate,enddate);
     }
 
     @Override
-    public List<DonHang> getPagehd(int start, int end) {
-        return adminHoaDonDao.getPagehd(start,end);
+    public List<DonHang> getPagehd(int start, int end , Date startdate , Date enddate) {
+        return adminHoaDonDao.getPagehd(start,end,startdate,enddate);
     }
 
     @Override
@@ -132,8 +159,13 @@ public class AdminServicepml implements AdminService {
     }
 
     @Override
-    public List<KhuyenMai> getPagekm(int start, int end) {
-        return adminKhuyenMaiDao.getPagekhuyenmai(start,end);
+    public List<KhuyenMai> getPagekm(int start, int end , String keyword) {
+        return adminKhuyenMaiDao.getPagekhuyenmai(start,end , keyword);
+    }
+
+    @Override
+    public List<KhuyenMai> getAllKhuyenMai(String keyword) {
+        return adminKhuyenMaiDao.getAllKhuyenMai(keyword);
     }
 
     @Override

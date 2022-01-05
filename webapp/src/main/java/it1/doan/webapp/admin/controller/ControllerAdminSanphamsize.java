@@ -3,12 +3,16 @@ package it1.doan.webapp.admin.controller;
 import it1.doan.webapp.admin.service.AdminPagepml;
 import it1.doan.webapp.admin.service.impl.AdminService;
 import it1.doan.webapp.admin.service.impl.SanphamSizeService;
+import it1.doan.webapp.admin.service.impl.UserService;
 import it1.doan.webapp.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,32 +25,43 @@ public class ControllerAdminSanphamsize {
     @Autowired
     AdminPagepml adminPage;
     private int totalProductPage = 9;
+    @Autowired
+    UserService userService;
 
-    @GetMapping("/sanphamsize")
-    public String getAdminsanphamsize(Model model ,@RequestParam(name = "page",required = false) String currentPage){
-        if (currentPage == null) {
-            currentPage = "1";
+    @GetMapping("/admin/sanphamsize")
+    public String getAdminsanphamsize(Model model , HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!=null){
+            String name = authentication.getName();
+            NguoiDung user = userService.getUserByEmail(name);
+            if(user!=null){
+                String userName = (String) request.getSession().getAttribute("username");
+                if(userName==null){
+                    request.getSession().setAttribute("username",user.getHoten());
+                }
+                model.addAttribute("username",user.getHoten());
+            }
+
         }
-        List<SanPhamSize> sanPhamSizes = adminService.getAllspsize();
-        int totalData = sanPhamSizes.size();
-        String baseUrl = "/sanphamsize?page=";
-        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,Integer.parseInt(currentPage));
-        List<SanPhamSize> sanPhamSizes1 = adminService.getPagespsize(pagination.getStart(),totalProductPage);
+
         List<SanPham> sanPhams = adminService.getAllsp(1);
         model.addAttribute("sanpham",sanPhams);
         List<Size> sizes = adminService.getAllsize(1);
         model.addAttribute("size",sizes);
-        model.addAttribute("localDate", LocalDate.now());
-        model.addAttribute("sanphamsize",sanPhamSizes1);
-        model.addAttribute("Page",pagination);
-        model.addAttribute("totalpage",pagination.getTotalPage());
-        model.addAttribute("CurrentPage",pagination.getCurrentPage());
-        model.addAttribute("Previous",pagination.getCurrentPage()-1);
-        model.addAttribute("Next",pagination.getCurrentPage()+1);
-        model.addAttribute("PreviousLeft",pagination.getCurrentPage()-2);
-        model.addAttribute("PreviousRight",pagination.getCurrentPage()+2);
-        model.addAttribute("baseUrl",baseUrl);
+
         return "admin/sanphamsize";
+    }
+
+    @RequestMapping(value = "/admin/getallspsize",method = {RequestMethod.GET})
+    @ResponseBody
+    public List<SanPhamSize> getallspsize(@RequestParam(name = "page",required = false) int currentPage,
+                                          @RequestParam(name = "keyword",required = false) String keyword){
+        List<SanPhamSize> sanPhamSizes = adminService.getAllspsize(keyword);
+        int totalData = sanPhamSizes.size();
+        Pagination pagination = adminPage.GetInfoPage(totalData,totalProductPage,currentPage);
+        List<SanPhamSize> sanPhamSizes1 = adminService.getPagespsize(pagination.getStart(),totalProductPage,keyword);
+        return sanPhamSizes1;
     }
 
     @RequestMapping(value = "/savespsize",method = {RequestMethod.GET})
